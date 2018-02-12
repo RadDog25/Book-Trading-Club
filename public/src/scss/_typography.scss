@@ -1,5 +1,12 @@
-@import url('https://fonts.googleapis.com/css?family=Roboto');
+@import url('https://fonts.googleapis.com/css?family=Roboto|Fjalla+One');
+
+* {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
 
 body {
     font-family: 'Roboto', sans-serif;
+    // font-family: 'Fjalla One', sans-serif;
+    font-size: 16px;
 }
