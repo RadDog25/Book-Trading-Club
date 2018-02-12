@@ -1,13 +1,35 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png">
-    <router-view/>
+
+    <header id="masthead" class="site-header">
+      <site-header/>
+    </header>
+
+    <div id="content" class="site-content">
+      <div id="primary" class="content-area">
+        <div id="main" class="site-main">
+            <router-view/>
+        </div>
+      </div>
+    </div>
+
+    <footer id="colophon" class="site-footer">
+      <site-footer/>
+    </footer>
+
   </div>
 </template>
 
 <script>
+import SiteHeader from '@/components/SiteHeader'
+import SiteFooter from '@/components/SiteFooter'
+
 export default {
-  name: 'App'
+  name: 'App',
+  components: {
+    SiteHeader,
+    SiteFooter
+  }
 }
 </script>
 
