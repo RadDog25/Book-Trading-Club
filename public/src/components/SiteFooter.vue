@@ -1,5 +1,5 @@
 <template>
-  <footer id="colophon" class="site-footer">
+  <footer id="colophon" class="site-footer layout-container">
     <h1>Footer</h1>
   </footer>
 </template>

@@ -1,0 +1,20 @@
+body {
+    color: $light-gray;
+    background-color: $light-black;
+}
+
+ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+a {
+    color: $light-gray;
+    display: block;
+    text-decoration: none;
+    white-space: nowrap;
+    &:hover {
+        text-decoration: underline;
+    }
+}

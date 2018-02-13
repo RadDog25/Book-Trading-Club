@@ -1,5 +1,7 @@
 <template>
-  <div id="app">
+  <div id="app"
+  :class="appClass"
+  >
 
     <site-header/>
 
@@ -25,6 +27,14 @@ export default {
   components: {
     SiteHeader,
     SiteFooter
+  },
+  computed: {
+    appClass () {
+      return [
+        `${this.$route.name.toLowerCase()}-route`
+      ]
+        .join(' ')
+    }
   }
 }
 </script>

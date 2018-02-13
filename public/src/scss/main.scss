@@ -1,6 +1,5 @@
 @import 'variables.scss';
 @import 'typography.scss';
-
-h1 {
-    color: $primary;
-}
+@import 'global.scss';
+@import 'layouts.scss';
+@import 'header.scss';
