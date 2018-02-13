@@ -1,5 +1,8 @@
 <template>
-  <h1>Header</h1>
+  <header id="masthead" class="site-header">
+    <h1>Header</h1>
+    <i class="fa fa-search"></i>
+  </header>
 </template>
 
 <script>

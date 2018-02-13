@@ -1,21 +1,17 @@
 <template>
   <div id="app">
 
-    <header id="masthead" class="site-header">
-      <site-header/>
-    </header>
+    <site-header/>
 
     <div id="content" class="site-content">
       <div id="primary" class="content-area">
         <div id="main" class="site-main">
-            <router-view/>
+          <router-view/>
         </div>
       </div>
     </div>
 
-    <footer id="colophon" class="site-footer">
-      <site-footer/>
-    </footer>
+    <site-footer/>
 
   </div>
 </template>

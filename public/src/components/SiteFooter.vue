@@ -1,5 +1,7 @@
 <template>
-  <h1>Footer</h1>
+  <footer id="colophon" class="site-footer">
+    <h1>Footer</h1>
+  </footer>
 </template>
 
 <script>
