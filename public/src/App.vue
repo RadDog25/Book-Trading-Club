@@ -1,37 +1,24 @@
 <template>
+
   <div id="app"
+  class="background-cover"
   :class="appClass"
   >
 
-    <site-header/>
-
-    <div id="content" class="site-content">
-      <div id="primary" class="content-area">
-        <div id="main" class="site-main">
-          <router-view/>
-        </div>
-      </div>
-    </div>
-
-    <site-footer/>
+    <router-view/>
 
   </div>
+
 </template>
 
 <script>
-import SiteHeader from '@/components/SiteHeader'
-import SiteFooter from '@/components/SiteFooter'
-
 export default {
   name: 'App',
-  components: {
-    SiteHeader,
-    SiteFooter
-  },
   computed: {
     appClass () {
+      console.log(this.$route)
       return [
-        `${this.$route.name.toLowerCase()}-route`
+        `${this.$route.name.toLowerCase()}-view`
       ]
         .join(' ')
     }

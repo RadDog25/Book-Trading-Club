@@ -1,34 +1,37 @@
 .site-header {
     display: flex;
-    align-items: center;
-    background-color: black;
     font-size: 15px;
 
-    a.router-link-exact-active {
+    .site-branding {
+        display: flex;
+        align-items: center;
+    }
+
+    .button {
+        &.login {
+            align-self: flex-start;
+            margin-left: auto;
+        }
+    }
+
+    .router-link-exact-active {
         color: white;
         font-weight: 700;
     }
 
-    .site-branding {
-        margin-right: 25px;
-        .site-title {
-            margin: 0;
-            font-family: 'Fjalla One', sans-serif;
-            font-size: 1.75em;
-            letter-spacing: 0.1em;
-            color: $primary;
-        }
-    }
-
     .main-navigation {
+        display: flex;
         flex: 1 1 0px;
         .main-menu {
             display: flex;
-            align-items: center;
+            flex: 1 1 0px;
             .main-menu-item {
                 margin-left: 18px;
+                display: flex;
 
                 & > a {
+                    display: flex;
+                    align-items: center;
                     &:hover {
                         text-decoration: none;
                     }
@@ -41,12 +44,8 @@
                 &.dropdown-item {
                     margin-left: 0;
                     position: relative;
-                    display: flex;
-                    align-items: center;
                     & > a {
                         padding-left: 18px;
-                        padding-top: 16px;
-                        padding-bottom: 16px;
                     }
 
                     .dropdown-menu {
@@ -56,7 +55,7 @@
                         position: absolute;
                         background-color: rgba(0, 0, 0, 0.8);
                         padding: 12px;
-                        top: calc(100%);
+                        top: 100%;
                         right: 0;
                         border: 1px solid rgba(255, 255, 255, 0.25);
                         font-size: 14px;
@@ -85,6 +84,7 @@
                     &:after {
                         content: "";
                         display: block;
+                        align-self: center;
                         border-style: solid;
                         border-width: 5px 5px 0 5px;
                         border-color: white transparent transparent transparent;
@@ -105,5 +105,17 @@
                 }
             }
         }
+    }
+
+    &.small {
+        height: 68px;
+    }
+
+    &.large {
+        padding-top: 23px;
+    }
+
+    &.black {
+        background-color: black;
     }
 }
