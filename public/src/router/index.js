@@ -1,11 +1,12 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Home from '@/components/Home'
-import Register from '@/components/Register'
-import Login from '@/components/Login'
-import Books from '@/components/Books'
-import Dashboard from '@/components/Dashboard'
-import Profile from '@/components/Profile'
+import Home from '@/views/Home'
+import Browse from '@/views/Browse'
+import Register from '@/views/Register'
+import Login from '@/views/Login'
+import Books from '@/views/Books'
+import Dashboard from '@/views/Dashboard'
+import Profile from '@/views/Profile'
 
 Vue.use(Router)
 
@@ -15,6 +16,11 @@ export default new Router({
       path: '/',
       name: 'Home',
       component: Home
+    },
+    {
+      path: '/browse',
+      name: 'Browse',
+      component: Browse
     },
     {
       path: '/register',

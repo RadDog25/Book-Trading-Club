@@ -1,10 +1,14 @@
 <template>
-  <h1>Books</h1>
+
+  <router-link class="site-branding" to="/">
+    <h1 class="site-title">BOOKCLUB</h1>
+  </router-link>
+
 </template>
 
 <script>
 export default {
-  name: 'Books',
+  name: 'SiteBranding',
   data () {
     return {
 

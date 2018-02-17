@@ -1,15 +1,31 @@
 <template>
   <footer id="colophon" class="site-footer layout-container">
-    <h1>Footer</h1>
+
+    <a href="https://github.com/RadDog25/Book-Trading-Club">
+      <img class="github-logo" src="@/assets/github.svg">
+    </a>
+
+    <div class="footnote">
+
+      <span class="copyright">
+        C
+      </span>
+
+      <span class="text">
+        {{ currentYear }} Design inspired by Netflix, Inc
+      </span>
+
+    </div>
+
   </footer>
 </template>
 
 <script>
 export default {
   name: 'SiteFooter',
-  data () {
-    return {
-
+  computed: {
+    currentYear () {
+      return (new Date()).getFullYear()
     }
   }
 }

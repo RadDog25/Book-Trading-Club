@@ -1,16 +1,14 @@
 <template>
-  <header id="masthead" class="site-header layout-container">
+  <header id="masthead" class="site-header black small layout-container">
 
-    <router-link class="site-branding" to="/">
-      <h1 class="site-title">BOOKCLUB</h1>
-    </router-link>
+    <site-branding class="small"></site-branding>
 
     <nav id="site-navigation" class="main-navigation">
       <ul class="main-menu">
 
-          <li class="main-menu-item home-item">
-            <router-link to="/">
-              Home
+          <li class="main-menu-item browse-item">
+            <router-link to="/browse">
+              Browse
             </router-link>
           </li>
 
@@ -48,11 +46,13 @@
 
 <script>
 import SiteHeaderDropdown from '@/components/SiteHeaderDropdown'
+import SiteBranding from '@/components/SiteBranding'
 
 export default {
   name: 'SiteHeader',
   components: {
-    SiteHeaderDropdown
+    SiteHeaderDropdown,
+    SiteBranding
   },
   data () {
     return {
