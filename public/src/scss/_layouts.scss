@@ -2,3 +2,10 @@
     padding-left: 4%;
     padding-right: 4%;
 }
+
+.layout-row {
+    max-width: $row-width;
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+}

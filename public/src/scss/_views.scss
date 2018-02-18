@@ -1,4 +1,25 @@
 .home-view {
     background-image: url('../assets/books1.jpg');
-    @include dark-gradient;
+    @include gradient( linear-gradient(90deg, rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.3)) );
+    .site {
+        .site-content {
+            .cta-container {
+                position: absolute;
+                top: 45%;
+                transform: translate(0, -50%);
+            }
+        }
+    }
+}
+
+.register-view {
+    background-image: url('../assets/books2.jpg');
+    @include gradient( linear-gradient(0deg, rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.3)) );
+    .site {
+        .site-content {
+            .form-container {
+                max-width: $row-width-small;
+            }
+        }
+    }
 }

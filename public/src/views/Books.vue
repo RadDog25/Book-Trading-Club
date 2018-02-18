@@ -5,11 +5,9 @@
     <site-header/>
 
     <div id="content" class="site-content">
-      <div id="primary" class="content-area">
-        <div id="main" class="site-main">
-          <h1>Books</h1>
-        </div>
-      </div>
+
+      <h1>Books</h1>
+
     </div>
 
     <site-footer/>

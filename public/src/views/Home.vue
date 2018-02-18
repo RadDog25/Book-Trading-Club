@@ -13,11 +13,23 @@
     </header>
 
     <div id="content" class="site-content">
-      <div id="primary" class="content-area">
-        <div id="main" class="site-main">
-          <h1>Home</h1>
+
+      <div class="cta-container layout-container">
+
+        <h1 class="heading hed1">
+          Welcome to Bookclub.
+        </h1>
+
+        <div class="subheading">
+          See what books are waiting for you.
         </div>
+
+        <router-link class="button register large uppercase" to="/register">
+          Join for Free
+        </router-link>
+
       </div>
+
     </div>
 
     <site-footer/>

@@ -1,9 +1,9 @@
 import Vue from 'vue'
-import Home from '@/components/Home'
+import Browse from '@/components/Browse'
 
-describe('Home.vue', () => {
+describe('Browse.vue', () => {
   it('should render correct contents', () => {
-    const Constructor = Vue.extend(Home)
+    const Constructor = Vue.extend(Browse)
     const vm = new Constructor().$mount()
     expect(vm.$el.querySelector('.hello h1').textContent)
       .toEqual('Welcome to Your Vue.js App')

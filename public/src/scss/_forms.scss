@@ -1,0 +1,38 @@
+.form-container {
+    background-color: $light-gray2;
+    color: $light-black;
+    .heading {
+        color: $light-black;
+        margin-top: 0;
+    }
+
+    form {
+        .control {
+            margin-bottom: 2em;
+            label {
+
+            }
+
+            input {
+
+            }
+
+            &:last-child {
+                margin-bottom: 0;
+            }
+        }
+
+        .button {
+            width: 100%;
+            font-size: 1.125em;
+        }
+    }
+
+    @include tablet-up {
+        padding: 2.5em;
+    }
+
+    @include mobile {
+        // padding: 1.25em;
+    }
+}
