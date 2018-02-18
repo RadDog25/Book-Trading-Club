@@ -24,3 +24,6 @@ coverage
 
 # Benchmarking
 benchmarks/graphs
+
+# The file container DB information
+config.js
