@@ -1,11 +1,15 @@
 <template>
 
   <div id="app"
-  class="background-cover"
-  :class="appClass"
+
   >
 
-    <router-view/>
+    <transition name="fade" mode="out-in">
+      <router-view
+      class="background-cover"
+      :class="viewClass"
+      />
+    </transition>
 
   </div>
 
@@ -15,7 +19,7 @@
 export default {
   name: 'App',
   computed: {
-    appClass () {
+    viewClass () {
       console.log(this.$route)
       return [
         `${this.$route.name.toLowerCase()}-view`

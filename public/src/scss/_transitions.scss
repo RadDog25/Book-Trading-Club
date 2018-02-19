@@ -1,0 +1,9 @@
+// Vue Router
+.fade-enter-active, .fade-leave-active {
+    transition-property: opacity;
+    transition-duration: 300ms;
+}
+
+.fade-enter, .fade-leave-to {
+    opacity: 0
+}

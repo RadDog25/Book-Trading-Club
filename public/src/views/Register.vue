@@ -33,7 +33,9 @@
           </div>
 
           <div class="control">
-            <a class="button submit large">Sign In</a>
+            <router-link class="button submit large" to="/login">
+              Register
+            </router-link>
           </div>
 
         </form>

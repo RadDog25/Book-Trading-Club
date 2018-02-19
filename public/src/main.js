@@ -3,7 +3,7 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
-import axios from 'axios'
+// import axios from 'axios'
 import 'font-awesome/css/font-awesome.css'
 import 'normalize.css/normalize.css'
 
@@ -17,7 +17,7 @@ new Vue({
   template: '<App/>'
 })
 
-axios.get('/api/users')
-  .then(users => {
-    console.log(users)
-  })
+// axios.get('/api/users')
+//   .then(users => {
+//     console.log(users)
+//   })

@@ -10,7 +10,7 @@ import Profile from '@/views/Profile'
 
 Vue.use(Router)
 
-export default new Router({
+const router = new Router({
   routes: [
     {
       path: '/',
@@ -34,8 +34,12 @@ export default new Router({
     },
     {
       path: '/books',
+      secure: true,
       name: 'Books',
-      component: Books
+      component: Books,
+      beforeEnter: (to, from, next) => {
+        next()
+      }
     },
     {
       path: '/dashboard',
@@ -49,3 +53,18 @@ export default new Router({
     }
   ]
 })
+
+router.beforeEach((to, from, next) => {
+  // Look at all routes
+  router.options.routes.forEach((route) => {
+    // If this is the current route and it's secure
+    if (to.matched[0].path === route.path && route.secure) {
+      console.log('check before proceeding')
+      next()
+    }
+  })
+  // Proceed as normal
+  next()
+})
+
+export default router

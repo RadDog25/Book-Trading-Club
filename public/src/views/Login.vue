@@ -1,6 +1,6 @@
 <template>
 
-  <div id="page" class="site">
+    <div id="page" class="site">
 
     <site-header/>
 
