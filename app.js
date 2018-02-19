@@ -5,16 +5,22 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 var bluebird = require('bluebird');
-
-var users = require('./routes/users');
+var passport = require('passport');
+var JwtStrategy = require('passport-jwt').Strategy;
+var ExtractJwt = require('passport-jwt').ExtractJwt;
 
 var app = express();
+var config = require('./config');
 
-// mongodb://<dbuser>:<dbpassword>@ds239648.mlab.com:39648/book-trading-club-dev
+// Models
+var User = require('./models/User.js');
 
-var env = process.env.NODE_ENV || 'development';
-var config = require('./config')[env];
+// Routes
+var users = require('./routes/users');
+var register = require('./routes/register');
+var login = require('./routes/login');
 
+// Connect to database
 var dbUrl = `mongodb://${config.username}:${config.password}@${config.url}:${config.port}/${config.db}`;
 mongoose.Promise = require('bluebird');
 mongoose.connect(dbUrl);
@@ -23,6 +29,28 @@ mongoose.connect(dbUrl);
 // db.on('error', console.error.bind(console, 'connection error:'));
 // db.once('open', console.log.bind(console, 'connection success!'));
 
+
+
+
+var jwtOptions = {
+  jwtFromRequest: ExtractJwt.fromAuthHeader(),
+  secretOrKey: config.secret
+};
+
+passport.use(new JwtStrategy(jwtOptions, function(jwt_payload, done) {
+  User.findOne({ id: jwt_payload.id }, function(err, user) {
+    if (err) {
+      return done(err, false);
+    } else if (user) {
+      done(null, user);
+    } else {
+      done(null, false);
+    }
+  });
+}));
+
+
+app.use(passport.initialize());
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -31,6 +59,9 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public/dist')));
 
 app.use('/api/users', users);
+app.use('/api/register', register);
+app.use('/api/login', login);
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -47,7 +78,10 @@ app.use(function(err, req, res, next) {
 
   // render the error page
   res.status(err.status || 500);
-  res.render('error');
+  res.json({
+    success: false,
+    msg: '500'
+  });
 });
 
 module.exports = app;
