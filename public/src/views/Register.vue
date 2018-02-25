@@ -6,13 +6,17 @@
 
       <site-branding class="large"></site-branding>
 
+      <router-link class="button login" to="/login">
+        Sign In
+      </router-link>
+
     </header>
 
     <div id="content" class="site-content">
 
       <div class="form-container layout-row">
 
-        <h1 class="heading hed2">Sign In</h1>
+        <h1 class="heading hed2">Register</h1>
 
         <form method="POST" action="/register" @submit.prevent="onSubmit">
 

@@ -19,3 +19,13 @@
         }
     }
 }
+
+.login-view {
+    background-image: url('../assets/books3.jpeg');
+    @include gradient( linear-gradient(45deg, rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.3)) );
+    .site-content {
+        .form-container {
+            max-width: $row-width-small;
+        }
+    }
+}
