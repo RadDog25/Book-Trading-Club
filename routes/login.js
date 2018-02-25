@@ -8,7 +8,7 @@ var User = require('../models/User.js');
 
 router.post('/', function(req, res) {
     User.findOne({
-        email: req.body.email
+        username: req.body.username
     }, function(err, user) {
         if (err) throw err;
 
