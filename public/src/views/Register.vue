@@ -14,7 +14,7 @@
 
         <h1 class="heading hed2">Sign In</h1>
 
-        <form method="POST" action="/login">
+        <form method="POST" action="/register">
 
           <div class="control">
 
@@ -33,7 +33,7 @@
           </div>
 
           <div class="control">
-            <router-link class="button submit large" to="/login">
+            <router-link class="button submit large" to="/register">
               Register
             </router-link>
           </div>
