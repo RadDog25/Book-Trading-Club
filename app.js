@@ -16,9 +16,20 @@ var config = require('./config');
 var User = require('./models/User.js');
 
 // Routes
-var users = require('./routes/users');
-var register = require('./routes/register');
-var login = require('./routes/login');
+var routes = [
+  {
+    module: require('./routes/users'),
+    endpoint: '/api/users'
+  },
+  {
+    module: require('./routes/register'),
+    endpoint: '/api/register'
+  },
+  {
+    module: require('./routes/login'),
+    endpoint: '/api/login'
+  }
+];
 
 // Connect to database
 var dbUrl = `mongodb://${config.username}:${config.password}@${config.url}:${config.port}/${config.db}`;
@@ -58,10 +69,9 @@ app.use(cookieParser());
 
 app.use(express.static(path.join(__dirname, 'public/dist')));
 
-app.use('/api/users', users);
-app.use('/api/register', register);
-app.use('/api/login', login);
-
+routes.forEach(route => {
+    app.use(route.endpoint, route.module);
+})
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
