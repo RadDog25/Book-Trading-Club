@@ -14,28 +14,30 @@
 
         <h1 class="heading hed2">Sign In</h1>
 
-        <form method="POST" action="/register">
+        <form method="POST" action="/register" @submit.prevent="onSubmit">
 
-          <div class="control">
+          <div class="control" :class="{ 'has-errors': errors.username }">
 
             <label for="email">Email</label>
 
-            <input type="text" id="email" name="email">
+            <input v-model="username" type="text" id="email" name="email">
+
+            <div class="error" v-if="errors.username">{{ errors.username }}</div>
 
           </div>
 
-          <div class="control">
+          <div class="control" :class="{ 'has-errors': errors.password }">
 
             <label for="password">Password</label>
 
-            <input type="text" id="password" name="password">
+            <input v-model="password" type="text" id="password" name="password">
+
+            <div class="error" v-if="errors.password">{{ errors.password }}</div>
 
           </div>
 
           <div class="control">
-            <router-link class="button submit large" to="/register">
-              Register
-            </router-link>
+            <input type="submit" id="submit" name="submit" class="button submit large">
           </div>
 
         </form>
@@ -62,7 +64,26 @@ export default {
   },
   data () {
     return {
-
+      username: '',
+      password: '',
+      errors: {}
+    }
+  },
+  methods: {
+    onSubmit () {
+      window.axios.post('/api/register', {
+        username: this.username,
+        password: this.password
+      })
+        .then(response => {
+          this.errors = {}
+          console.log(response.data)
+          this.$router.push('login')
+        })
+        .catch(errors => {
+          this.errors = errors.response.data
+          console.log(errors.response.data)
+        })
     }
   }
 }

@@ -20,7 +20,6 @@ export default {
   name: 'App',
   computed: {
     viewClass () {
-      console.log(this.$route)
       return [
         `${this.$route.name.toLowerCase()}-view`
       ]

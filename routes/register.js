@@ -1,29 +1,36 @@
 var express = require('express');
+var FormErrors = require('../FormErrors.js');
 var router = express.Router();
 
 // Models
 var User = require('../models/User.js');
 
 router.post('/', function(req, res) {
-    if (!req.body.username || !req.body.password) {
+
+    var formErrors = new FormErrors(req, {
+        requiredFields: [ 'username', 'password' ]
+    });
+
+    if ( formErrors.any() ) {
         res
             .status(400)
-            .json({ success: false, message: 'Missing username or password'});
+            .send( formErrors.get() );
     } else {
         var newUser = new User({
             username: req.body.username,
-            password: req.body.password
+            password: req.body.username
         });
 
         newUser.save(function(err) {
             if (err) {
+                formErrors.set('username', 'Username already exists')
                 res
                     .status(400)
-                    .json({ success: false, message: "username already exists", error: err });
+                    .send( formErrors.get() );
             } else {
                 res
                     .status(201)
-                    .json({ success: true, message: 'Successful created new user' });
+                    .send('Successful created new user');
             }
         });
     }

@@ -59,7 +59,6 @@ router.beforeEach((to, from, next) => {
   router.options.routes.forEach((route) => {
     // If this is the current route and it's secure
     if (to.matched[0].path === route.path && route.secure) {
-      console.log('check before proceeding')
       next()
     }
   })
