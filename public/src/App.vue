@@ -16,15 +16,32 @@
 </template>
 
 <script>
+import { mapMutations } from 'vuex'
+
 export default {
   name: 'App',
   computed: {
     viewClass () {
-      return [
-        `${this.$route.name.toLowerCase()}-view`
-      ]
-        .join(' ')
+      if (this.$route.name) {
+        return `${this.$route.name.toLowerCase()}-view`
+      }
+
+      return ''
     }
+  },
+  methods: {
+    ...mapMutations([
+      'set'
+    ])
+  },
+  mounted () {
+    window.axios.get('/api/user')
+      .then(response => {
+        this.set({
+          key: 'user',
+          value: response.data
+        })
+      })
   }
 }
 </script>

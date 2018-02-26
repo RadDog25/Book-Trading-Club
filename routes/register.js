@@ -1,5 +1,5 @@
 var express = require('express');
-var FormErrors = require('../FormErrors.js');
+var FormErrors = require('../helpers/FormErrors.js');
 var router = express.Router();
 
 // Models

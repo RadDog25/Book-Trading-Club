@@ -53,6 +53,7 @@
 </template>
 
 <script>
+import { mapMutations } from 'vuex'
 import SiteBranding from '@/components/SiteBranding'
 import SiteFooter from '@/components/SiteFooter'
 
@@ -77,14 +78,20 @@ export default {
       })
         .then(response => {
           this.errors = {}
-          console.log(response.data)
-          this.$router.push('login')
+          this.set({
+            key: 'user',
+            value: response.data
+          })
+          this.$router.push('browse')
         })
         .catch(errors => {
           this.errors = errors.response.data
           console.log(errors.response.data)
         })
-    }
+    },
+    ...mapMutations([
+      'set'
+    ])
   }
 }
 </script>

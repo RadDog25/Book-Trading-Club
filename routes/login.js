@@ -33,17 +33,12 @@ router.post('/', function(req, res) {
                     if (isMatch && !err) {
                         // if user is found and password is right create a token
                         var token = jwt.sign(user.toJSON(), config.secret);
-
-                        console.log(res.cookie)
-                        
                         res
                             .status(200)
                             .cookie('token', token, {
-                                maxAge: 1000 * 60 * 60 * 24,
                                 httpOnly: true
                             })
-                            .send(token);
-                            //.send('The token has been added as a cookie');
+                            .send(user);
                     } else {
                         formErrors.set('password', 'Wrong password');
                         res

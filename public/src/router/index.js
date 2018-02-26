@@ -7,6 +7,7 @@ import Login from '@/views/Login'
 import Books from '@/views/Books'
 import Dashboard from '@/views/Dashboard'
 import Profile from '@/views/Profile'
+import store from '@/store.js'
 
 Vue.use(Router)
 
@@ -15,55 +16,82 @@ const router = new Router({
     {
       path: '/',
       name: 'Home',
-      component: Home
+      component: Home,
+      meta: {
+        allowLoggedIn: false,
+        allowLoggedOut: true
+      }
     },
     {
       path: '/browse',
       name: 'Browse',
-      component: Browse
+      component: Browse,
+      meta: {
+        allowLoggedIn: true,
+        allowLoggedOut: false
+      }
     },
     {
       path: '/register',
       name: 'Register',
-      component: Register
+      component: Register,
+      meta: {
+        allowLoggedIn: false,
+        allowLoggedOut: true
+      }
     },
     {
       path: '/login',
       name: 'Login',
-      component: Login
+      component: Login,
+      meta: {
+        allowLoggedIn: false,
+        allowLoggedOut: true
+      }
     },
     {
       path: '/books',
-      secure: true,
       name: 'Books',
       component: Books,
-      beforeEnter: (to, from, next) => {
-        next()
+      meta: {
+        allowLoggedIn: true,
+        allowLoggedOut: false
       }
     },
     {
       path: '/dashboard',
       name: 'Dashboard',
-      component: Dashboard
+      component: Dashboard,
+      meta: {
+        allowLoggedIn: true,
+        allowLoggedOut: false
+      }
     },
     {
       path: '/profile',
       name: 'Profile',
-      component: Profile
+      component: Profile,
+      meta: {
+        allowLoggedIn: true,
+        allowLoggedOut: false
+      }
     }
   ]
 })
 
 router.beforeEach((to, from, next) => {
-  // Look at all routes
-  router.options.routes.forEach((route) => {
-    // If this is the current route and it's secure
-    if (to.matched[0].path === route.path && route.secure) {
-      next()
-    }
-  })
-  // Proceed as normal
-  next()
+  // console.log(to.path)
+  // console.log(store.state.user)
+  // console.log(store.state.count)
+  if (store.state.user && !to.meta.allowLoggedIn) {
+    console.log('to browse')
+    router.push('browse')
+  } else if (!store.state.user && !to.meta.allowLoggedOut) {
+    console.log('to home')
+    router.push('/')
+  } else {
+    next()
+  }
 })
 
 export default router

@@ -18,8 +18,8 @@ var User = require('./models/User.js');
 // Routes
 var routes = [
   {
-    module: require('./routes/users'),
-    endpoint: '/api/users'
+    module: require('./routes/user'),
+    endpoint: '/api/user'
   },
   {
     module: require('./routes/register'),
@@ -28,6 +28,14 @@ var routes = [
   {
     module: require('./routes/login'),
     endpoint: '/api/login'
+  },
+  {
+    module: require('./routes/user'),
+    endpoint: 'api/user'
+  },
+  {
+    module: require('./routes/books'),
+    endpoint: '/api/books'
   }
 ];
 
@@ -40,16 +48,22 @@ mongoose.connect(dbUrl);
 // db.on('error', console.error.bind(console, 'connection error:'));
 // db.once('open', console.log.bind(console, 'connection success!'));
 
+function cookieExtractor(req) {
+  if (req && req.cookies) {
+      return req.cookies['token'];
+  }
 
-
+  return null;
+};
 
 var jwtOptions = {
-  jwtFromRequest: ExtractJwt.fromAuthHeader(),
+  jwtFromRequest: cookieExtractor,
   secretOrKey: config.secret
 };
 
 passport.use(new JwtStrategy(jwtOptions, function(jwt_payload, done) {
-  User.findOne({ id: jwt_payload.id }, function(err, user) {
+  console.log(jwt_payload)
+  User.findOne({ _id: jwt_payload._id }, function(err, user) {
     if (err) {
       return done(err, false);
     } else if (user) {
@@ -59,7 +73,6 @@ passport.use(new JwtStrategy(jwtOptions, function(jwt_payload, done) {
     }
   });
 }));
-
 
 app.use(passport.initialize());
 app.use(logger('dev'));
