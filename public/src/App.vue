@@ -34,13 +34,15 @@ export default {
       'set'
     ])
   },
-  mounted () {
+  beforeCreate () {
     window.axios.get('/api/user')
       .then(response => {
         this.set({
           key: 'user',
           value: response.data
         })
+
+        this.$router.push('browse')
       })
   }
 }

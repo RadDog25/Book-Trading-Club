@@ -19,8 +19,3 @@ new Vue({
   components: { App },
   template: '<App/>'
 })
-
-// axios.get('/api/users')
-//   .then(users => {
-//     console.log(users)
-//   })
