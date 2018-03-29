@@ -6,7 +6,8 @@
 
     <div id="content" class="site-content">
 
-      <h1>Browse</h1>
+      <slider :books="books"
+      ></slider>
 
     </div>
 
@@ -19,17 +20,27 @@
 <script>
 import SiteHeader from '@/components/SiteHeader'
 import SiteFooter from '@/components/SiteFooter'
+import Slider from '@/components/Slider'
+import Book from '@/components/Book'
 
 export default {
   name: 'Browse',
   components: {
     SiteHeader,
-    SiteFooter
+    SiteFooter,
+    Slider,
+    Book
   },
   data () {
     return {
-
+      books: []
     }
+  },
+  created () {
+    window.axios.get('/api/books')
+      .then(response => {
+        this.books = response.data
+      })
   }
 }
 </script>
