@@ -1,156 +1,225 @@
-.slider {
-    padding-left: 3em;
-    padding-right: 3em;
-    background-color: black;
-    .VueCarousel {
-        margin-top: 10em;
-        display: flex;
-        .VueCarousel-wrapper {
-            overflow: visible;
-            &:before, &:after {
-                content: "";
-                @extend .layer;
-                z-index: 1;
-            }
-    
-            &:before {
-                transform: translateX(-100%);
-            }
-    
-            &:after {
-                transform: translateX(100%);
-            }
-            
-            .VueCarousel-inner {
-                .VueCarousel-slide {
-                    transition: all 300ms ease 100ms;
-                    backface-visibility: hidden;
-                    .slide-container {
-                        .slide {
-                            position: relative;
-                            border: 2px solid black;
-                            transition: all 300ms ease 100ms;
-                            .image {
-                                width: 100%;
-                            }
-
-                            .info {
-                                opacity: 0;
-                                z-index: 10;
-                                transition: opacity 300ms ease;
-                                position: absolute;
-                                width: 100%;
-                                left: 0;
-                                bottom: 0;
-                                color: white;
-                                padding: 1em 1em 0.5em;
-                                text-shadow: 0 0 16px rgba(0, 0, 0, 0.9);
-                                font-size: 0.8em;
-                                line-height: 1.3;
-
-                                .rating {
-                                    display: flex;
-                                    margin-bottom: 0.25em;
-                                }
-
-                                .excerpt {
-                                    font-size: 0.85em;
-                                    font-weight: 700;
-                                }
-
-                                .more-info-button-container {
-                                    display: flex;
-                                    justify-content: center;
-                                    font-size: 3em;
-                                    text-decoration: none;
-                                    .more-info-button {
-                                        transform: scale(1.125, 1) translateY(0);
-                                        transition: transform 150ms ease-out 200ms, color 150ms ease;
-                                        &:hover {
-                                            color: $red;
-                                        }
-                                    }
-                                }
-                            }
-
-                            &:after {
-                                content: "";
-                                @extend .layer;
-                                transition: opacity 300ms ease;
-                                background-image: repeating-linear-gradient(0deg,
-                                    rgba(0, 0, 0, 0.99) 0%,
-                                    rgba(0, 0, 0, 0.25) 50%,
-                                    rgba(0, 0, 0, 0.25) 100%);
-                            }
-                        }
-                    }
-
-                    &:hover {
-                        z-index: 1000;
-                        transform: scale(1.25);
-                        background-image: none;
+.slider-container {
+    .slider {
+        padding-left: 3em;
+        padding-right: 3em;
+        background-color: black;
+        .VueCarousel {
+            margin-top: 10em;
+            display: flex;
+            .VueCarousel-wrapper {
+                overflow: visible;
+                &:before, &:after {
+                    content: "";
+                    @extend .layer;
+                    z-index: 1;
+                }
+        
+                &:before {
+                    transform: translateX(-100%);
+                }
+        
+                &:after {
+                    transform: translateX(100%);
+                }
+                
+                .VueCarousel-inner {
+                    .VueCarousel-slide {
+                        transition: all 300ms ease 100ms;
+                        backface-visibility: hidden;
                         .slide-container {
                             .slide {
-                                border-color: transparent;
+                                position: relative;
+                                border: 4px solid black;
+                                transition: all 300ms ease 100ms;
+                                .image {
+                                    width: 100%;
+                                }
+
                                 .info {
-                                    opacity: 1;
-                                    .more-info-button {
-                                        transform: scale(1.125, 1) translateY(0.125em);
+                                    display: flex;
+                                    flex-direction: column;
+                                    opacity: 0;
+                                    z-index: 10;
+                                    transition: opacity 300ms ease;
+                                    position: absolute;
+                                    width: 100%;
+                                    height: 100%;
+                                    left: 0;
+                                    top: 0;
+                                    color: white;
+                                    padding: 1em 1em 0.5em;
+                                    text-shadow: 0 0 16px rgba(0, 0, 0, 0.9);
+                                    font-size: 0.8em;
+                                    line-height: 1.1;
+
+                                    .title {
+                                        font-weight: 700;
+                                    }
+
+                                    .authors {
+                                        font-size: 0.75em;
+                                        margin-bottom: auto;
+                                    }
+
+                                    .details {
+                                        display: flex;
+                                        margin-bottom: 0.125em;
+                                        .year {
+                                            font-size: 0.875em;
+                                            font-weight: 700;
+                                        }
+
+                                        .rating {
+                                            margin-right: 0.5em;
+                                            font-size: 0.75em;
+                                            display: flex;
+                                        }
+                                    }
+
+                                    .excerpt {
+                                        font-size: 0.75em;
+                                        font-weight: 700;
+                                        line-height: 1.3;
+                                    }
+
+                                    .more-info-button-container {
+                                        display: flex;
+                                        justify-content: center;
+                                        font-size: 3em;
+                                        text-decoration: none;
+                                        .more-info-button {
+                                            transform: scale(1.125, 1) translateY(0);
+                                            transition: transform 150ms ease-out 200ms, color 150ms ease;
+                                            &:hover {
+                                                color: $red;
+                                            }
+                                        }
                                     }
                                 }
 
                                 &:after {
-                                    opacity: 0.6;
+                                    content: "";
+                                    @extend .layer;
+                                    transition: background-color 300ms ease;
+                                    background-image: repeating-linear-gradient(0deg,
+                                        rgba(0, 0, 0, 0.99) 0%,
+                                        rgba(0, 0, 0, 0.25) 50%,
+                                        rgba(0, 0, 0, 0.25) 100%);
+                                }
+                            }
+                        }
+
+                        &:hover {
+                            z-index: 1000;
+                            transform: scale(1.25);
+                            background-image: none;
+                            .slide-container {
+                                .slide {
+                                    border-color: transparent;
+                                    .info {
+                                        opacity: 1;
+                                        .more-info-button {
+                                            transform: scale(1.125, 1) translateY(0.25em);
+                                        }
+                                    }
+
+                                    &:after {
+                                        background-image: repeating-linear-gradient(0deg,
+                                        rgba(0, 0, 0, 0.6) 0%,
+                                        rgba(0, 0, 0, 0.4) 50%,
+                                        rgba(0, 0, 0, 0.4) 100%);
+                                    }
                                 }
                             }
                         }
                     }
-                }
 
-                .VueCarousel-slide:hover {
-                    @at-root .VueCarousel-slide {
-                        transform: translateX(-12.5%);
+                    .VueCarousel-slide:hover {
+                        @at-root .VueCarousel-slide {
+                            transform: translateX(-12.5%);
+                        }
                     }
-                }
 
-                .VueCarousel-slide:hover ~ .VueCarousel-slide {
-                    transform: translateX(12.5%);
-                }
-            }
-        }
-
-        .VueCarousel-navigation {
-            z-index: 100;
-            .VueCarousel-navigation-button {
-                backface-visibility: hidden;
-                transition: transform 150ms ease, opacity 400ms ease;
-                font-size: 4em;
-                color: rgba(255, 255, 255, 0.8);
-                padding: 60px 20px !important;
-                &.VueCarousel-navigation-prev {
-                    transform: translate(-50%, -50%) scale(1, 1.125);
-                    &:hover {
-                        transform: translate(-50%, -50%) scale(1.375, #{1.375 * 1.125});
-                    }
-                }
-
-                &.VueCarousel-navigation-next {
-                    transform: translate(50%, -50%) scale(1, 1.125);
-                    &:hover {
-                        transform: translate(50%, -50%) scale(1.375, #{1.375 * 1.125});
+                    .VueCarousel-slide:hover ~ .VueCarousel-slide {
+                        transform: translateX(12.5%);
                     }
                 }
             }
-        }
 
-        &.first-page {
             .VueCarousel-navigation {
-                .VueCarousel-navigation-prev {
-                    opacity: 0;
-                    pointer-events: none;
+                z-index: 100;
+                .VueCarousel-navigation-button {
+                    backface-visibility: hidden;
+                    transition: transform 150ms ease, opacity 400ms ease;
+                    font-size: 4em;
+                    color: rgba(255, 255, 255, 0.8);
+                    padding: 60px 20px !important;
+                    &.VueCarousel-navigation-prev {
+                        transform: translate(-50%, -50%) scale(1, 1.125);
+                        &:hover {
+                            transform: translate(-50%, -50%) scale(1.375, #{1.375 * 1.125});
+                        }
+                    }
+
+                    &.VueCarousel-navigation-next {
+                        transform: translate(50%, -50%) scale(1, 1.125);
+                        &:hover {
+                            transform: translate(50%, -50%) scale(1.375, #{1.375 * 1.125});
+                        }
+                    }
+                }
+            }
+
+            &.first-page {
+                .VueCarousel-navigation {
+                    .VueCarousel-navigation-prev {
+                        opacity: 0;
+                        pointer-events: none;
+                    }
+                }
+            }
+        }
+    }
+
+    &.more-info-is-active {
+        .slider {
+            .VueCarousel-wrapper {
+                .VueCarousel-inner {
+                    .VueCarousel-slide {
+                        transform: none !important;
+                        .slide-container {
+                            &.active {
+                                .slide {
+                                    position: relative;
+                                    border: 4px solid white;
+
+                                    .info {
+                                        .more-info-button-container {
+                                            display: none;
+                                        }                            
+                                    }
+
+                                    &:after {
+                                        content: "";
+                                        display: block;
+                                        position: absolute;
+                                        top: calc(100% + 4px);
+                                        left: 50%;
+                                        width: 0;
+                                        height: 0;
+                                        transform: translateX(-50%) scale(2, 1);
+                                        background-image: none;
+                                        border-width: 8px;
+                                        border-style: solid;
+                                        border-color: transparent;
+                                        border-top-color: white;
+                                    }
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }
     }
 }
-

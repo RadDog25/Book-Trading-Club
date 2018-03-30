@@ -12,21 +12,38 @@
 
           <div class="info">
 
-            <div v-if="book.ratingsCount" class="rating">
+            <div class="title">
+              {{ book.title }}
+            </div>
 
-              <i v-for="i in numberOfFullStars"
-              :key="i"
-              class="fa fa-star" aria-hidden="true"></i>
+            <div v-if="book.authors" class="authors">
+              {{ book.authors.join(', ') }}
+            </div>
 
-              <i v-if="hasHalfStar"
-              class="fa fa-star-half-o" aria-hidden="true"></i>
+            <div class="details">
+
+              <div v-if="book.ratingsCount" class="rating">
+
+                <i v-for="i in numberOfFullStars"
+                :key="i"
+                class="fa fa-star" aria-hidden="true"></i>
+
+                <i v-if="hasHalfStar"
+                class="fa fa-star-half-o" aria-hidden="true"></i>
+
+              </div>
+
+              <div v-if="publishedYear" class="year">
+                {{ publishedYear }}
+              </div>
 
             </div>
 
             <div v-if="excerpt" class="excerpt">{{ excerpt }}</div>
 
             <div class="more-info-button-container">
-              <i class="more-info-button fa fa-angle-down"></i>
+              <i @click="handleMoreInfoClick"
+              class="more-info-button fa fa-angle-down"></i>
             </div>
 
           </div>
@@ -62,13 +79,16 @@ export default {
       }
     },
     excerpt () {
-      return `${this.book.description.substring(0, 100)}...`
+      if (this.book.description) return `${this.book.description.substring(0, 100)}...`
     },
     numberOfFullStars () {
-      return Math.floor(this.book.averageRating)
+      if (this.book.averageRating) return Math.floor(this.book.averageRating)
     },
     hasHalfStar () {
-      return this.book.averageRating.toString().includes('.5')
+      if (this.book.averageRating) return this.book.averageRating.toString().includes('.5')
+    },
+    publishedYear () {
+      if (this.book.publishedDate) return this.book.publishedDate.slice(0, 4)
     }
   },
   methods: {
@@ -77,6 +97,9 @@ export default {
     },
     mouseleave () {
       this.$emit('mouseDidLeaveSlide', this.index)
+    },
+    handleMoreInfoClick () {
+      this.$emit('moreInfoWasClicked', this.index)
     }
 
   }

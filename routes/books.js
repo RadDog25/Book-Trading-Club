@@ -6,7 +6,8 @@ var books = require('google-books-search');
 var mandatoryFields = [
     'thumbnail',
     'authors',
-    'title'
+    'title',
+    'description'
 ];
 
 function getBooks(query) {
@@ -26,7 +27,7 @@ function getBooks(query) {
 }
 
 router.get('/', passport.authenticate('jwt', { session: false }), function(req, res) {
-    getBooks('wheel of time')
+    getBooks('trump')
         .then(books => res.send(books));
 });
 

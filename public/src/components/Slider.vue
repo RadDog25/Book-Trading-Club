@@ -1,4 +1,7 @@
 <template>
+  <div class="slider-container"
+  :class="{ 'more-info-is-active': moreInfoIsActive }"
+  >
     <div class="slider">
       <carousel :navigationEnabled="true"
       :paginationEnabled="false"
@@ -17,6 +20,8 @@
           <slide-item
           @mouseDidEnterSlide="mouseDidEnterSlide"
           @mouseDidLeaveSlide="mouseDidLeaveSlide"
+          @moreInfoWasClicked="handleMoreInfoClick"
+          :class="{ 'active': index === moreInfoIndex }"
           :book="book"
           :index="index"
           :slideHoverIndex="slideHoverIndex"
@@ -24,8 +29,18 @@
         </slide>
 
       </carousel>
+
     </div>
-  </template>
+
+    <div v-if="moreInfoIsActive"
+    @click="moreInfoIsActive = false"
+    class="more-info-container">
+      {{ books[moreInfoIndex].title }}
+    </div>
+
+  </div>
+
+</template>
 
 <script>
 import { Carousel, Slide } from 'vue-carousel'
@@ -44,7 +59,9 @@ export default {
   data () {
     return {
       page: 0,
-      slideHoverIndex: null
+      slideHoverIndex: null,
+      moreInfoIsActive: true,
+      moreInfoIndex: 0
     }
   },
   methods: {
@@ -52,12 +69,18 @@ export default {
       this.page = page
     },
     mouseDidEnterSlide (index) {
-      console.log('mouseDidEnterSlide')
       this.slideHoverIndex = index
     },
     mouseDidLeaveSlide (index) {
-      console.log('mouseDidLeaveSlide')
       this.slideHoverIndex = null
+    },
+    handleMoreInfoClick (index) {
+      if (this.moreInfoIndex === index) {
+        this.moreInfoIsActive = !this.moreInfoIsActive
+      } else {
+        this.moreInfoIndex = index
+        this.moreInfoIsActive = true
+      }
     }
   }
 }
