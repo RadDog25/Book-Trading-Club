@@ -43,6 +43,7 @@
 
             <div class="more-info-button-container">
               <i @click="handleMoreInfoClick"
+              href="#slider"
               class="more-info-button fa fa-angle-down"></i>
             </div>
 

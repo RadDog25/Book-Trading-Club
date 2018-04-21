@@ -1,6 +1,7 @@
 <template>
   <div class="slider-container"
   :class="{ 'more-info-is-active': moreInfoIsActive }"
+  ref="slider"
   >
     <div class="slider">
       <carousel :navigationEnabled="true"
@@ -32,11 +33,10 @@
 
     </div>
 
-    <div v-if="moreInfoIsActive"
-    @click="moreInfoIsActive = false"
-    class="more-info-container">
-      {{ books[moreInfoIndex].title }}
-    </div>
+    <slider-more-info v-if="moreInfoIsActive && books.length"
+    :book="books[moreInfoIndex]"
+    @moreInfoCloseButtonWasClicked="moreInfoIsActive = false"
+    ></slider-more-info>
 
   </div>
 
@@ -45,13 +45,15 @@
 <script>
 import { Carousel, Slide } from 'vue-carousel'
 import SlideItem from '@/components/SlideItem'
+import SliderMoreInfo from '@/components/SliderMoreInfo'
 
 export default {
   name: 'Slider',
   components: {
     Carousel,
     Slide,
-    SlideItem
+    SlideItem,
+    SliderMoreInfo
   },
   props: [
     'books'
@@ -60,8 +62,8 @@ export default {
     return {
       page: 0,
       slideHoverIndex: null,
-      moreInfoIsActive: true,
-      moreInfoIndex: 0
+      moreInfoIsActive: false,
+      moreInfoIndex: null
     }
   },
   methods: {
@@ -81,11 +83,15 @@ export default {
         this.moreInfoIndex = index
         this.moreInfoIsActive = true
       }
+
+      const headerHeight = document.getElementById('masthead').offsetHeight
+      const distanceToTop = this.$refs.slider.offsetTop
+      window.scrollTo(0, distanceToTop + headerHeight)
     }
   }
 }
 </script>
 
-  <!-- Add "scoped" attribute to limit CSS to this component only -->
-  <style>
-  </style>
+<!-- Add "scoped" attribute to limit CSS to this component only -->
+<style>
+</style>
