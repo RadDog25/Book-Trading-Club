@@ -21,7 +21,7 @@
           </li>
 
           <li class="dropdown-menu-item">
-            <a href="#logout">
+            <a @click="handleLogoutClick" href="#logout">
               Logout
             </a>
           </li>
@@ -33,12 +33,26 @@
 </template>
 
 <script>
+import { mapMutations } from 'vuex'
 export default {
   name: 'SiteHeaderDropdown',
   data () {
     return {
 
     }
+  },
+  methods: {
+    handleLogoutClick () {
+      window.setCookie('token', null)
+      this.set({
+        key: 'user',
+        value: null
+      })
+      this.$router.push('login')
+    },
+    ...mapMutations([
+      'set'
+    ])
   }
 }
 </script>

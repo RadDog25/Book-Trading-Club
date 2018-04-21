@@ -7,6 +7,7 @@ import router from './router'
 import axios from 'axios'
 import 'font-awesome/css/font-awesome.css'
 import 'normalize.css/normalize.css'
+import './helpers'
 
 window.axios = axios
 Vue.config.productionTip = false

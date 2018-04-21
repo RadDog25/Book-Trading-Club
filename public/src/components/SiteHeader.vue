@@ -18,7 +18,7 @@
           </router-link>
         </li>
 
-        <li class="main-menu-item register-item">
+        <!-- <li class="main-menu-item register-item">
           <router-link to="/register">
             Register
           </router-link>
@@ -28,7 +28,7 @@
           <router-link to="/login">
             Login
           </router-link>
-        </li>
+        </li> -->
 
         <li class="main-menu-item search-item">
           <a href="#search" class="search">

@@ -36,7 +36,7 @@ router.post('/', function(req, res) {
                         res
                             .status(200)
                             .cookie('token', token, {
-                                httpOnly: true
+                                httpOnly: false
                             })
                             .send(user);
                     } else {
