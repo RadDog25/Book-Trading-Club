@@ -30,10 +30,20 @@
           </router-link>
         </li> -->
 
-        <li class="main-menu-item search-item">
-          <a href="#search" class="search">
+        <li class="main-menu-item search-item"
+        :class="{ active: searchIsActive }"
+        >
+
+          <div class="input-container">
+            <input type="text"
+            placeholder="Titles, authors, categories"
+            >
+          </div>
+
+          <a @click="toggleSearch" href="#search" class="search">
             <i class="fa fa-search"></i>
           </a>
+
         </li>
 
         <site-header-dropdown/>
@@ -56,11 +66,16 @@ export default {
   },
   data () {
     return {
-
+      searchIsActive: false
     }
   },
   mounted () {
     console.log(this.$router, this.$route)
+  },
+  methods: {
+    toggleSearch () {
+      this.searchIsActive = !this.searchIsActive
+    }
   }
 }
 </script>

@@ -42,6 +42,51 @@
                 &.books-item {
                     margin-right: auto;
                 }
+
+                &.search-item {
+                    position: relative;
+                    .input-container {
+                        display: flex;
+                        align-items: center;
+                        input {
+                            visibility: hidden;
+                            width: 0px;
+                            color: white;
+                            border-radius: 0;
+                            background-color: $black;
+                            border: 1px solid white;
+                            padding-top: 0.375em;
+                            padding-bottom: 0.375em;
+                            padding-left: 2em;
+                            padding-right: 0px;
+                            opacity: 0;
+                            transition: all 300ms ease;
+                        }
+                    }
+
+                    a {
+                        position: absolute;
+                        display: block;
+                        left: 0.5em;
+                        top: 50%;
+                        transform: translateY(-50%);
+                        i {
+                            font-size: 1.3em;
+                        }
+                    }
+
+                    &.active {
+                        .input-container {
+                            input {
+                                visibility: visible;
+                                width: 300px;
+                                padding-left: 2.5em;
+                                padding-right: 0.375em;
+                                opacity: 1;
+                            }
+                        }
+                    }
+                }
     
                 &.dropdown-item {
                     margin-left: 0;
