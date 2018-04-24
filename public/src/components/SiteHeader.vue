@@ -18,32 +18,24 @@
           </router-link>
         </li>
 
-        <!-- <li class="main-menu-item register-item">
-          <router-link to="/register">
-            Register
-          </router-link>
-        </li>
-
-        <li class="main-menu-item login-item">
-          <router-link to="/login">
-            Login
-          </router-link>
-        </li> -->
-
         <li class="main-menu-item search-item"
         :class="{ active: searchIsActive }"
         >
+          <form method="GET" action="/browse" @submit.prevent="onSubmit">
 
-          <div class="input-container">
-            <input type="text"
-            placeholder="Titles, authors, categories"
-            >
-          </div>
+            <div class="input-container">
+              <input type="text"
+              v-model="searchText"
+              placeholder="Titles, authors, categories"
+              ref="searchInput"
+              >
+            </div>
 
-          <a @click="toggleSearch" href="#search" class="search">
-            <i class="fa fa-search"></i>
-          </a>
+            <a @click="toggleSearch" class="search-icon">
+              <i class="fa fa-search"></i>
+            </a>
 
+          </form>
         </li>
 
         <site-header-dropdown/>
@@ -57,6 +49,7 @@
 <script>
 import SiteHeaderDropdown from '@/components/SiteHeaderDropdown'
 import SiteBranding from '@/components/SiteBranding'
+import { mapActions } from 'vuex'
 
 export default {
   name: 'SiteHeader',
@@ -66,7 +59,8 @@ export default {
   },
   data () {
     return {
-      searchIsActive: false
+      searchIsActive: false,
+      searchText: ''
     }
   },
   mounted () {
@@ -75,7 +69,14 @@ export default {
   methods: {
     toggleSearch () {
       this.searchIsActive = !this.searchIsActive
-    }
+      if (this.searchIsActive) this.$refs.searchInput.focus()
+    },
+    onSubmit () {
+      this.searchBooks(this.searchText)
+    },
+    ...mapActions([
+      'searchBooks'
+    ])
   }
 }
 </script>

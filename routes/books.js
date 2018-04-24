@@ -27,7 +27,8 @@ function getBooks(query) {
 }
 
 router.get('/', passport.authenticate('jwt', { session: false }), function(req, res) {
-    getBooks('harry potter')
+    var searchText = req.query.searchText || 'harry potter';
+    getBooks(searchText)
         .then(books => res.send(books));
 });
 

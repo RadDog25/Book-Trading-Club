@@ -22,6 +22,7 @@ import SiteHeader from '@/components/SiteHeader'
 import SiteFooter from '@/components/SiteFooter'
 import Slider from '@/components/Slider'
 import Book from '@/components/Book'
+import { mapState, mapActions } from 'vuex'
 
 export default {
   name: 'Browse',
@@ -33,14 +34,21 @@ export default {
   },
   data () {
     return {
-      books: []
+
     }
   },
+  computed: {
+    ...mapState([
+      'books'
+    ])
+  },
   created () {
-    window.axios.get('/api/books')
-      .then(response => {
-        this.books = response.data
-      })
+    this.searchBooks()
+  },
+  methods: {
+    ...mapActions([
+      'searchBooks'
+    ])
   }
 }
 </script>
