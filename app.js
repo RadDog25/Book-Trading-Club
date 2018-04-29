@@ -44,6 +44,10 @@ var routes = [
   {
     module: require('./routes/changelocation'),
     endpoint: '/api/changelocation'
+  },
+  {
+    module: require('./routes/changeavatar'),
+    endpoint: '/api/changeavatar'
   }
 ];
 

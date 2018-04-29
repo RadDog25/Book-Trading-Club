@@ -15,6 +15,11 @@ var UserSchema = new Schema({
     location: {
         type: String,
         required: false
+    },
+    avatar: {
+        type: Number,
+        required: false,
+        default: 1
     }
 });
 

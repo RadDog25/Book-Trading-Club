@@ -4,71 +4,83 @@
 
     <site-header/>
 
-    <div id="content" class="site-content">
+    <div id="content" class="site-content layout-container">
 
-      <div class="form-container layout-row">
+      <div class="site-content-inner layout-row">
 
-        <h1 class="heading hed2">Change Password</h1>
+      <div class="left column">
 
-        <form method="POST" @submit.prevent="submitChangePassword">
+        <div class="form-container">
 
-          <div class="control" :class="{ 'has-changePasswordErrors': changePasswordErrors.oldPassword }">
+          <h1 class="heading hed2">Change Password</h1>
 
-            <label for="email">Old Password</label>
+          <form method="POST" @submit.prevent="submitChangePassword">
 
-            <input v-model="oldPassword" type="text" id="email" name="email">
+            <div class="control" :class="{ 'has-changePasswordErrors': changePasswordErrors.oldPassword }">
 
-            <div class="error" v-if="changePasswordErrors.oldPassword">{{ changePasswordErrors.oldPassword }}</div>
+              <label for="email">Old Password</label>
 
-          </div>
+              <input v-model="oldPassword" type="text" id="email" name="email">
 
-          <div class="control" :class="{ 'has-errors': changePasswordErrors.newPassword }">
+              <div class="error" v-if="changePasswordErrors.oldPassword">{{ changePasswordErrors.oldPassword }}</div>
 
-            <label for="newPassword">New Password</label>
+            </div>
 
-            <input v-model="newPassword" type="text" id="password" name="password">
+            <div class="control" :class="{ 'has-errors': changePasswordErrors.newPassword }">
 
-            <div class="error" v-if="changePasswordErrors.newPassword">{{ changePasswordErrors.newPassword }}</div>
+              <label for="newPassword">New Password</label>
 
-          </div>
+              <input v-model="newPassword" type="text" id="password" name="password">
 
-          <div class="control">
-            <input type="submit"
-            name="submit"
-            class="button submit large"
-            value="Save"
-            >
-          </div>
+              <div class="error" v-if="changePasswordErrors.newPassword">{{ changePasswordErrors.newPassword }}</div>
 
-        </form>
+            </div>
+
+            <div class="control">
+              <input type="submit"
+              name="submit"
+              class="button submit large"
+              value="Save"
+              >
+            </div>
+
+          </form>
+
+        </div>
+
+        <div class="form-container">
+
+          <h1 class="heading hed2">Location</h1>
+
+          <form method="POST" @submit.prevent="submitChangeLocation">
+
+            <div class="control" :class="{ 'has-errors': changeLocationErrors.oldPassword }">
+
+              <label for="email">Location</label>
+
+              <input v-model="location" type="text" id="email" name="email">
+
+              <div class="error" v-if="changeLocationErrors.location">{{ changeLocationErrors.location }}</div>
+
+            </div>
+
+            <div class="control">
+              <input type="submit"
+              name="submit"
+              class="button submit large"
+              value="Save"
+              >
+            </div>
+
+          </form>
+
+        </div>
 
       </div>
 
-      <div class="form-container layout-row">
-
-        <h1 class="heading hed2">Location</h1>
-
-        <form method="POST" @submit.prevent="submitChangeLocation">
-
-          <div class="control" :class="{ 'has-errors': changeLocationErrors.oldPassword }">
-
-            <label for="email">Location</label>
-
-            <input v-model="location" type="text" id="email" name="email">
-
-            <div class="error" v-if="changeLocationErrors.location">{{ changeLocationErrors.location }}</div>
-
-          </div>
-
-          <div class="control">
-            <input type="submit"
-            name="submit"
-            class="button submit large"
-            value="Save"
-            >
-          </div>
-
-        </form>
+      <div class="right column">
+        <avatars></avatars>
+      </div>
 
       </div>
 
@@ -84,12 +96,14 @@
 import { mapState, mapMutations } from 'vuex'
 import SiteHeader from '@/components/SiteHeader'
 import SiteFooter from '@/components/SiteFooter'
+import Avatars from '@/components/Avatars'
 
 export default {
   name: 'Login',
   components: {
     SiteHeader,
-    SiteFooter
+    SiteFooter,
+    Avatars
   },
   data () {
     return {

@@ -34,12 +34,56 @@
 .profile-view {
     background-color: $light-gray2;
     .site-content {
-        .form-container {
-            max-width: $row-width-small;
+        .site-content-inner {
+            .column {
+                &.left {
+                    .form-container {
+                        padding-top: 2.5em;
+                        padding-bottom: 2.5em;
+                        padding-left: 0px;
+                        padding-right: 0px;
+                    }
+                }
+        
+                &.right {
+                    padding-top: 2.5em;
+                    padding-bottom: 2.5em;
+                }
+            }
         }
     }
 
     .site-footer {
         background-color: $black;
+    }
+
+    @include tablet-down {
+        .site-content {
+            .site-content-inner {
+                max-width: $row-width-small;
+            }
+        }
+    }
+
+    @include desktop {
+        .site-content {
+            .site-content-inner {
+                display: flex;
+                .column {
+                    &.left {
+                        flex: 5 1 0px;
+                        margin-right: 4em;
+                    }
+            
+                    &.right {
+                        flex: 4 1 0px;
+                    }
+                }
+            }
+        }
+    
+        .site-footer {
+            background-color: $black;
+        }
     }
 }

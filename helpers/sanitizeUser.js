@@ -1,7 +1,8 @@
-function sanitizeUser({ username, location }) {
+function sanitizeUser({ username, location, avatar }) {
     return {
         username,
-        location
+        location,
+        avatar
     }
 }
 

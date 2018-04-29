@@ -2,7 +2,7 @@
   <li class="main-menu-item dropdown-item">
 
     <router-link to="/profile">
-      <img class="image" src="@/assets/profile-default.png">
+      <img class="image" :src="imageSrc">
     </router-link>
 
     <nav class="dropdown-navigation">
@@ -33,13 +33,21 @@
 </template>
 
 <script>
-import { mapMutations } from 'vuex'
+import { mapState, mapMutations } from 'vuex'
 export default {
   name: 'SiteHeaderDropdown',
   data () {
     return {
 
     }
+  },
+  computed: {
+    imageSrc () {
+      return require(`@/assets/profile${this.user.avatar + 1}.png`)
+    },
+    ...mapState([
+      'user'
+    ])
   },
   methods: {
     handleLogoutClick () {

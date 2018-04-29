@@ -110,6 +110,10 @@ input {
 .site-branding {
     display: block;
     margin-right: 25px;
+    &:hover {
+        text-decoration: none;
+    }
+    
     .site-title {
         margin: 0;
         font-family: 'Fjalla One', sans-serif;
