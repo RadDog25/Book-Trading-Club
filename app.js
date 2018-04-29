@@ -36,6 +36,14 @@ var routes = [
   {
     module: require('./routes/books'),
     endpoint: '/api/books'
+  },
+  {
+    module: require('./routes/changepassword'),
+    endpoint: '/api/changepassword'
+  },
+  {
+    module: require('./routes/changelocation'),
+    endpoint: '/api/changelocation'
   }
 ];
 
@@ -97,6 +105,8 @@ app.use(function(err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
+
+  console.log(err);
 
   // render the error page
   res.status(err.status || 500);

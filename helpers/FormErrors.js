@@ -3,8 +3,10 @@ class FormErrors {
         this.errors = {};
         if( options.requiredFields.length ) {
             options.requiredFields.forEach(field => {
-                if( !req.body[field] ) {
-                    this.errors[field] = `Please enter a ${field}`;
+                var key = field.key || field;
+                var label = field.label || field;
+                if( !req.body[key] ) {
+                    this.errors[key] = `Please enter a ${label}`;
                 }
             })
         }

@@ -11,6 +11,10 @@ var UserSchema = new Schema({
     password: {
         type: String,
         required: true
+    },
+    location: {
+        type: String,
+        required: false
     }
 });
 

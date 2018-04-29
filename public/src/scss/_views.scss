@@ -29,3 +29,17 @@
         }
     }
 }
+
+
+.profile-view {
+    background-color: $light-gray2;
+    .site-content {
+        .form-container {
+            max-width: $row-width-small;
+        }
+    }
+
+    .site-footer {
+        background-color: $black;
+    }
+}

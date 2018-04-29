@@ -3,14 +3,22 @@ var router = express.Router();
 var jwt = require('jsonwebtoken');
 var config = require('../config');
 var FormErrors = require('../helpers/FormErrors.js');
-var sanitizeUser = require('../helpers/sanitizeUser.js');
 
 // Models
 var User = require('../models/User.js');
 
 router.post('/', function(req, res) {
     var formErrors = new FormErrors(req, {
-        requiredFields: [ 'username', 'password' ]
+        requiredFields: [
+            {
+                key: 'oldPassword',
+                label: 'old password'
+            },
+            {
+                key: 'newPassword',
+                label: 'new password'
+            }
+        ]
     });
 
     if( formErrors.any() ) {
@@ -30,18 +38,17 @@ router.post('/', function(req, res) {
                     .send( formErrors.get() );
             } else {
                 // check if password matches
-                user.comparePassword(req.body.password, function (err, isMatch) {
+                user.comparePassword(req.body.oldPassword, function (err, isMatch) {
                     if (isMatch && !err) {
-                        // if user is found and password is right create a token
-                        var token = jwt.sign(user.toJSON(), config.secret);
-                        res
-                            .status(200)
-                            .cookie('token', token, {
-                                httpOnly: false
-                            })
-                            .send(sanitizeUser(user));
+                        user.password = req.body.newPassword;
+                        user.save(function (err, updatedUser) {
+                            if (err) return handleError(err);
+                            res
+                                .status(200)
+                                .send();
+                        });
                     } else {
-                        formErrors.set('password', 'Wrong password');
+                        formErrors.set('oldPassword', 'Wrong password');
                         res
                             .status(401)
                             .send( formErrors.get() );
