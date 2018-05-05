@@ -80,18 +80,25 @@ const router = new Router({
 })
 
 router.beforeEach((to, from, next) => {
-  // console.log(to.path)
-  // console.log(store.state.user)
-  // console.log(store.state.count)
-  if (store.state.user && !to.meta.allowLoggedIn) {
-    console.log('to browse')
-    router.push('browse')
-  } else if (!store.state.user && !to.meta.allowLoggedOut) {
-    console.log('to home')
-    router.push('/')
-  } else {
-    next()
-  }
+  console.log(to.path, from.path)
+
+  store.dispatch('getUser')
+    .then(() => {
+      if (!to.meta.allowLoggedIn) {
+        console.log('to browse')
+        router.push('browse')
+      } else {
+        next()
+      }
+    })
+    .catch(() => {
+      if (!to.meta.allowLoggedOut) {
+        console.log('to home')
+        router.push('/')
+      } else {
+        next()
+      }
+    })
 })
 
 export default router

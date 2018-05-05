@@ -16,8 +16,6 @@
 </template>
 
 <script>
-import { mapMutations } from 'vuex'
-
 export default {
   name: 'App',
   computed: {
@@ -28,22 +26,6 @@ export default {
 
       return ''
     }
-  },
-  methods: {
-    ...mapMutations([
-      'set'
-    ])
-  },
-  beforeCreate () {
-    window.axios.get('/api/user')
-      .then(response => {
-        this.set({
-          key: 'user',
-          value: response.data
-        })
-
-        this.$router.push('browse')
-      })
   }
 }
 </script>
