@@ -119,6 +119,9 @@ export default {
       'user'
     ])
   },
+  beforeMount () {
+    if (this.user.location) this.location = this.user.location
+  },
   methods: {
     submitChangePassword () {
       window.axios.post('/api/changepassword', {
