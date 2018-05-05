@@ -16,7 +16,7 @@
       :class="{ 'first-page': page === 0 }"
       >
         <slide v-for="(book, index) in books"
-        :key="index"
+        :key="`${book.title}-${index}`"
         >
           <slide-item
           @mouseDidEnterSlide="mouseDidEnterSlide"
@@ -33,7 +33,7 @@
 
     </div>
 
-    <slider-more-info v-if="moreInfoIsActive && books.length"
+    <slider-more-info v-if="moreInfoIsActive && books.length && Number.isInteger(moreInfoIndex)"
     :book="books[moreInfoIndex]"
     @moreInfoCloseButtonWasClicked="moreInfoIsActive = false"
     ></slider-more-info>
@@ -46,6 +46,13 @@
 import { Carousel, Slide } from 'vue-carousel'
 import SlideItem from '@/components/SlideItem'
 import SliderMoreInfo from '@/components/SliderMoreInfo'
+
+const initialData = {
+  page: 0,
+  slideHoverIndex: null,
+  moreInfoIsActive: false,
+  moreInfoIndex: null
+}
 
 export default {
   name: 'Slider',
@@ -60,10 +67,12 @@ export default {
   ],
   data () {
     return {
-      page: 0,
-      slideHoverIndex: null,
-      moreInfoIsActive: false,
-      moreInfoIndex: null
+      ...initialData
+    }
+  },
+  watch: {
+    books () {
+      this.resetData()
     }
   },
   methods: {
@@ -75,6 +84,11 @@ export default {
     },
     mouseDidLeaveSlide (index) {
       this.slideHoverIndex = null
+    },
+    resetData () {
+      Object.keys(initialData).forEach(key => {
+        this[key] = initialData[key]
+      })
     },
     handleMoreInfoClick (index) {
       if (this.moreInfoIndex === index) {

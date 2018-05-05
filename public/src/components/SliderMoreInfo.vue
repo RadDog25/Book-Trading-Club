@@ -63,10 +63,10 @@ export default {
   },
   computed: {
     publishedDate () {
-      if (this.book) return new Date(this.book.publishedDate)
+      return new Date(this.book.publishedDate)
     },
     categories () {
-      if (this.book && this.book.categories && this.book.categories.length) {
+      if (this.book.categories && this.book.categories.length) {
         if (this.book.categories.length === 1) {
           return `<b>Category:</b> ${this.book.categories[0]}`
         } else {
@@ -75,21 +75,17 @@ export default {
       }
     },
     shortenedDescription () {
-      if (this.book) return `${this.book.description.substring(0, 300)}...`
+      return `${this.book.description.substring(0, 300)}...`
     },
     canToggleDescription () {
-      if (this.book) return this.book.description.length - this.shortenedDescription.length > 50
+      return this.book.description.length - this.shortenedDescription.length > 50
     },
     description () {
-      if (this.book) {
-        if (this.descriptionIsShortened && this.canToggleDescription) {
-          return this.shortenedDescription
-        }
-
-        return this.book.description
+      if (this.descriptionIsShortened && this.canToggleDescription) {
+        return this.shortenedDescription
       }
 
-      return ''
+      return this.book.description
     }
   },
   methods: {
