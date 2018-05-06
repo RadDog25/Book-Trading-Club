@@ -18,7 +18,8 @@
           </router-link>
         </li>
 
-        <li class="main-menu-item search-item"
+        <li v-if="shouldShowSearch"
+        class="main-menu-item search-item"
         :class="{ active: searchIsActive }"
         >
           <form method="GET" action="/browse" @submit.prevent="onSubmit">
@@ -63,8 +64,10 @@ export default {
       searchText: ''
     }
   },
-  mounted () {
-    console.log(this.$router, this.$route)
+  computed: {
+    shouldShowSearch () {
+      return this.$route.name === 'Browse'
+    }
   },
   methods: {
     toggleSearch () {
