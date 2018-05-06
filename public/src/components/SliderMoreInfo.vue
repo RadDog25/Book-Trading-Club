@@ -21,27 +21,36 @@
             <div class="bottom">
 
               <div v-if="book.publisher" class="publisher note">
-                  <b>Publisher:</b>
-                  {{ book.publisher }}
-                </div>
+                <b>Publisher:</b>
+                {{ book.publisher }}
+              </div>
 
-                <div class="date note">
-                  <b>Publish Date:</b>
-                  {{ publishedDate.getFullYear() }}
-                </div>
+              <div class="date note">
+                <b>Publish Date:</b>
+                {{ publishedDate.getFullYear() }}
+              </div>
 
-                <div v-if="categories" class="categories note"
-                v-html="categories"
-                ></div>
+              <div v-if="categories" class="categories note"
+              v-html="categories"
+              ></div>
 
             </div>
 
         </div>
 
         <div class="right">
-            <img class="image"
-            :src="book.thumbnail"
-            >
+          <div class="image-container">
+              <img class="image"
+              :src="book.thumbnail"
+              >
+
+              <a v-if="book.link"
+              :href="book.link"
+              target="_blank"
+              class="link">
+                <img class="link-image" :src="linkIcon">
+              </a>
+          </div>
         </div>
 
         <div class="close-icon"
@@ -88,6 +97,13 @@ export default {
       }
 
       return this.book.description
+    },
+    linkIcon () {
+      if (this.book.link.includes('market.android.com')) {
+        return require('@/assets/googleplay.svg')
+      }
+
+      return require('@/assets/googlebooks.png')
     }
   },
   methods: {
