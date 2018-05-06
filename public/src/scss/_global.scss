@@ -8,6 +8,10 @@ body {
     overflow-x: hidden;
 }
 
+#app {
+    position: relative;
+}
+
 * {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -87,6 +91,13 @@ input {
     &.uppercase {
         text-transform: uppercase;
         letter-spacing: 0.1em;
+    }
+
+    &.green {
+        background-color: $green;
+        &:hover {
+            background-color: lighten($color: $green, $amount: 5%);            
+        }
     }
 }
 

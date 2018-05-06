@@ -93,7 +93,7 @@
 </template>
 
 <script>
-import { mapState, mapMutations } from 'vuex'
+import { mapState, mapMutations, mapActions } from 'vuex'
 import SiteHeader from '@/components/SiteHeader'
 import SiteFooter from '@/components/SiteFooter'
 import Avatars from '@/components/Avatars'
@@ -132,6 +132,7 @@ export default {
         .then(response => {
           this.changePasswordErrors = {}
           console.log('success')
+          this.openConfirmation('Password updated')
         })
         .catch(changePasswordErrors => {
           this.changePasswordErrors = changePasswordErrors.response.data
@@ -149,6 +150,8 @@ export default {
             key: 'user',
             value: response.data
           })
+
+          this.openConfirmation('Location updated')
         })
         .catch(changeLocationErrors => {
           this.changeLocationErrors = changeLocationErrors.response.data
@@ -157,6 +160,9 @@ export default {
     },
     ...mapMutations([
       'set'
+    ]),
+    ...mapActions([
+      'openConfirmation'
     ])
   }
 }

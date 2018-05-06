@@ -4,6 +4,11 @@
 
   >
 
+    <transition name="fade">
+      <confirmation v-if="confirmation.isActive"
+      ></confirmation>
+    </transition>
+
     <transition name="fade" mode="out-in">
       <router-view
       class="background-cover"
@@ -16,8 +21,13 @@
 </template>
 
 <script>
+import Confirmation from '@/components/Confirmation.vue'
+import { mapState } from 'vuex'
 export default {
   name: 'App',
+  components: {
+    Confirmation
+  },
   computed: {
     viewClass () {
       if (this.$route.name) {
@@ -25,7 +35,10 @@ export default {
       }
 
       return ''
-    }
+    },
+    ...mapState([
+      'confirmation'
+    ])
   }
 }
 </script>
