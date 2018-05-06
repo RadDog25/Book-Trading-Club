@@ -9,11 +9,12 @@
 
             <div class="description"
             :class="{ 'shortened': descriptionIsShortened }"
+            ref="description"
             >
                 {{ description }}
                 <div class="toggle"
                 v-if="description && canToggleDescription"
-                @click="descriptionIsShortened = !descriptionIsShortened"
+                @click="handleDescriptionToggle"
                 ><i class="fa fa-angle-up" aria-hidden="true"></i></div>
             </div>
 
@@ -51,6 +52,7 @@
 </template>
 
 <script>
+import velocity from 'velocity-animate'
 export default {
   name: 'SliderMoreInfo',
   props: [
@@ -91,6 +93,25 @@ export default {
   methods: {
     handleCloseClick () {
       this.$emit('moreInfoCloseButtonWasClicked')
+    },
+    handleDescriptionToggle () {
+      const el = this.$refs.description
+      el.style.opacity = 0
+      const initialHeight = el.clientHeight
+      this.descriptionIsShortened = !this.descriptionIsShortened
+
+      setTimeout(() => {
+        const finalHeight = el.clientHeight
+        velocity(el, {
+          height: [finalHeight, initialHeight],
+          opacity: [1, 0]
+        }, {
+          duration: 200,
+          complete () {
+            el.style.height = 'auto'
+          }
+        })
+      }, 0)
     }
   }
 }
