@@ -1,7 +1,7 @@
 <template>
 
     <div v-if="book" class="more-info-container layout-container">
-
+      <div class="more-info-row layout-row">
         <div class="left">
             <h3 class="title">{{ book.title }}</h3>
             <div class="authors">{{ book.authors.join(', ') }}</div>
@@ -48,15 +48,18 @@
               :href="book.link"
               target="_blank"
               class="link">
+                <span class="see-it-at" v-if="!linkIsGooglePlay" >See it at</span>
                 <img class="link-image" :src="linkIcon">
               </a>
           </div>
         </div>
-
-        <div class="close-icon"
-        @click="handleCloseClick"
-        >&times;</div>
     </div>
+
+    <div class="close-icon"
+    @click="handleCloseClick"
+    >&times;</div>
+
+  </div>
 
 </template>
 
@@ -98,8 +101,11 @@ export default {
 
       return this.book.description
     },
+    linkIsGooglePlay () {
+      return this.book.link.includes('market.android.com')
+    },
     linkIcon () {
-      if (this.book.link.includes('market.android.com')) {
+      if (this.linkIsGooglePlay) {
         return require('@/assets/googleplay.svg')
       }
 

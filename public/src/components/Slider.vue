@@ -6,7 +6,7 @@
     <div class="slider">
       <carousel :navigationEnabled="true"
       :paginationEnabled="false"
-      :perPageCustom="[[768, 5], [1024, 6]]"
+      :perPageCustom="[[768, 5], [1024, 6], [1400, 8]]"
       :loop="true"
       :navigationClickTargetSize="0"
       :navigationNextLabel="`<i class='fa fa-angle-right'></i>`"
@@ -33,10 +33,12 @@
 
     </div>
 
-    <slider-more-info v-if="moreInfoIsActive && books.length && Number.isInteger(moreInfoIndex)"
-    :book="books[moreInfoIndex]"
-    @moreInfoCloseButtonWasClicked="moreInfoIsActive = false"
-    ></slider-more-info>
+    <transition name="fade">
+      <slider-more-info v-if="moreInfoIsActive && books.length && Number.isInteger(moreInfoIndex)"
+      :book="books[moreInfoIndex]"
+      @moreInfoCloseButtonWasClicked="moreInfoIsActive = false"
+      ></slider-more-info>
+    </transition>
 
   </div>
 
