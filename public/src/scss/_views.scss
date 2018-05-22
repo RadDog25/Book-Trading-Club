@@ -33,6 +33,7 @@
 
 .profile-view {
     background-color: $light-gray2;
+    color: $black;
     .site-content {
         .site-content-inner {
             .column {
@@ -81,9 +82,24 @@
                 }
             }
         }
-    
-        .site-footer {
-            background-color: $black;
+    }
+}
+
+.dashboard-view {
+    background-color: $light-gray2;
+    color: $black;
+
+    .dashboard-heading {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        .search-container {
+            width: calc(70% - 4rem);
         }
+    }
+
+    .site-footer {
+        margin-top: 4rem;
+        background-color: $black;
     }
 }

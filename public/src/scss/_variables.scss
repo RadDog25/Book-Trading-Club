@@ -1,5 +1,6 @@
 // colors
 $red: #E10B14;
+$red-transparent: rgba(225, 11, 20, 0.1);
 $light-gray: #e5e5e5;
 $light-gray2: #F1F1F1;
 $light-black: #141414;
@@ -8,6 +9,7 @@ $gray: #808080;
 $blue: #0080ff;
 $green: #18900F;
 $light-green: #E4F3E0;
+$light-red: lighten($red, 50%);
 $error: #b00500;
 
 $primary: $red;

@@ -47,9 +47,11 @@
               <a v-if="book.link"
               :href="book.link"
               target="_blank"
-              class="link">
-                <span class="see-it-at" v-if="!linkIsGooglePlay" >See it at</span>
-                <img class="link-image" :src="linkIcon">
+              class="link-container">
+                <div class="link">
+                  <span class="see-it-at" v-if="!linkIsGooglePlay" >See it at</span>
+                  <img class="link-image" :src="linkIcon">
+                </div>
               </a>
           </div>
         </div>

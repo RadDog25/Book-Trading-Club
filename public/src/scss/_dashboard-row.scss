@@ -1,0 +1,131 @@
+.dashboard-row {
+    display: flex;
+    padding-top: 1em;
+    padding-bottom: 1em;
+    border-bottom: 1px solid #999;
+    .dashboard-column {
+        transition: width 400ms ease;
+        .books {
+            @include grid(5, 0.5rem);
+            .book-container {
+                display: flex;
+                align-items: center;
+            }
+
+            .user-book-container {
+                .user-book {
+                    position: relative;
+                    .remove-icon-container {
+                        position: absolute;
+                        color: $red;
+                        font-size: 2rem;
+                        right: 10%;
+                        top: 5%;
+                        width: 18%;
+                        max-width: 20px;
+                        z-index: 10;
+                        opacity: 0;
+                        transition: 200ms opacity 200ms ease;
+                        cursor: pointer;
+                    }
+
+                    &:after {
+                        content: "";
+                        @extend .layer;
+                        background-color: rgba(0, 0, 0, 0.7);
+                        opacity: 0;
+                        transition: 200ms opacity 200ms ease;
+                    }
+
+                    &:hover {
+                        .remove-icon-container {
+                            opacity: 1;
+                        }
+
+                        &:after {
+                            opacity: 1;
+                        }
+                    }
+                }
+            }
+
+            img {
+                width: 100%;
+                display: block;
+                &.is-selected {
+                    border-color: $red;
+                }
+            }
+        }
+
+        &-left {
+            width: 22%;
+            .dashboard-column-title {
+                margin: 0px;
+                transition: transform 400ms ease;
+                transform: none;
+            }
+        }
+
+        &-right {
+            width: 78%;
+            .button-container {
+                margin-top: 1em;
+                display: flex;
+                justify-content: flex-end;
+            }
+        }
+
+        &-hidden {
+            width: 0%;
+            margin-left: 4rem;
+            display: none;
+            transition: width 400ms ease;
+            .button-container {
+                margin-top: 1rem;
+                display: flex;
+                justify-content: flex-end;
+                .button {
+                    margin-right: 1rem;
+                    &:last-child {
+                        margin-right: 0px;
+                    }
+                }
+
+                .add-books-button {
+                    min-width: 140px;
+                }
+            }
+        }
+    }
+
+    &.active {
+        .dashboard-column {
+            &-left {
+                width: 0%;
+                .dashboard-column-title {
+                    transform: rotate(-90deg) translate(-75px, -20px);
+                }
+            }
+    
+            &-right {
+                width: 30%;
+                .button-container {
+                    display: none;
+                }
+
+                .books {
+                    @include grid(3, 0.5rem);
+                }
+            }
+
+            &-hidden {
+                width: calc(70% - 4rem);
+                display: block;
+                .dashboard-column-title {
+                    margin-top: 0px;
+                }
+            }
+        }
+    }
+}

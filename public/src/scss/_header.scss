@@ -42,62 +42,6 @@
                 &.books-item {
                     margin-right: auto;
                 }
-
-                &.search-item {
-                    position: relative;
-                    form {
-                        align-self: center;
-                        display: flex;
-                        align-items: center;
-                        position: relative;
-                        .input-container {                            
-                            input {
-                                width: 0px;
-                                color: white;
-                                border-radius: 0;
-                                background-color: $black;
-                                border: 1px solid white;
-                                padding-top: 0.375em;
-                                padding-bottom: 0.375em;
-                                padding-left: 2em;
-                                padding-right: 0px;
-                                opacity: 0;
-                                transition: all 300ms ease;
-                            }
-                        }
-
-                        .search-icon {
-                            position: absolute;
-                            left: 0;
-                            display: flex;
-                            justify-content: center;
-                            align-items: center;
-                            width: 100%;
-                            height: 100%;
-                            text-decoration: none;
-                            i {
-                                font-size: 1.3em;
-                            }
-                        }
-                    }
-
-                    &.active {
-                        form {
-                            .input-container {
-                                input {
-                                    width: 300px;
-                                    padding-left: 2.5em;
-                                    padding-right: 0.375em;
-                                    opacity: 1;
-                                }
-                            }
-
-                            .search-icon {
-                                width: 2.5em;
-                            }
-                        }
-                    }
-                }
     
                 &.dropdown-item {
                     margin-left: 0;

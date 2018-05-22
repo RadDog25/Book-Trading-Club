@@ -3,12 +3,12 @@
     <h1 class="heading hed2">Avatar</h1>
     <div class="avatars">
       <a v-for="(imageUrl, index) in avatarImageUrls"
-      class="avatar-container"
-      :class="{ active: index === user.avatar }"
+      class="avatar-container selectable-box-container"
+      :class="{ 'is-selected': index === user.avatar }"
       :key="index"
       @click="handleClick(index)"
       >
-        <img class="avatar"
+        <img class="avatar selectable-box"
         :src="imageUrl">
       </a>
     </div>

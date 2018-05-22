@@ -1,5 +1,5 @@
 .confirmation-container {
-    z-index: 1000;
+    z-index: 10000;
     position: fixed;
     top: 0px;
     left: 0px;
@@ -29,12 +29,32 @@
         }
 
         .text {
+            color: $black;
+            font-weight: 400;
+            text-align: center;
             margin-top: 0.5em;
             margin-bottom: 1em;
         }
 
         .button {
             align-self: stretch;
+        }
+
+        .buttons-container {
+            display: flex;
+            .button {
+                margin-right: 1rem;
+                &:last-child {
+                    margin-right: 0px;
+                }
+            }
+        }
+    }
+
+    &.confirmation-container-warning {
+        .confirmation {
+            background-color: $light-red;
+            border-color: $red;
         }
     }
 }

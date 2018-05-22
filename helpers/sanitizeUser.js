@@ -1,8 +1,10 @@
 var propertiesToSend = [
     'username',
     'location',
-    'avatar'
+    'avatar',
+    'books'
 ];
+
 
 function sanitizeUser(user) {
     var sanitizedUser = {};

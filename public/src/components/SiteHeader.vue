@@ -19,7 +19,7 @@
         </li>
 
         <li v-if="shouldShowSearch"
-        class="main-menu-item search-item"
+        class="main-menu-item search-item search-container black"
         :class="{ active: searchIsActive }"
         >
           <form method="GET" action="/browse" @submit.prevent="onSubmit">

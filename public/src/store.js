@@ -32,11 +32,9 @@ const store = new Vuex.Store({
         window.axios.get('/api/user')
           .then(response => {
             state.user = response.data
-            console.log('check passed')
             resolve()
           })
           .catch(error => {
-            console.log('check failed')
             reject(error)
           })
       })

@@ -48,6 +48,14 @@ var routes = [
   {
     module: require('./routes/changeavatar'),
     endpoint: '/api/changeavatar'
+  },
+  {
+    module: require('./routes/addbooks'),
+    endpoint: '/api/addbooks'
+  },
+  {
+    module: require('./routes/deletebook'),
+    endpoint: '/api/deletebook'
   }
 ];
 

@@ -14,13 +14,15 @@ var UserSchema = new Schema({
     },
     location: {
         type: String,
-        required: false
+        required: false,
+        default: 'Parts unknown'
     },
     avatar: {
         type: Number,
         required: false,
         default: 1
-    }
+    },
+    books: []
 });
 
 UserSchema.pre('save', function (next) {

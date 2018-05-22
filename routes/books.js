@@ -1,30 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var passport = require('passport');
-var books = require('google-books-search');
-
-var mandatoryFields = [
-    'thumbnail',
-    'authors',
-    'title',
-    'description'
-];
-
-function getBooks(query) {
-    return new Promise((res, rej) => {
-        books.search(query, function(error, results) {
-            if (!error) {
-                var books = results.filter(book => {
-                    return mandatoryFields.every(mandatoryField => {
-                        return book[mandatoryField];
-                    });
-                });
-
-                res(books);
-            }
-        });
-    });
-}
+var getBooks = require('../helpers/getBooks.js');
 
 router.get('/', passport.authenticate('jwt', { session: false }), function(req, res) {
     var searchText = req.query.searchText || 'harry potter';

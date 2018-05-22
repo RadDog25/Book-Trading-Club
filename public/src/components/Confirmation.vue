@@ -1,5 +1,5 @@
 <template>
-  <div class="confirmation-container layout-container">
+  <div class="confirmation-container confirmation-container layout-container">
     <div class="confirmation">
       <img class="icon" src="@/assets/done.svg" alt="success">
       <h2 class="text hed2">{{ confirmation.text }}</h2>

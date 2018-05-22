@@ -6,81 +6,83 @@
 
     <div id="content" class="site-content layout-container">
 
+      <h1 class="hed1 heading-with-border layout-row">Profile</h1>
+
       <div class="site-content-inner layout-row">
 
-      <div class="left column">
+        <div class="left column">
 
-        <div class="form-container">
+          <div class="form-container">
 
-          <h1 class="heading hed2">Change Password</h1>
+            <h2 class="heading hed2">Change Password</h2>
 
-          <form method="POST" @submit.prevent="submitChangePassword">
+            <form method="POST" @submit.prevent="submitChangePassword">
 
-            <div class="control" :class="{ 'has-changePasswordErrors': changePasswordErrors.oldPassword }">
+              <div class="control" :class="{ 'has-changePasswordErrors': changePasswordErrors.oldPassword }">
 
-              <label for="email">Old Password</label>
+                <label for="email">Old Password</label>
 
-              <input v-model="oldPassword" type="text" id="email" name="email">
+                <input v-model="oldPassword" type="text" id="email" name="email">
 
-              <div class="error" v-if="changePasswordErrors.oldPassword">{{ changePasswordErrors.oldPassword }}</div>
+                <div class="error" v-if="changePasswordErrors.oldPassword">{{ changePasswordErrors.oldPassword }}</div>
 
-            </div>
+              </div>
 
-            <div class="control" :class="{ 'has-errors': changePasswordErrors.newPassword }">
+              <div class="control" :class="{ 'has-errors': changePasswordErrors.newPassword }">
 
-              <label for="newPassword">New Password</label>
+                <label for="newPassword">New Password</label>
 
-              <input v-model="newPassword" type="text" id="password" name="password">
+                <input v-model="newPassword" type="text" id="password" name="password">
 
-              <div class="error" v-if="changePasswordErrors.newPassword">{{ changePasswordErrors.newPassword }}</div>
+                <div class="error" v-if="changePasswordErrors.newPassword">{{ changePasswordErrors.newPassword }}</div>
 
-            </div>
+              </div>
 
-            <div class="control">
-              <input type="submit"
-              name="submit"
-              class="button submit large"
-              value="Save"
-              >
-            </div>
+              <div class="control">
+                <input type="submit"
+                name="submit"
+                class="button submit large"
+                value="Save"
+                >
+              </div>
 
-          </form>
+            </form>
+
+          </div>
+
+          <div class="form-container">
+
+            <h2 class="heading hed2">Location</h2>
+
+            <form method="POST" @submit.prevent="submitChangeLocation">
+
+              <div class="control" :class="{ 'has-errors': changeLocationErrors.oldPassword }">
+
+                <label for="email">Location</label>
+
+                <input v-model="location" type="text" id="email" name="email">
+
+                <div class="error" v-if="changeLocationErrors.location">{{ changeLocationErrors.location }}</div>
+
+              </div>
+
+              <div class="control">
+                <input type="submit"
+                name="submit"
+                class="button submit large"
+                value="Save"
+                >
+              </div>
+
+            </form>
+
+          </div>
 
         </div>
 
-        <div class="form-container">
-
-          <h1 class="heading hed2">Location</h1>
-
-          <form method="POST" @submit.prevent="submitChangeLocation">
-
-            <div class="control" :class="{ 'has-errors': changeLocationErrors.oldPassword }">
-
-              <label for="email">Location</label>
-
-              <input v-model="location" type="text" id="email" name="email">
-
-              <div class="error" v-if="changeLocationErrors.location">{{ changeLocationErrors.location }}</div>
-
-            </div>
-
-            <div class="control">
-              <input type="submit"
-              name="submit"
-              class="button submit large"
-              value="Save"
-              >
-            </div>
-
-          </form>
-
+        <div class="right column">
+          <avatars></avatars>
         </div>
-
-      </div>
-
-      <div class="right column">
-        <avatars></avatars>
-      </div>
 
       </div>
 

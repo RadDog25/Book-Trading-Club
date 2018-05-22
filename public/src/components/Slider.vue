@@ -6,7 +6,7 @@
     <div class="slider">
       <carousel :navigationEnabled="true"
       :paginationEnabled="false"
-      :perPageCustom="[[768, 5], [1024, 6], [1400, 8]]"
+      :perPageCustom="[[768, 5], [1024, 8]]"
       :loop="true"
       :navigationClickTargetSize="0"
       :navigationNextLabel="`<i class='fa fa-angle-right'></i>`"
@@ -37,6 +37,7 @@
       <slider-more-info v-if="moreInfoIsActive && books.length && Number.isInteger(moreInfoIndex)"
       :book="books[moreInfoIndex]"
       @moreInfoCloseButtonWasClicked="moreInfoIsActive = false"
+      ref="moreinfo"
       ></slider-more-info>
     </transition>
 
@@ -48,6 +49,7 @@
 import { Carousel, Slide } from 'vue-carousel'
 import SlideItem from '@/components/SlideItem'
 import SliderMoreInfo from '@/components/SliderMoreInfo'
+import velocity from 'velocity-animate'
 
 const initialData = {
   page: 0,
@@ -92,6 +94,34 @@ export default {
         this[key] = initialData[key]
       })
     },
+    scrollToTop () {
+      const headerHeight = document.getElementById('masthead').offsetHeight
+      const distanceToTop = this.$refs.slider.offsetTop
+      window.scrollTo(0, distanceToTop + headerHeight)
+    },
+    slideInMoreInfo () {
+      setTimeout(() => {
+        const el = this.$refs.moreinfo.$el
+        const left = el.querySelector('.left')
+        left.style.opacity = 0
+        const right = el.querySelector('.right')
+        velocity(left, {
+          translateX: ['0px', '30px'],
+          opacity: [1, 0]
+        }, {
+          easing: 'ease-out',
+          duration: 300,
+          delay: 300
+        })
+
+        velocity(right, {
+          opacity: [1, 0]
+        }, {
+          easing: 'ease-out',
+          duration: 500
+        })
+      })
+    },
     handleMoreInfoClick (index) {
       if (this.moreInfoIndex === index) {
         this.moreInfoIsActive = !this.moreInfoIsActive
@@ -100,9 +130,8 @@ export default {
         this.moreInfoIsActive = true
       }
 
-      const headerHeight = document.getElementById('masthead').offsetHeight
-      const distanceToTop = this.$refs.slider.offsetTop
-      window.scrollTo(0, distanceToTop + headerHeight)
+      this.scrollToTop()
+      this.slideInMoreInfo()
     }
   }
 }
