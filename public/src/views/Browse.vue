@@ -6,7 +6,7 @@
 
     <div id="content" class="site-content">
 
-      <slider :books="books"
+      <slider :books="availableBooks"
       ></slider>
 
     </div>
@@ -39,15 +39,15 @@ export default {
   },
   computed: {
     ...mapState([
-      'books'
+      'availableBooks'
     ])
   },
   created () {
-    this.searchBooks()
+    this.getAvailableBooks()
   },
   methods: {
     ...mapActions([
-      'searchBooks'
+      'getAvailableBooks'
     ])
   }
 }

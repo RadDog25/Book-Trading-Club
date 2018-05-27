@@ -6,7 +6,8 @@ Vue.use(Vuex)
 const store = new Vuex.Store({
   state: {
     user: null,
-    books: [],
+    searchedBooks: [],
+    availableBooks: [],
     confirmation: {
       isActive: false,
       text: ''
@@ -39,14 +40,24 @@ const store = new Vuex.Store({
           })
       })
     },
-    searchBooks ({ commit, state }, searchText) {
+    getSearchedBooks ({ commit, state }, searchText) {
       window.axios.get('/api/books', {
         params: {
           searchText
         }
       })
         .then(response => {
-          state.books = response.data
+          state.searchedBooks = response.data
+        })
+    },
+    getAvailableBooks ({ commit, state }, searchText) {
+      window.axios.get('/api/availablebooks', {
+        params: {
+          searchText
+        }
+      })
+        .then(response => {
+          state.availableBooks = response.data
         })
     }
   }

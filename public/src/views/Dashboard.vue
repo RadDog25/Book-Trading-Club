@@ -158,7 +158,7 @@ export default {
       return this.selectedBooks.length > 0
     },
     booksNotInLibrary () {
-      return this.books.filter(book => {
+      return this.searchedBooks.filter(book => {
         return !this.libraryBookIds.includes(book.id)
       })
     },
@@ -166,13 +166,13 @@ export default {
       return this.bookToDelete.title.slice().replace(/ /g, '&nbsp;')
     },
     ...mapState([
-      'books',
+      'searchedBooks',
       'user'
     ])
   },
   methods: {
     onSubmit () {
-      this.searchBooks(this.searchText)
+      this.getSearchedBooks(this.searchText)
     },
     handleCancelClick () {
       this.searchIsActive = false
@@ -182,7 +182,6 @@ export default {
         books: this.selectedBooks
       })
         .then(response => {
-          console.log(response.data)
           this.set({
             key: 'user',
             value: response.data
@@ -235,7 +234,7 @@ export default {
       })
     },
     ...mapActions([
-      'searchBooks'
+      'getSearchedBooks'
     ]),
     ...mapMutations([
       'set'

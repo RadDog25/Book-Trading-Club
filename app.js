@@ -30,10 +30,6 @@ var routes = [
     endpoint: '/api/login'
   },
   {
-    module: require('./routes/user'),
-    endpoint: 'api/user'
-  },
-  {
     module: require('./routes/books'),
     endpoint: '/api/books'
   },
@@ -56,6 +52,10 @@ var routes = [
   {
     module: require('./routes/deletebook'),
     endpoint: '/api/deletebook'
+  },
+  {
+    module: require('./routes/availablebooks'),
+    endpoint: '/api/availablebooks'
   }
 ];
 

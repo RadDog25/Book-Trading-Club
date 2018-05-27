@@ -39,7 +39,7 @@ router.post('/', passport.authenticate('jwt', { session: false }), function(req,
                     var userBookIds = user.books.map(book => book._id);
                     newBooks.forEach(newBook => {
                         if(!userBookIds.includes(newBook._id)) {
-                            user.books.push(newBook)
+                            user.books.push(newBook);
                         }
                     });
 
@@ -52,26 +52,6 @@ router.post('/', passport.authenticate('jwt', { session: false }), function(req,
                 }
             })
 
-        // Book.findByIdAndUpdate(book.id, newBook, options, function(err, newBook) {
-        //     if(err) {
-        //         res.status(400).send();
-        //     } else {
-        //         var user = req.user;
-        //         var bookIds = user.books.map(book => book._id);
-
-        //         if(bookIds.includes(book.id)) {
-        //             res.status(400).send();
-        //         } else {
-        //             user.books.push(newBook)
-        //             user.save(function (err, updatedUser) {
-        //                 if (err) throw err;
-        //                 res
-        //                     .status(200)
-        //                     .send(sanitizeUser(updatedUser));
-        //             });    
-        //         }                
-        //     }
-        // });
     }
 });
 
