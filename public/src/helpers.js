@@ -23,3 +23,10 @@ window.getCookie = function (cname) {
   }
   return null
 }
+
+window.blurInputs = function () {
+  const inputs = document.getElementsByTagName('input')
+  for (let input of inputs) {
+    input.blur()
+  }
+}

@@ -1,10 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var jwt = require('jsonwebtoken');
-var config = require('../config');
 var FormErrors = require('../helpers/FormErrors.js');
-
-// Models
 var User = require('../models/User.js');
 
 router.post('/', function(req, res) {
@@ -29,9 +25,9 @@ router.post('/', function(req, res) {
         User.findOne({
             username: req.body.username
         }, function(err, user) {
-            if (err) throw err;
-
-            if (!user) {
+            if (err) {
+                console.log(err);
+            } else if (!user) {
                 formErrors.set('username', 'Username does not exist');
                 res
                     .status(401)
@@ -42,10 +38,11 @@ router.post('/', function(req, res) {
                     if (isMatch && !err) {
                         user.password = req.body.newPassword;
                         user.save(function (err, updatedUser) {
-                            if (err) return handleError(err);
-                            res
-                                .status(200)
-                                .send();
+                            if (err) {
+                                console.log(err);
+                            } else {
+                                res.status(200).send();
+                            }
                         });
                     } else {
                         formErrors.set('oldPassword', 'Wrong password');

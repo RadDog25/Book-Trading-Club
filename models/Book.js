@@ -2,7 +2,7 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var BookSchema = new Schema({
-    _id: String,
+    id: String,
     authors: Array,
     averageRating: Number,
     categories: Array,

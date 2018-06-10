@@ -1,16 +1,16 @@
 var express = require('express');
 var router = express.Router();
 var passport = require('passport');
-var getBooks = require('../helpers/getBooks.js');
 var Book = require('../models/Book.js');
-var User = require('../models/User.js');
-var sanitizeUser = require('../helpers/sanitizeUser.js');
-var ObjectId = require('mongodb').ObjectID;
+var BookInstance = require('../models/BookInstance.js');
+var getUserData = require('../helpers/getUserData.js');
 
 
 router.post('/', passport.authenticate('jwt', { session: false }), function(req, res) {
     var books = req.body.books;
-    if(books.length <= 0) {
+    var user = req.user;
+
+    if (books.length <= 0) {
         res.status('400').send();
     } else {
         var options = {
@@ -20,38 +20,36 @@ router.post('/', passport.authenticate('jwt', { session: false }), function(req,
         };
 
         var booksToSave = books.map(book => {
-            var newBook = {
-                _id: book.id,
-                ...book
-            };
-
             return new Promise((resolve, reject) => {                
-                Book.findByIdAndUpdate(book.id, newBook, options, function(err, newBook) {
-                    if(!err) resolve(newBook);
+                Book.findOneAndUpdate({ id: book.id }, book, options, function(err, newBook) {
+                    if (err) {
+                        console.log(err);
+                    } else {
+                        var bookInstance = new BookInstance({
+                            book: newBook._id,
+                            user: user._id
+                        });
+
+                        bookInstance.save(function(err, newBookInstance) {
+                            if (err) {
+                                console.log(err);
+                            } else {
+                                resolve(newBookInstance);
+                            }
+                        });
+                    }
                 });
             })
         });
 
         Promise.all(booksToSave)
-            .then(newBooks => {
-                if(newBooks.length > 0) {
-                    var user = req.user;
-                    var userBookIds = user.books.map(book => book._id);
-                    newBooks.forEach(newBook => {
-                        if(!userBookIds.includes(newBook._id)) {
-                            user.books.push(newBook);
-                        }
-                    });
-
-                    user.save(function (err, updatedUser) {
-                        if (err) throw err;
-                        res
-                            .status(200)
-                            .send(sanitizeUser(updatedUser));
-                    });    
-                }
-            })
-
+            .then(() => {
+                getUserData(user)
+                    .then(userData => {
+                        res.status(200).send(userData);
+                    })
+                    .catch(err => console.log(err));
+            });
     }
 });
 

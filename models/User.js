@@ -21,8 +21,7 @@ var UserSchema = new Schema({
         type: Number,
         required: false,
         default: 1
-    },
-    books: []
+    }
 });
 
 UserSchema.pre('save', function (next) {

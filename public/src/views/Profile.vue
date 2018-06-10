@@ -126,6 +126,8 @@ export default {
   },
   methods: {
     submitChangePassword () {
+      window.blurInputs()
+
       window.axios.post('/api/changepassword', {
         username: this.user.username,
         oldPassword: this.oldPassword,
@@ -142,6 +144,8 @@ export default {
         })
     },
     submitChangeLocation () {
+      window.blurInputs()
+
       window.axios.post('/api/changelocation', {
         username: this.user.username,
         location: this.location

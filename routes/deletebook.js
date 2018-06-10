@@ -1,9 +1,8 @@
 var express = require('express');
 var router = express.Router();
 var passport = require('passport');
-var jwt = require('jsonwebtoken');
-var config = require('../config');
-var sanitizeUser = require('../helpers/sanitizeUser.js');
+var BookInstance = require('../models/BookInstance.js');
+var getUserData = require('../helpers/getUserData.js');
 
 
 router.delete('/', passport.authenticate('jwt', { session: false }), function(req, res) {
@@ -12,18 +11,18 @@ router.delete('/', passport.authenticate('jwt', { session: false }), function(re
         res.status(400).send();
     } else {
         var user = req.user;
-        var newBooks = user.books.filter(book => {
-            return book._id !== bookToDelete._id
-        });
 
-        user.books = newBooks;
-    
-        user.save(function (err, updatedUser) {
-            if (err) throw err;
-            res
-                .status(200)
-                .send(sanitizeUser(updatedUser));
-        });    
+        BookInstance.findByIdAndRemove(bookToDelete._id, function(err) {
+            if (err) {
+                console.log(err);
+            } else {
+                getUserData(user)
+                    .then(userData => {
+                        res.status(200).send(userData);
+                    })
+                    .catch(err => console.log(err));
+            }
+        });
     }
 });
 

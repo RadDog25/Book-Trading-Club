@@ -1,15 +1,8 @@
 var express = require('express');
 var router = express.Router();
 var passport = require('passport');
-var jwt = require('jsonwebtoken');
-var config = require('../config');
 var FormErrors = require('../helpers/FormErrors.js');
-var sanitizeUser = require('../helpers/sanitizeUser.js');
-
-
-// Models
-var User = require('../models/User.js');
-
+var getUserData = require('../helpers/getUserData.js');
 
 router.post('/', passport.authenticate('jwt', { session: false }), function(req, res) {
 
@@ -26,11 +19,15 @@ router.post('/', passport.authenticate('jwt', { session: false }), function(req,
         var user = req.user;
         user.location = req.body.location;
         user.save(function (err, updatedUser) {
-            console.log(updatedUser);
-            if (err) throw err;
-            res
-                .status(200)
-                .send(sanitizeUser(updatedUser));
+            if (err) {
+                console.log(err);
+            } else {
+                getUserData(updatedUser)
+                    .then(userData => {
+                        res.status(200).send(userData);
+                    })
+                    .catch(err => console.log(err));
+            }
         });
     }
 });

@@ -3,7 +3,7 @@ var router = express.Router();
 var jwt = require('jsonwebtoken');
 var config = require('../config');
 var FormErrors = require('../helpers/FormErrors.js');
-var sanitizeUser = require('../helpers/sanitizeUser.js');
+var getUserData = require('../helpers/getUserData.js');
 
 // Models
 var User = require('../models/User.js');
@@ -34,12 +34,17 @@ router.post('/', function(req, res) {
                     if (isMatch && !err) {
                         // if user is found and password is right create a token
                         var token = jwt.sign(user.toJSON(), config.secret);
-                        res
-                            .status(200)
-                            .cookie('token', token, {
-                                httpOnly: false
+
+                        getUserData(user)
+                            .then(userData => {
+                                res.status(200)
+                                    .cookie('token', token, {
+                                        httpOnly: false
+                                    })
+                                    .send(userData);
                             })
-                            .send(sanitizeUser(user));
+                            .catch(err => console.log(err));
+
                     } else {
                         formErrors.set('password', 'Wrong password');
                         res

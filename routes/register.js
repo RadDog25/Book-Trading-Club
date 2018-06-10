@@ -23,7 +23,7 @@ router.post('/', function(req, res) {
 
         newUser.save(function(err) {
             if (err) {
-                formErrors.set('username', 'Username already exists')
+                formErrors.set('username', 'Username already exists');
                 res
                     .status(400)
                     .send( formErrors.get() );

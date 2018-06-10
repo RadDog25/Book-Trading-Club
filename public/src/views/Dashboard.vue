@@ -61,7 +61,7 @@
             <div class="user-books books">
               <div class="user-book-container book-container"
               v-for="book in user.books"
-              :key="book.id"
+              :key="book._id"
               >
                 <div class="user-book">
                   <img :src="book.thumbnail"
