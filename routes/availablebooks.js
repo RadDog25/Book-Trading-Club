@@ -1,25 +1,44 @@
 var express = require('express');
 var router = express.Router();
 var passport = require('passport');
-var getAvailableBooks = require('../helpers/getAvailableBooks.js');
-var getSearchedBooks = require('../helpers/getSearchedBooks.js');
-var User = require('../models/User.js');
+var getCleanUser = require('../helpers/getCleanUser.js');
+var getCleanBook = require('../helpers/getCleanBook.js');
+var BookInstance = require('../models/BookInstance.js');
 
 router.get('/', passport.authenticate('jwt', { session: false }), function(req, res) {
     var searchText = req.query.searchText;
-
-    User.find({}, function(err, users) {
-        if(!err) {
-            var books = getAvailableBooks(users);
-            
-            if(searchText) {
-                var searchedBooks = getSearchedBooks(books);
-                res.send(searchedBooks);
+    BookInstance.find({})
+        .populate(['book', 'user'])
+        .exec(function(err, bookInstances) {
+            if (err) {
+                console.log(err);
             } else {
-                res.send(books);
+                if (searchText && searchText.length) {
+                    bookInstances = bookInstances.filter(bookInstance => {
+                        var searchableText = [
+                            bookInstance.book.categories.join(''),
+                            bookInstance.book.description,
+                            bookInstance.book.title,
+                            bookInstance.book.authors.join('')
+                        ]
+                            .join('')
+                            .toLowerCase();
+
+                        return searchableText.includes(searchText.toLowerCase());
+                    });
+                }
+
+                bookInstances = bookInstances.map(bookInstance => {
+                    return {
+                        _id: bookInstance._id,
+                        ...getCleanBook(bookInstance.book),
+                        user: getCleanUser(bookInstance.user)
+                    };
+                });
+
+                res.send(bookInstances);
             }
-        }
-    });
+        });    
 });
 
 module.exports = router;

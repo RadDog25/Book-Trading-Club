@@ -58,6 +58,7 @@ const store = new Vuex.Store({
       })
         .then(response => {
           state.availableBooks = response.data
+          console.log(response.data)
         })
     }
   }
