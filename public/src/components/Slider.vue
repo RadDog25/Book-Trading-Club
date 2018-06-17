@@ -6,7 +6,8 @@
     <div class="slider">
       <carousel :navigationEnabled="true"
       :paginationEnabled="false"
-      :perPageCustom="[[768, 5], [1024, 8]]"
+      :perPage="1"
+      :perPageCustom="[[440, 2], [600, 3], [768, 4], [1024, 5], [1200, 7], [1400, 8], [1600, 10]]"
       :loop="true"
       :navigationClickTargetSize="0"
       :navigationNextLabel="`<i class='fa fa-angle-right'></i>`"
