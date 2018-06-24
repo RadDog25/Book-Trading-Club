@@ -34,6 +34,16 @@
               v-html="categories"
               ></div>
 
+              <div class="request">
+
+                <user-preview
+                :user="book.user"
+                ></user-preview>
+
+                <a @click="handleRequestConfirmation" class="button large">REQUEST TRADE</a>
+
+              </div>
+
             </div>
 
         </div>
@@ -67,8 +77,13 @@
 
 <script>
 import velocity from 'velocity-animate'
+import { mapState, mapActions } from 'vuex'
+import UserPreview from '@/components/UserPreview'
 export default {
   name: 'SliderMoreInfo',
+  components: {
+    UserPreview
+  },
   props: [
     'book'
   ],
@@ -78,6 +93,9 @@ export default {
     }
   },
   computed: {
+    ...mapState([
+      'user'
+    ]),
     publishedDate () {
       return new Date(this.book.publishedDate)
     },
@@ -112,9 +130,15 @@ export default {
       }
 
       return require('@/assets/googlebooks.png')
+    },
+    avatarImageUrl () {
+      return require(`@/assets/profile${this.book.user.avatar + 1}.png`)
     }
   },
   methods: {
+    ...mapActions([
+      'openConfirmation'
+    ]),
     handleCloseClick () {
       this.$emit('moreInfoCloseButtonWasClicked')
     },
@@ -136,6 +160,19 @@ export default {
           }
         })
       }, 0)
+    },
+    handleRequestConfirmation () {
+      window.axios.post('/api/requesttrade', {
+        book: this.book,
+        requesterId: this.user._id
+      })
+        .then(response => {
+          console.log(response.data)
+          this.openConfirmation(response.data)
+        })
+        .catch(error => {
+          console.log(error)
+        })
     }
   }
 }

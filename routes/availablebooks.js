@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 var passport = require('passport');
 var getCleanUser = require('../helpers/getCleanUser.js');
-var getCleanBook = require('../helpers/getCleanBook.js');
+var getCleanBookInstance = require('../helpers/getCleanBookInstance.js');
 var BookInstance = require('../models/BookInstance.js');
 
 router.get('/', passport.authenticate('jwt', { session: false }), function(req, res) {
@@ -28,13 +28,7 @@ router.get('/', passport.authenticate('jwt', { session: false }), function(req, 
                     });
                 }
 
-                bookInstances = bookInstances.map(bookInstance => {
-                    return {
-                        _id: bookInstance._id,
-                        ...getCleanBook(bookInstance.book),
-                        user: getCleanUser(bookInstance.user)
-                    };
-                });
+                var bookInstances = bookInstances.map(getCleanBookInstance);
 
                 res.send(bookInstances);
             }

@@ -11,6 +11,10 @@ const store = new Vuex.Store({
     confirmation: {
       isActive: false,
       text: ''
+    },
+    bookInfoModal: {
+      isActive: false,
+      book: {}
     }
   },
   mutations: {
@@ -27,6 +31,15 @@ const store = new Vuex.Store({
     },
     closeConfirmation ({ commit, state }) {
       state.confirmation.isActive = false
+    },
+    openBookInfoModal ({ commit, state }, book) {
+      state.bookInfoModal = {
+        isActive: true,
+        book
+      }
+    },
+    closeBookInfoModal ({ commit, state }) {
+      state.bookInfoModal.isActive = false
     },
     getUser ({ commit, state }) {
       return new Promise((resolve, reject) => {

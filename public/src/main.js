@@ -18,5 +18,16 @@ new Vue({
   store,
   router,
   components: { App },
-  template: '<App/>'
+  template: '<App/>',
+  computed: {
+    modalIsActive () {
+      return store.state.bookInfoModal.isActive || store.state.confirmation.isActive
+    }
+  },
+  watch: {
+    modalIsActive () {
+      window.toggleBodyScrolling()
+    }
+  }
+
 })

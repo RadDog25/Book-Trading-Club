@@ -9,6 +9,11 @@
       ></confirmation>
     </transition>
 
+    <transition name="fade">
+      <book-info-modal v-if="bookInfoModal.isActive"
+      ></book-info-modal>
+    </transition>
+
     <transition name="fade" mode="out-in">
       <router-view
       class="background-cover"
@@ -22,11 +27,13 @@
 
 <script>
 import Confirmation from '@/components/Confirmation.vue'
+import BookInfoModal from '@/components/BookInfoModal.vue'
 import { mapState } from 'vuex'
 export default {
   name: 'App',
   components: {
-    Confirmation
+    Confirmation,
+    BookInfoModal
   },
   computed: {
     viewClass () {
@@ -37,7 +44,8 @@ export default {
       return ''
     },
     ...mapState([
-      'confirmation'
+      'confirmation',
+      'bookInfoModal'
     ])
   }
 }

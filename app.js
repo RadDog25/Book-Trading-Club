@@ -56,6 +56,10 @@ var routes = [
   {
     module: require('./routes/availablebooks'),
     endpoint: '/api/availablebooks'
+  },
+  {
+    module: require('./routes/requesttrade'),
+    endpoint: '/api/requesttrade'
   }
 ];
 

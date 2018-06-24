@@ -30,3 +30,8 @@ window.blurInputs = function () {
     input.blur()
   }
 }
+
+window.toggleBodyScrolling = function () {
+  var appContainer = this.document.getElementById('appContainer')
+  appContainer.classList.toggle('appContainer--frozen')
+}

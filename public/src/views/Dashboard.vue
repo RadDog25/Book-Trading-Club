@@ -95,10 +95,13 @@
               :class="{ 'is-selected': selectedBooksIds.includes(book.id) }"
               :key="book.id"
               >
-                <img class="selectable-box"
+                <div class="selectable-box"
                 @click="handleSearchedBookClick(book)"
-                :src="book.thumbnail"
-                :alt="book.title">
+                >
+                  <book class="selectable-box"
+                  :book="book"
+                  ></book>
+                </div>
               </div>
             </div>
 
@@ -114,6 +117,26 @@
             </div>
           </div>
         </div>
+
+        <div class="dashboard-row-requests dashboard-row">
+
+          <div class="dashboard-column dashboard-column-left">
+            <h3 class="dashboard-column-title hed3">
+              REQUESTS
+            </h3>
+          </div>
+
+          <div class="dashboard-column dashboard-column-right">
+            <div class="tradeRequests">
+              <div v-for="(request, index) in user.tradeRequests" class="tradeRequest"
+              :key="index"
+              >
+                <user-preview :user="request.requester"></user-preview>
+              </div>
+            </div>
+          </div>
+
+        </div>
       </div>
 
     </div>
@@ -127,13 +150,17 @@
 <script>
 import SiteHeader from '@/components/SiteHeader'
 import SiteFooter from '@/components/SiteFooter'
+import UserPreview from '@/components/UserPreview'
+import Book from '@/components/Book'
 import { mapState, mapMutations, mapActions } from 'vuex'
 
 export default {
   name: 'Dashboard',
   components: {
     SiteHeader,
-    SiteFooter
+    SiteFooter,
+    UserPreview,
+    Book
   },
   data () {
     return {

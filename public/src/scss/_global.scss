@@ -8,8 +8,17 @@ body {
     overflow-x: hidden;
 }
 
+.appContainer--frozen {
+    overflow: hidden;
+}
+
 #app {
     position: relative;
+}
+
+img {
+    display: block;
+    max-width: 100%;
 }
 
 * {
@@ -91,6 +100,7 @@ input {
     font-size: 16px;
     box-shadow: 0 1px 0 rgba(0,0,0,.45);
     text-align: center;
+    font-style: normal;
     &:hover {
         text-decoration: none;
         background-color: lighten($red, 10%);
@@ -252,5 +262,20 @@ input {
         .selectable-box {
             filter: none;
         }
+    }
+}
+
+.normal-link {
+    &:hover {
+        text-decoration: none;
+    }
+}
+
+.hover-opacity {
+    opacity: 1;
+    backface-visibility: hidden;
+    transition: opacity 300ms ease;
+    &:hover {
+        opacity: 0.7;
     }
 }

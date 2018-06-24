@@ -1,32 +1,22 @@
-var BookInstance = require('../models/BookInstance.js');
-var getCleanBook = require('./getCleanBook.js');
+var getUserBooks = require('./getUserBooks.js');
+var getUserTradeRequests = require('./getUserTradeRequests.js');
 var getCleanUser = require('./getCleanUser.js');
 
 function getUserData(user) {
     return new Promise((resolve, reject) => {
-        BookInstance.find({ user: user._id })
-            .populate('book')
-            .exec((err, bookInstances) => {
-                if (err) {
-                    console.log(err);
-                } else {
-                    var cleanUser = getCleanUser(user);
-                    var cleanBookInstances = bookInstances.map(bookInstance => {
-                        var bookProperties = getCleanBook(bookInstance.book);
+        Promise.all([
+            getUserBooks(user),
+            getUserTradeRequests(user)
+        ])
+            .then(function ([books, tradeRequests] = userData) {
 
-                        return {
-                            _id: bookInstance._id,
-                            ...bookProperties
-                        }
-                    });
+                var cleanUserData = {
+                    ...getCleanUser(user),
+                    books,
+                    tradeRequests
+                };
 
-                    var userData = {
-                        ...cleanUser,
-                        books: cleanBookInstances
-                    };
-
-                    resolve(userData);
-                }
+                resolve(cleanUserData);
             });
     });
 }

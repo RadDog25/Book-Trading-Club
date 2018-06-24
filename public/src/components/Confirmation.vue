@@ -1,6 +1,6 @@
 <template>
-  <div class="confirmation-container confirmation-container layout-container">
-    <div class="confirmation">
+  <div class="confirmation-container modal__container layout-container">
+    <div class="confirmation modal__row">
       <img class="icon" src="@/assets/done.svg" alt="success">
       <h2 class="text hed2">{{ confirmation.text }}</h2>
       <a @click="closeConfirmation"

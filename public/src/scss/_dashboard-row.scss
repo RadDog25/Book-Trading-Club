@@ -6,7 +6,7 @@
     .dashboard-column {
         transition: width 400ms ease;
         .books {
-            @include grid(5, 0.5rem);
+            @include grid(5, 0rem);
             .book-container {
                 display: flex;
                 align-items: center;
@@ -51,8 +51,6 @@
             }
 
             img {
-                width: 100%;
-                display: block;
                 &.is-selected {
                     border-color: $red;
                 }

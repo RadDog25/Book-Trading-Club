@@ -4,7 +4,7 @@
         padding-right: 3em;
         background-color: black;
         .VueCarousel {
-            margin-top: 1em;
+            margin-top: 3.5em;
             display: flex;
             .VueCarousel-wrapper {
                 overflow: visible;
@@ -241,10 +241,24 @@
                             margin-bottom: 0;
                         }
                     }
+
+                    .request {
+                        display: flex;
+                        align-items: center;
+                        margin-top: 3em;
+                    }
+
+                    .userPreview__container {
+                        margin-right: 1em;
+                    }
                 }
             }
 
             .right {
+                @include mobile {
+                    display: none;
+                }
+
                 flex: 1 1 0px;
                 display: flex;
                 justify-content: center;
@@ -335,6 +349,7 @@
                                     filter: grayscale(100%);
 
                                     .info {
+                                        visibility: hidden;
                                         .more-info-button-container {
                                             display: none;
                                         }                            
