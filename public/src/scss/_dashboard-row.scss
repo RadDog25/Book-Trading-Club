@@ -6,7 +6,7 @@
     .dashboard-column {
         transition: width 400ms ease;
         .books {
-            @include grid(5, 0rem);
+            @include grid(5, 1rem);
             .book-container {
                 display: flex;
                 align-items: center;
@@ -20,22 +20,23 @@
                         position: absolute;
                         color: $red;
                         font-size: 2rem;
-                        right: 10%;
+                        right: 5%;
                         top: 5%;
                         width: 18%;
                         max-width: 20px;
                         z-index: 10;
                         opacity: 0;
-                        transition: 200ms opacity 200ms ease;
+                        transition: 300ms opacity ease;
                         cursor: pointer;
                     }
 
-                    &:after {
-                        content: "";
-                        @extend .layer;
-                        background-color: rgba(0, 0, 0, 0.7);
-                        opacity: 0;
-                        transition: 200ms opacity 200ms ease;
+                    .remove-icon {
+                        width: 14px;
+                        height: 14px;
+                    }
+
+                    .book__image {
+                        width: 100%;
                     }
 
                     &:hover {
@@ -43,7 +44,7 @@
                             opacity: 1;
                         }
 
-                        &:after {
+                        .book__layer {
                             opacity: 1;
                         }
                     }
@@ -123,6 +124,10 @@
                 display: block;
                 .dashboard-column-title {
                     margin-top: 0px;
+                }
+
+                .books {
+                    @include grid(5, 0rem);
                 }
             }
         }

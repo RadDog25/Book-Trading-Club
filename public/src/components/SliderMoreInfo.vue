@@ -27,7 +27,7 @@
 
               <div class="date note">
                 <b>Publish Date:</b>
-                {{ publishedDate.getFullYear() }}
+                {{ book.getPublishedDate().getFullYear() }}
               </div>
 
               <div v-if="categories" class="categories note"
@@ -49,22 +49,10 @@
         </div>
 
         <div class="right">
-          <div class="image-container">
-              <img class="image"
-              :src="book.thumbnail"
-              >
-
-              <a v-if="book.link"
-              :href="book.link"
-              target="_blank"
-              class="link-container">
-                <div class="link">
-                  <span class="see-it-at" v-if="!linkIsGooglePlay" >See it at</span>
-                  <img class="link-image" :src="linkIcon">
-                </div>
-              </a>
-          </div>
+          <book :book="book"
+          ></book>
         </div>
+
     </div>
 
     <div class="close-icon"
@@ -79,10 +67,13 @@
 import velocity from 'velocity-animate'
 import { mapState, mapActions } from 'vuex'
 import UserPreview from '@/components/UserPreview'
+import Book from '@/components/Book'
+
 export default {
   name: 'SliderMoreInfo',
   components: {
-    UserPreview
+    UserPreview,
+    Book
   },
   props: [
     'book'
@@ -96,20 +87,17 @@ export default {
     ...mapState([
       'user'
     ]),
-    publishedDate () {
-      return new Date(this.book.publishedDate)
-    },
     categories () {
       if (this.book.categories && this.book.categories.length) {
         if (this.book.categories.length === 1) {
           return `<b>Category:</b> ${this.book.categories[0]}`
         } else {
-          return `<b>Categories:</b> ${this.books.categories.join(', ')}`
+          return `<b>Categories:</b> ${this.book.categories.join(', ')}`
         }
       }
     },
     shortenedDescription () {
-      return `${this.book.description.substring(0, 300)}...`
+      return this.book.getExcerpt(300)
     },
     canToggleDescription () {
       return this.book.description.length - this.shortenedDescription.length > 50
@@ -121,11 +109,8 @@ export default {
 
       return this.book.description
     },
-    linkIsGooglePlay () {
-      return this.book.link.includes('market.android.com')
-    },
     linkIcon () {
-      if (this.linkIsGooglePlay) {
+      if (this.book.linkIsGooglePlay()) {
         return require('@/assets/googleplay.svg')
       }
 
@@ -137,7 +122,7 @@ export default {
   },
   methods: {
     ...mapActions([
-      'openConfirmation'
+      'openModal'
     ]),
     handleCloseClick () {
       this.$emit('moreInfoCloseButtonWasClicked')
@@ -167,8 +152,11 @@ export default {
         requesterId: this.user._id
       })
         .then(response => {
-          console.log(response.data)
-          this.openConfirmation(response.data)
+          this.openModal({
+            modalName: 'successModal',
+            text: 'Your request has been sent!',
+            book: {}
+          })
         })
         .catch(error => {
           console.log(error)

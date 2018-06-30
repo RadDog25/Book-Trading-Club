@@ -35,3 +35,7 @@ window.toggleBodyScrolling = function () {
   var appContainer = this.document.getElementById('appContainer')
   appContainer.classList.toggle('appContainer--frozen')
 }
+
+window.deepClone = function (object) {
+  return JSON.parse(JSON.stringify(object))
+}

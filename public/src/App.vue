@@ -4,14 +4,17 @@
 
   >
 
-    <transition name="fade">
-      <confirmation v-if="confirmation.isActive"
-      ></confirmation>
-    </transition>
+    <transition name="modal">
 
-    <transition name="fade">
-      <book-info-modal v-if="bookInfoModal.isActive"
+      <success-modal v-if="modal.items.successModal.isActive"
+      ></success-modal>
+
+      <book-info-modal v-if="modal.items.bookInfoModal.isActive"
       ></book-info-modal>
+
+      <warning-modal v-if="modal.items.warningModal.isActive"
+      ></warning-modal>
+
     </transition>
 
     <transition name="fade" mode="out-in">
@@ -26,14 +29,16 @@
 </template>
 
 <script>
-import Confirmation from '@/components/Confirmation.vue'
+import SuccessModal from '@/components/SuccessModal.vue'
+import WarningModal from '@/components/WarningModal.vue'
 import BookInfoModal from '@/components/BookInfoModal.vue'
 import { mapState } from 'vuex'
 export default {
   name: 'App',
   components: {
-    Confirmation,
-    BookInfoModal
+    SuccessModal,
+    BookInfoModal,
+    WarningModal
   },
   computed: {
     viewClass () {
@@ -44,8 +49,7 @@ export default {
       return ''
     },
     ...mapState([
-      'confirmation',
-      'bookInfoModal'
+      'modal'
     ])
   }
 }

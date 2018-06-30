@@ -2,8 +2,8 @@
   <div class="confirmation-container modal__container layout-container">
     <div class="confirmation modal__row">
       <img class="icon" src="@/assets/done.svg" alt="success">
-      <h2 class="text hed2">{{ confirmation.text }}</h2>
-      <a @click="closeConfirmation"
+      <h2 class="text hed2">{{ modal.items.successModal.text }}</h2>
+      <a @click="closeModal"
       class="button large green">OK</a>
     </div>
   </div>
@@ -15,12 +15,12 @@ export default {
   name: 'Confirmation',
   computed: {
     ...mapState([
-      'confirmation'
+      'modal'
     ])
   },
   methods: {
     ...mapActions([
-      'closeConfirmation'
+      'closeModal'
     ])
   }
 }

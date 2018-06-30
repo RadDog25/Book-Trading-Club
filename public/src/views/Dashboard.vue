@@ -2,9 +2,9 @@
 
   <div id="page" class="site">
 
-    <transition name="fade">
-      <div v-if="deleteConfirmationIsActive" class="confirmation-container confirmation-container-warning layout-container">
-        <div class="confirmation">
+    <!-- <transition name="fade">
+      <div v-if="deleteConfirmationIsActive" class="confirmation-container confirmation-container-warning modal__container layout-container">
+        <div class="confirmation modal__row">
           <img class="icon" src="@/assets/close2red.svg" alt="success">
           <h3 class="text hed4">Are you sure that you want to remove <b><span v-html="bookToDeleteTitle"></span></b> from your library?</h3>
 
@@ -15,7 +15,7 @@
 
         </div>
       </div>
-    </transition>
+    </transition> -->
 
     <site-header/>
 
@@ -61,11 +61,10 @@
             <div class="user-books books">
               <div class="user-book-container book-container"
               v-for="book in user.books"
-              :key="book._id"
+              :key="`book-${book._id}`"
               >
                 <div class="user-book">
-                  <img :src="book.thumbnail"
-                  :alt="book.title">
+                  <book :book="book"></book>
 
                   <div class="remove-icon-container"
                   @click="handleRemoveClick(book)"
@@ -153,6 +152,7 @@ import SiteFooter from '@/components/SiteFooter'
 import UserPreview from '@/components/UserPreview'
 import Book from '@/components/Book'
 import { mapState, mapMutations, mapActions } from 'vuex'
+import User from '@/User.js'
 
 export default {
   name: 'Dashboard',
@@ -189,9 +189,6 @@ export default {
         return !this.libraryBookIds.includes(book.id)
       })
     },
-    bookToDeleteTitle () {
-      return this.bookToDelete.title.slice().replace(/ /g, '&nbsp;')
-    },
     ...mapState([
       'searchedBooks',
       'user'
@@ -211,7 +208,7 @@ export default {
         .then(response => {
           this.set({
             key: 'user',
-            value: response.data
+            value: new User(response.data)
           })
 
           this.selectedBooks = []
@@ -232,8 +229,13 @@ export default {
       }
     },
     handleRemoveClick (book) {
-      this.bookToDelete = book
-      this.deleteConfirmationIsActive = true
+      console.log(this.user)
+      console.log(this.user.hasTradeRequestForBook(book))
+      this.openModal({
+        modalName: 'warningModal',
+        text: '',
+        book
+      })
     },
     handleConfirmDeleteBook () {
       this.deleteBookFromUser()
@@ -261,7 +263,8 @@ export default {
       })
     },
     ...mapActions([
-      'getSearchedBooks'
+      'getSearchedBooks',
+      'openModal'
     ]),
     ...mapMutations([
       'set'

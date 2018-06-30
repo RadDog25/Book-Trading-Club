@@ -10,7 +10,9 @@ var bookPropertiesToSend = [
     'publishedDate',
     'publisher',
     'thumbnail',
-    'title'
+    'title',
+    'ratingsCount',
+    'averageRating'
 ];
 
 function getCleanBookInstance(bookInstance) {
@@ -21,8 +23,6 @@ function getCleanBookInstance(bookInstance) {
         user: getCleanUser(bookInstance.user),
         ...bookProperties
     }
-
-    // console.log(cleanBookInstance);
 
     return cleanBookInstance;
 }

@@ -13,7 +13,6 @@ function getCleanTradeRequest(tradeRequest) {
         book
     };
     
-    // console.log(tradeRequest.bookInstance);
     return cleanTradeRequest;
 }
 

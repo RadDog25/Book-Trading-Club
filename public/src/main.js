@@ -21,7 +21,8 @@ new Vue({
   template: '<App/>',
   computed: {
     modalIsActive () {
-      return store.state.bookInfoModal.isActive || store.state.confirmation.isActive
+      return !Object.values(store.state.modal.items)
+        .every(item => !item.isActive)
     }
   },
   watch: {

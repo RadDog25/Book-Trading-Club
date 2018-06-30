@@ -4,7 +4,8 @@ var mandatoryFields = [
     'thumbnail',
     'authors',
     'title',
-    'description'
+    'description',
+    'publishedDate'
 ];
 
 function getBooks(query) {

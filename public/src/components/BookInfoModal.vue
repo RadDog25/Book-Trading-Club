@@ -3,7 +3,25 @@
     <div class="bookInfoModal modal__row">
 
       <div class="bookInfoModal__thumbnailContainer">
-        <img :src="book.thumbnail" alt="" class="bookInfoModal__thumbnail">
+
+        <div class="bookInfoModal__thumbnailWrapper">
+          <img :src="book.thumbnail" alt="" class="bookInfoModal__thumbnail">
+        </div>
+
+        <div class="bookInfoModal__thumbnailOverlayContainer">
+          <div class="bookInfoModal__thumbnailOverlay">
+              <star-rating v-if="book.ratingsCount"
+              :averageRating="book.averageRating"
+              ></star-rating>
+
+              <a :href="book.link" class="bookInfoModal__reviewsButton button"
+              target="_blank"
+              >
+                Reviews
+              </a>
+          </div>
+        </div>
+
       </div>
 
       <div class="bookInfoModal__info">
@@ -16,17 +34,19 @@
         </div>
 
         <div class="bookInfoModal__shortenedDescription">
-          {{ shortenedDescription }}
+          {{ book.getExcerpt(200) }}
         </div>
 
-        <a :href="book.link" class="bookInfoModal__linkContainer">
+        <a :href="book.link"
+        target="_blank"
+        class="bookInfoModal__linkContainer">
           <img :src="linkIcon" class="bookInfoModal__linkImage hover-opacity">
         </a>
 
       </div>
 
       <a class="bookInfoModal__closeIcon normal-link"
-      @click="closeBookInfoModal"
+      @click="closeModal"
       >&times;</a>
 
     </div>
@@ -36,23 +56,21 @@
 
 <script>
 import { mapState, mapActions } from 'vuex'
+import StarRating from '@/components/StarRating'
 export default {
   name: 'bookInfoModal',
+  components: {
+    StarRating
+  },
   computed: {
     ...mapState([
-      'bookInfoModal'
+      'modal'
     ]),
     book () {
-      return this.bookInfoModal.book
-    },
-    shortenedDescription () {
-      return `${this.book.description.substring(0, 200)}...`
-    },
-    linkIsGooglePlay () {
-      return this.book.link.includes('market.android.com')
+      return this.modal.items.bookInfoModal.book
     },
     linkIcon () {
-      if (this.linkIsGooglePlay) {
+      if (this.book.linkIsGooglePlay) {
         return require('@/assets/googleplay.svg')
       }
 
@@ -61,7 +79,7 @@ export default {
   },
   methods: {
     ...mapActions([
-      'closeBookInfoModal'
+      'closeModal'
     ])
   }
 }

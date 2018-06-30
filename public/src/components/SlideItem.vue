@@ -10,7 +10,9 @@
           :src="book.thumbnail"
           >
 
-          <div class="info">
+          <div class="info"
+          @click.self="handleClick"
+          >
 
             <div class="title">
               {{ book.title }}
@@ -22,24 +24,17 @@
 
             <div class="details">
 
-              <div v-if="book.ratingsCount" class="rating">
+              <star-rating v-if="book.ratingsCount"
+              :averageRating="book.averageRating"
+              ></star-rating>
 
-                <i v-for="i in numberOfFullStars"
-                :key="i"
-                class="fa fa-star" aria-hidden="true"></i>
-
-                <i v-if="hasHalfStar"
-                class="fa fa-star-half-o" aria-hidden="true"></i>
-
-              </div>
-
-              <div v-if="publishedYear" class="year">
-                {{ publishedYear }}
+              <div class="year">
+                {{ book.getPublishedDate().getFullYear() }}
               </div>
 
             </div>
 
-            <div v-if="excerpt" class="excerpt">{{ excerpt }}</div>
+            <div class="excerpt">{{ book.getExcerpt(100) }}</div>
 
             <div class="more-info-button-container">
               <i @click="handleMoreInfoClick"
@@ -54,9 +49,14 @@
 </template>
 
 <script>
+import StarRating from '@/components/StarRating'
+import { mapActions } from 'vuex'
 
 export default {
   name: 'SlideItem',
+  components: {
+    StarRating
+  },
   props: [
     'book',
     'index',
@@ -78,21 +78,12 @@ export default {
           return 'hover-after'
         }
       }
-    },
-    excerpt () {
-      if (this.book.description) return `${this.book.description.substring(0, 100)}...`
-    },
-    numberOfFullStars () {
-      if (this.book.averageRating) return Math.floor(this.book.averageRating)
-    },
-    hasHalfStar () {
-      if (this.book.averageRating) return this.book.averageRating.toString().includes('.5')
-    },
-    publishedYear () {
-      if (this.book.publishedDate) return this.book.publishedDate.slice(0, 4)
     }
   },
   methods: {
+    ...mapActions([
+      'openModal'
+    ]),
     mouseenter () {
       this.$emit('mouseDidEnterSlide', this.index)
     },
@@ -101,8 +92,14 @@ export default {
     },
     handleMoreInfoClick () {
       this.$emit('moreInfoWasClicked', this.index)
+    },
+    handleClick () {
+      this.openModal({
+        modalName: 'bookInfoModal',
+        text: '',
+        book: this.book
+      })
     }
-
   }
 }
 </script>

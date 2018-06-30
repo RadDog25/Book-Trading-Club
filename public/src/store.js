@@ -1,20 +1,29 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import Book from './Book'
+import User from './User'
 
 Vue.use(Vuex)
+
+const inactiveModal = {
+  isActive: false,
+  text: '',
+  book: {}
+}
+
+const initialModalItems = {
+  successModal: inactiveModal,
+  warningModal: inactiveModal,
+  bookInfoModal: inactiveModal
+}
 
 const store = new Vuex.Store({
   state: {
     user: null,
     searchedBooks: [],
     availableBooks: [],
-    confirmation: {
-      isActive: false,
-      text: ''
-    },
-    bookInfoModal: {
-      isActive: false,
-      book: {}
+    modal: {
+      items: initialModalItems
     }
   },
   mutations: {
@@ -23,29 +32,24 @@ const store = new Vuex.Store({
     }
   },
   actions: {
-    openConfirmation ({ commit, state }, text) {
-      state.confirmation = {
-        isActive: true,
-        text
-      }
+    closeModal ({ commit, state }) {
+      state.modal.items = window.deepClone(initialModalItems)
     },
-    closeConfirmation ({ commit, state }) {
-      state.confirmation.isActive = false
-    },
-    openBookInfoModal ({ commit, state }, book) {
-      state.bookInfoModal = {
+    openModal ({ commit, state }, { modalName, text, book }) {
+      const newModal = window.deepClone(state.modal)
+      newModal.items[modalName] = {
         isActive: true,
+        text,
         book
       }
-    },
-    closeBookInfoModal ({ commit, state }) {
-      state.bookInfoModal.isActive = false
+
+      state.modal = newModal
     },
     getUser ({ commit, state }) {
       return new Promise((resolve, reject) => {
         window.axios.get('/api/user')
           .then(response => {
-            state.user = response.data
+            state.user = new User(response.data)
             resolve()
           })
           .catch(error => {
@@ -54,13 +58,15 @@ const store = new Vuex.Store({
       })
     },
     getSearchedBooks ({ commit, state }, searchText) {
+      console.log(searchText)
       window.axios.get('/api/books', {
         params: {
           searchText
         }
       })
         .then(response => {
-          state.searchedBooks = response.data
+          console.log(response)
+          state.searchedBooks = response.data.map(book => new Book(book))
         })
     },
     getAvailableBooks ({ commit, state }, searchText) {
@@ -70,8 +76,7 @@ const store = new Vuex.Store({
         }
       })
         .then(response => {
-          state.availableBooks = response.data
-          console.log(response.data)
+          state.availableBooks = response.data.map(book => new Book(book))
         })
     }
   }

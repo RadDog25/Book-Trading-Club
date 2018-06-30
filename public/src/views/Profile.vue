@@ -136,7 +136,11 @@ export default {
         .then(response => {
           this.changePasswordErrors = {}
           console.log('success')
-          this.openConfirmation('Password updated')
+          this.openModal({
+            modalName: 'successModal',
+            text: 'Password updated',
+            book: {}
+          })
         })
         .catch(changePasswordErrors => {
           this.changePasswordErrors = changePasswordErrors.response.data
@@ -152,12 +156,17 @@ export default {
       })
         .then(response => {
           this.changeLocationErrors = {}
+
           this.set({
             key: 'user',
             value: response.data
           })
 
-          this.openConfirmation('Location updated')
+          this.openModal({
+            modalName: 'successModal',
+            text: 'Location updated',
+            book: {}
+          })
         })
         .catch(changeLocationErrors => {
           this.changeLocationErrors = changeLocationErrors.response.data
@@ -168,7 +177,8 @@ export default {
       'set'
     ]),
     ...mapActions([
-      'openConfirmation'
+      'openModal',
+      'closeModal'
     ])
   }
 }
