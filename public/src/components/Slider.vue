@@ -20,13 +20,10 @@
         :key="`${book.title}-${index}`"
         >
           <slide-item
-          @mouseDidEnterSlide="mouseDidEnterSlide"
-          @mouseDidLeaveSlide="mouseDidLeaveSlide"
           @moreInfoWasClicked="handleMoreInfoClick"
           :class="{ 'active': index === moreInfoIndex }"
           :book="book"
           :index="index"
-          :slideHoverIndex="slideHoverIndex"
           ></slide-item>
         </slide>
 
@@ -54,7 +51,6 @@ import velocity from 'velocity-animate'
 
 const initialData = {
   page: 0,
-  slideHoverIndex: null,
   moreInfoIsActive: false,
   moreInfoIndex: null
 }
@@ -84,12 +80,6 @@ export default {
     pageChange (page) {
       console.log(page)
       this.page = page
-    },
-    mouseDidEnterSlide (index) {
-      this.slideHoverIndex = index
-    },
-    mouseDidLeaveSlide (index) {
-      this.slideHoverIndex = null
     },
     resetData () {
       Object.keys(initialData).forEach(key => {

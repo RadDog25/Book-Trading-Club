@@ -1,8 +1,5 @@
 <template>
     <div class="slide-container"
-    :class="hoverClass"
-    @mouseenter="mouseenter"
-    @mouseleave="mouseleave"
     @click="handleClick"
     >
         <div class="slide">
@@ -58,24 +55,12 @@ export default {
   },
   props: [
     'book',
-    'index',
-    'slideHoverIndex'
+    'index'
   ],
   computed: {
     styleObject () {
       return {
         backgroundImage: `url('${this.book.thumbnail}')`
-      }
-    },
-    hoverClass () {
-      if (typeof this.slideHoverIndex === 'number') {
-        if (this.index < this.slideHoverIndex) {
-          return 'hover-before'
-        } else if (this.index === this.slideHoverIndex) {
-          return 'hover-active'
-        } else {
-          return 'hover-after'
-        }
       }
     }
   },
@@ -83,12 +68,6 @@ export default {
     ...mapActions([
       'openModal'
     ]),
-    mouseenter () {
-      this.$emit('mouseDidEnterSlide', this.index)
-    },
-    mouseleave () {
-      this.$emit('mouseDidLeaveSlide', this.index)
-    },
     handleMoreInfoClick () {
       this.$emit('moreInfoWasClicked', this.index)
     },
