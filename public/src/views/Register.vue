@@ -24,7 +24,7 @@
 
             <label for="email">Email</label>
 
-            <input v-model="username" type="text" id="email" name="email">
+            <input ref="username" v-model="username" type="text" id="email" name="email">
 
             <div class="error" v-if="errors.username">{{ errors.username }}</div>
 
@@ -86,6 +86,11 @@ export default {
           console.log(errors.response.data)
         })
     }
+  },
+  mounted () {
+    setTimeout(() => {
+      this.$refs.username.focus()
+    }, 0)
   }
 }
 </script>
