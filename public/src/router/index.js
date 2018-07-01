@@ -8,6 +8,7 @@ import Books from '@/views/Books'
 import Dashboard from '@/views/Dashboard'
 import Profile from '@/views/Profile'
 import store from '@/store.js'
+import Api from '@/Api.js'
 
 Vue.use(Router)
 
@@ -82,8 +83,9 @@ const router = new Router({
 router.beforeEach((to, from, next) => {
   console.log(to.path, from.path)
 
-  store.dispatch('getUser')
-    .then(() => {
+  Api.getUserData()
+    .then(userData => {
+      store.commit('setUser', userData)
       if (!to.meta.allowLoggedIn) {
         console.log('to browse')
         router.push('browse')
@@ -91,7 +93,8 @@ router.beforeEach((to, from, next) => {
         next()
       }
     })
-    .catch(() => {
+    .catch(error => {
+      console.error(error)
       if (!to.meta.allowLoggedOut) {
         console.log('to home')
         router.push('/')

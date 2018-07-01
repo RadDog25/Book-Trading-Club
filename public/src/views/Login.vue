@@ -56,6 +56,7 @@
 import { mapMutations } from 'vuex'
 import SiteBranding from '@/components/SiteBranding'
 import SiteFooter from '@/components/SiteFooter'
+import Api from '@/Api'
 
 export default {
   name: 'Login',
@@ -72,16 +73,10 @@ export default {
   },
   methods: {
     onSubmit () {
-      window.axios.post('/api/login', {
-        username: this.username,
-        password: this.password
-      })
-        .then(response => {
+      Api.login(this.username, this.password)
+        .then(userData => {
           this.errors = {}
-          this.set({
-            key: 'user',
-            value: response.data
-          })
+          this.setUser(userData)
           this.$router.push('browse')
         })
         .catch(errors => {
@@ -90,7 +85,7 @@ export default {
         })
     },
     ...mapMutations([
-      'set'
+      'setUser'
     ])
   }
 }

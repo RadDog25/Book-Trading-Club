@@ -1,29 +1,53 @@
+
+import axios from 'axios'
+
 class Api {
-  static getUserData () {
+  static login (username, password) {
     return new Promise((resolve, reject) => {
-      window.axios.get('/api/user')
+      axios.post('/api/login', {
+        username,
+        password
+      })
         .then(response => {
           resolve(response.data)
+        })
+        .catch(error => {
+          reject(error)
+        })
+    })
+  }
+
+  static getUserData () {
+    return new Promise((resolve, reject) => {
+      axios.get('/api/user')
+        .then(response => {
+          resolve(response.data)
+        })
+        .catch(error => {
+          reject(error)
         })
     })
   }
 
   static getSearchedBooksData (searchText) {
     return new Promise((resolve, reject) => {
-      window.axios.get('/api/books', {
+      axios.get('/api/books', {
         params: {
           searchText
         }
       })
         .then(response => {
           resolve(response.data)
+        })
+        .catch(error => {
+          reject(error)
         })
     })
   }
 
   static getAvailableBooksData (searchText) {
     return new Promise((resolve, reject) => {
-      window.axios.get('/api/availablebooks', {
+      axios.get('/api/availablebooks', {
         params: {
           searchText
         }
@@ -31,46 +55,58 @@ class Api {
         .then(response => {
           resolve(response.data)
         })
+        .catch(error => {
+          reject(error)
+        })
     })
   }
 
   static updateAvatar (index) {
     return new Promise((resolve, reject) => {
-      window.axios.post('/api/changeavatar', {
+      axios.post('/api/changeavatar', {
         avatar: index
       })
         .then(response => {
           resolve(response.data)
+        })
+        .catch(error => {
+          reject(error)
         })
     })
   }
 
   static requestTrade (book, requesterId) {
     return new Promise((resolve, reject) => {
-      window.axios.post('/api/requesttrade', {
+      axios.post('/api/requesttrade', {
         book,
         requesterId
       })
         .then(() => {
           resolve()
         })
+        .catch(error => {
+          reject(error)
+        })
     })
   }
 
   static addBooks (books) {
     return new Promise((resolve, reject) => {
-      window.axios.post('/api/addbooks', {
+      axios.post('/api/addbooks', {
         books
       })
         .then(response => {
           resolve(response.data)
+        })
+        .catch(error => {
+          reject(error)
         })
     })
   }
 
   static deleteBook (book) {
     return new Promise((resolve, reject) => {
-      window.axios({
+      axios({
         method: 'delete',
         url: '/api/deletebook',
         data: {
@@ -79,6 +115,9 @@ class Api {
       })
         .then(response => {
           resolve(response.data)
+        })
+        .catch(error => {
+          reject(error)
         })
     })
   }
