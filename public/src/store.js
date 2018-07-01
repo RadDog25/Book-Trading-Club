@@ -72,6 +72,11 @@ const store = new Vuex.Store({
     deleteBook ({ commit }, book) {
       Api.deleteBook(book)
         .then(userData => commit('setUser', userData))
+    },
+    logout ({ commit, state }, router) {
+      router.push('login')
+      window.setCookie('token', null)
+      state.user = null
     }
   }
 })

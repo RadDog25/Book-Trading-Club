@@ -1,5 +1,5 @@
 <template>
-  <li v-if="user" class="main-menu-item dropdown-item">
+  <li class="main-menu-item dropdown-item">
 
     <router-link to="/profile">
       <img class="image" :src="imageSrc">
@@ -33,7 +33,7 @@
 </template>
 
 <script>
-import { mapState, mapMutations } from 'vuex'
+import { mapState, mapMutations, mapActions } from 'vuex'
 export default {
   name: 'SiteHeaderDropdown',
   computed: {
@@ -46,15 +46,13 @@ export default {
   },
   methods: {
     handleLogoutClick () {
-      window.setCookie('token', null)
-      this.set({
-        key: 'user',
-        value: null
-      })
-      this.$router.push('login')
+      this.logout(this.$router)
     },
     ...mapMutations([
-      'set'
+      'setUser'
+    ]),
+    ...mapActions([
+      'logout'
     ])
   }
 }

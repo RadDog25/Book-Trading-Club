@@ -39,7 +39,7 @@
           </form>
         </li>
 
-        <site-header-dropdown/>
+        <site-header-dropdown v-if="user"/>
 
       </ul>
     </nav>
@@ -50,7 +50,7 @@
 <script>
 import SiteHeaderDropdown from '@/components/SiteHeaderDropdown'
 import SiteBranding from '@/components/SiteBranding'
-import { mapActions } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 
 export default {
   name: 'SiteHeader',
@@ -67,7 +67,10 @@ export default {
   computed: {
     shouldShowSearch () {
       return this.$route.name === 'Browse'
-    }
+    },
+    ...mapState([
+      'user'
+    ])
   },
   methods: {
     toggleSearch () {

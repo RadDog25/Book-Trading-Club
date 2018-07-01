@@ -4,7 +4,7 @@
 
     <site-header/>
 
-    <div id="content" class="site-content layout-container">
+    <div v-if="user" id="content" class="site-content layout-container">
 
       <h1 class="hed1 heading-with-border layout-row">Profile</h1>
 
