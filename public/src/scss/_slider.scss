@@ -169,6 +169,10 @@
                         }
                     }
                 }
+
+                .VueCarousel-navigation--disabled {
+                    opacity: 0;
+                }
             }
 
             &.first-page {

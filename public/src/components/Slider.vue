@@ -8,7 +8,7 @@
       :paginationEnabled="false"
       :perPage="1"
       :perPageCustom="[[440, 2], [600, 3], [768, 4], [1024, 5], [1200, 7], [1400, 8], [1600, 10]]"
-      :loop="true"
+      :loop="false"
       :navigationClickTargetSize="0"
       :navigationNextLabel="`<i class='fa fa-angle-right'></i>`"
       :navigationPrevLabel="`<i class='fa fa-angle-left'></i>`"
@@ -82,6 +82,7 @@ export default {
   },
   methods: {
     pageChange (page) {
+      console.log(page)
       this.page = page
     },
     mouseDidEnterSlide (index) {
