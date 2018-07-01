@@ -99,6 +99,7 @@ import { mapState, mapMutations, mapActions } from 'vuex'
 import SiteHeader from '@/components/SiteHeader'
 import SiteFooter from '@/components/SiteFooter'
 import Avatars from '@/components/Avatars'
+import Api from '@/Api'
 
 export default {
   name: 'Login',
@@ -128,14 +129,9 @@ export default {
     submitChangePassword () {
       window.blurInputs()
 
-      window.axios.post('/api/changepassword', {
-        username: this.user.username,
-        oldPassword: this.oldPassword,
-        newPassword: this.newPassword
-      })
-        .then(response => {
+      Api.changePassword(this.user.username, this.oldPassword, this.newPassword)
+        .then(() => {
           this.changePasswordErrors = {}
-          console.log('success')
           this.openModal({
             modalName: 'successModal',
             text: 'Password updated',
@@ -150,17 +146,10 @@ export default {
     submitChangeLocation () {
       window.blurInputs()
 
-      window.axios.post('/api/changelocation', {
-        username: this.user.username,
-        location: this.location
-      })
-        .then(response => {
+      Api.changeLocation(this.user.username, this.location)
+        .then(userData => {
           this.changeLocationErrors = {}
-
-          this.set({
-            key: 'user',
-            value: response.data
-          })
+          this.setUser(userData)
 
           this.openModal({
             modalName: 'successModal',
@@ -174,7 +163,7 @@ export default {
         })
     },
     ...mapMutations([
-      'set'
+      'setUser'
     ]),
     ...mapActions([
       'openModal',

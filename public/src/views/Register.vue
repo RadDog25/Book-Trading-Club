@@ -59,6 +59,7 @@
 <script>
 import SiteBranding from '@/components/SiteBranding'
 import SiteFooter from '@/components/SiteFooter'
+import Api from '@/Api'
 
 export default {
   name: 'Register',
@@ -75,13 +76,9 @@ export default {
   },
   methods: {
     onSubmit () {
-      window.axios.post('/api/register', {
-        username: this.username,
-        password: this.password
-      })
-        .then(response => {
+      Api.register(this.username, this.password)
+        .then(() => {
           this.errors = {}
-          console.log(response.data)
           this.$router.push('login')
         })
         .catch(errors => {

@@ -2,6 +2,20 @@
 import axios from 'axios'
 
 class Api {
+  static register (username, password) {
+    return new Promise((resolve, reject) => {
+      axios.post('/api/register', {
+        username,
+        password
+      })
+        .then(response => {
+          resolve(response.data)
+        })
+        .catch(error => {
+          reject(error)
+        })
+    })
+  }
   static login (username, password) {
     return new Promise((resolve, reject) => {
       axios.post('/api/login', {
@@ -20,6 +34,37 @@ class Api {
   static getUserData () {
     return new Promise((resolve, reject) => {
       axios.get('/api/user')
+        .then(response => {
+          resolve(response.data)
+        })
+        .catch(error => {
+          reject(error)
+        })
+    })
+  }
+
+  static changePassword (username, oldPassword, newPassword) {
+    return new Promise((resolve, reject) => {
+      axios.post('/api/changepassword', {
+        username,
+        oldPassword,
+        newPassword
+      })
+        .then(response => {
+          resolve(response.data)
+        })
+        .catch(error => {
+          reject(error)
+        })
+    })
+  }
+
+  static changeLocation (username, location) {
+    return new Promise((resolve, reject) => {
+      axios.post('/api/changelocation', {
+        username,
+        location
+      })
         .then(response => {
           resolve(response.data)
         })
