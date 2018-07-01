@@ -122,7 +122,7 @@ export default {
           easing: 'ease-out',
           duration: 500
         })
-      })
+      }, 0)
     },
     handleMoreInfoClick (index) {
       if (this.moreInfoIndex === index) {

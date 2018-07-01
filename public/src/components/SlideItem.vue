@@ -3,6 +3,7 @@
     :class="hoverClass"
     @mouseenter="mouseenter"
     @mouseleave="mouseleave"
+    @click="handleClick"
     >
         <div class="slide">
 
@@ -11,7 +12,6 @@
           >
 
           <div class="info"
-          @click.self="handleClick"
           >
 
             <div class="title">
@@ -37,8 +37,7 @@
             <div class="excerpt">{{ book.getExcerpt(100) }}</div>
 
             <div class="more-info-button-container">
-              <i @click="handleMoreInfoClick"
-              href="#slider"
+              <i href="#slider"
               class="more-info-button fa fa-angle-down"></i>
             </div>
 
@@ -93,12 +92,17 @@ export default {
     handleMoreInfoClick () {
       this.$emit('moreInfoWasClicked', this.index)
     },
-    handleClick () {
-      this.openModal({
-        modalName: 'bookInfoModal',
-        text: '',
-        book: this.book
-      })
+    handleClick (event) {
+      const classes = [ ...event.target.classList ]
+      if (classes.includes('more-info-button')) {
+        this.handleMoreInfoClick()
+      } else {
+        this.openModal({
+          modalName: 'bookInfoModal',
+          text: '',
+          book: this.book
+        })
+      }
     }
   }
 }
