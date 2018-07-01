@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import { mapState, mapMutations } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 export default {
   name: 'Avatars',
   data () {
@@ -36,22 +36,10 @@ export default {
   },
   methods: {
     handleClick (index) {
-      window.axios.post('/api/changeavatar', {
-        avatar: index
-      })
-        .then(response => {
-          this.set({
-            key: 'user',
-            value: response.data
-          })
-          console.log('success')
-        })
-        .catch(error => {
-          console.log(error)
-        })
+      this.updateAvatar(index)
     },
-    ...mapMutations([
-      'set'
+    ...mapActions([
+      'updateAvatar'
     ])
   }
 }

@@ -14,7 +14,7 @@ router.delete('/', passport.authenticate('jwt', { session: false }), function(re
         var user = req.user;
 
         TradeRequest.findOneAndRemove({ bookInstance: bookToDelete._id }, function(err, bookInstance) {
-            console.log(bookInstance);
+            console.log(err, bookInstance);
 
             BookInstance.findByIdAndRemove(bookToDelete._id, function(err) {
                 if (err) {

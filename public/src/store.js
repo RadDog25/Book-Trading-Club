@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import Book from './Book'
 import User from './User'
+import Api from './Api'
 
 Vue.use(Vuex)
 
@@ -29,6 +30,9 @@ const store = new Vuex.Store({
   mutations: {
     set (state, { key, value }) {
       state[key] = value
+    },
+    setUser (state, userData) {
+      state.user = new User(userData)
     }
   },
   actions: {
@@ -45,39 +49,29 @@ const store = new Vuex.Store({
 
       state.modal = newModal
     },
-    getUser ({ commit, state }) {
-      return new Promise((resolve, reject) => {
-        window.axios.get('/api/user')
-          .then(response => {
-            state.user = new User(response.data)
-            resolve()
-          })
-          .catch(error => {
-            reject(error)
-          })
-      })
+    getUser ({ commit }) {
+      Api.getUserData()
+        .then(userData => commit('setUser', userData))
     },
     getSearchedBooks ({ commit, state }, searchText) {
-      console.log(searchText)
-      window.axios.get('/api/books', {
-        params: {
-          searchText
-        }
-      })
-        .then(response => {
-          console.log(response)
-          state.searchedBooks = response.data.map(book => new Book(book))
+      Api.getSearchedBooksData(searchText)
+        .then(searchedBooksData => {
+          state.searchedBooks = searchedBooksData.map(bookData => new Book(bookData))
         })
     },
     getAvailableBooks ({ commit, state }, searchText) {
-      window.axios.get('/api/availablebooks', {
-        params: {
-          searchText
-        }
-      })
-        .then(response => {
-          state.availableBooks = response.data.map(book => new Book(book))
+      Api.getAvailableBooksData(searchText)
+        .then(availableBooksData => {
+          state.availableBooks = availableBooksData.map(bookData => new Book(bookData))
         })
+    },
+    updateAvatar ({ commit }, index) {
+      Api.updateAvatar(index)
+        .then(userData => commit('setUser', userData))
+    },
+    deleteBook ({ commit }, book) {
+      Api.deleteBook(book)
+        .then(userData => commit('setUser', userData))
     }
   }
 })

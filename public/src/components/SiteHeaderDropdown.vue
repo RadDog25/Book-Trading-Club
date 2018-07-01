@@ -1,5 +1,5 @@
 <template>
-  <li class="main-menu-item dropdown-item">
+  <li v-if="user" class="main-menu-item dropdown-item">
 
     <router-link to="/profile">
       <img class="image" :src="imageSrc">
@@ -36,11 +36,6 @@
 import { mapState, mapMutations } from 'vuex'
 export default {
   name: 'SiteHeaderDropdown',
-  data () {
-    return {
-
-    }
-  },
   computed: {
     imageSrc () {
       return require(`@/assets/profile${this.user.avatar + 1}.png`)

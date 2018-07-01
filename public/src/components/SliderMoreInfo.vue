@@ -68,6 +68,7 @@ import velocity from 'velocity-animate'
 import { mapState, mapActions } from 'vuex'
 import UserPreview from '@/components/UserPreview'
 import Book from '@/components/Book'
+import Api from '@/Api'
 
 export default {
   name: 'SliderMoreInfo',
@@ -147,19 +148,13 @@ export default {
       }, 0)
     },
     handleRequestConfirmation () {
-      window.axios.post('/api/requesttrade', {
-        book: this.book,
-        requesterId: this.user._id
-      })
+      Api.requestTrade(this.book, this.user._id)
         .then(response => {
           this.openModal({
             modalName: 'successModal',
             text: 'Your request has been sent!',
             book: {}
           })
-        })
-        .catch(error => {
-          console.log(error)
         })
     }
   }

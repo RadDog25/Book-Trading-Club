@@ -2,21 +2,6 @@
 
   <div id="page" class="site">
 
-    <!-- <transition name="fade">
-      <div v-if="deleteConfirmationIsActive" class="confirmation-container confirmation-container-warning modal__container layout-container">
-        <div class="confirmation modal__row">
-          <img class="icon" src="@/assets/close2red.svg" alt="success">
-          <h3 class="text hed4">Are you sure that you want to remove <b><span v-html="bookToDeleteTitle"></span></b> from your library?</h3>
-
-          <div class="buttons-container">
-            <a @click="handleConfirmDeleteBook" class="button large">Delete</a>
-            <a @click="deleteConfirmationIsActive = false" class="button large gray">Cancel</a>
-          </div>
-
-        </div>
-      </div>
-    </transition> -->
-
     <site-header/>
 
     <div id="content" class="site-content layout-container">
@@ -60,7 +45,7 @@
           <div class="dashboard-column dashboard-column-right">
             <div class="user-books books">
               <div class="user-book-container book-container"
-              v-for="book in user.books"
+              v-for="book in userBooks"
               :key="`book-${book._id}`"
               >
                 <div class="user-book">
@@ -127,7 +112,7 @@
 
           <div class="dashboard-column dashboard-column-right">
             <div class="tradeRequests">
-              <div v-for="(request, index) in user.tradeRequests" class="tradeRequest"
+              <div v-for="(request, index) in tradeRequests" class="tradeRequest"
               :key="index"
               >
                 <user-preview :user="request.requester"></user-preview>
@@ -151,8 +136,8 @@ import SiteHeader from '@/components/SiteHeader'
 import SiteFooter from '@/components/SiteFooter'
 import UserPreview from '@/components/UserPreview'
 import Book from '@/components/Book'
+import Api from '@/Api'
 import { mapState, mapMutations, mapActions } from 'vuex'
-import User from '@/User.js'
 
 export default {
   name: 'Dashboard',
@@ -189,6 +174,12 @@ export default {
         return !this.libraryBookIds.includes(book.id)
       })
     },
+    userBooks () {
+      return this.user ? this.user.books : []
+    },
+    tradeRequests () {
+      return this.user ? this.user.tradeRequests : []
+    },
     ...mapState([
       'searchedBooks',
       'user'
@@ -202,15 +193,9 @@ export default {
       this.searchIsActive = false
     },
     handleAddBooksClick (books) {
-      window.axios.post('/api/addbooks', {
-        books: this.selectedBooks
-      })
-        .then(response => {
-          this.set({
-            key: 'user',
-            value: new User(response.data)
-          })
-
+      Api.addBooks(this.selectedBooks)
+        .then(userData => {
+          this.setUser(userData)
           this.selectedBooks = []
         })
     },
@@ -229,7 +214,6 @@ export default {
       }
     },
     handleRemoveClick (book) {
-      console.log(this.user)
       console.log(this.user.hasTradeRequestForBook(book))
       this.openModal({
         modalName: 'warningModal',
@@ -238,36 +222,18 @@ export default {
       })
     },
     handleConfirmDeleteBook () {
-      this.deleteBookFromUser()
+      this.deleteBook(this.bookToDelete)
         .then(() => {
           this.deleteConfirmationIsActive = false
         })
     },
-    deleteBookFromUser () {
-      return new Promise((resolve, reject) => {
-        window.axios({
-          method: 'delete',
-          url: '/api/deletebook',
-          data: {
-            book: this.bookToDelete
-          }
-        })
-          .then(response => {
-            this.set({
-              key: 'user',
-              value: response.data
-            })
-
-            resolve()
-          })
-      })
-    },
+    ...mapMutations([
+      'setUser'
+    ]),
     ...mapActions([
       'getSearchedBooks',
-      'openModal'
-    ]),
-    ...mapMutations([
-      'set'
+      'openModal',
+      'deleteBook'
     ])
   }
 }

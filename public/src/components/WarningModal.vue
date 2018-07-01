@@ -14,8 +14,7 @@
 </template>
 
 <script>
-import { mapState, mapMutations, mapActions } from 'vuex'
-import User from '../User.js'
+import { mapState, mapActions } from 'vuex'
 export default {
   name: 'WarningModal',
   computed: {
@@ -27,37 +26,15 @@ export default {
     }
   },
   methods: {
-    ...mapMutations([
-      'set'
-    ]),
     ...mapActions([
       'closeModal',
-      'delete'
+      'deleteBook'
     ]),
     handleConfirmDeleteBook () {
-      this.deleteBookFromUser()
+      this.deleteBook(this.book)
         .then(() => {
           this.closeModal()
         })
-    },
-    deleteBookFromUser () {
-      return new Promise((resolve, reject) => {
-        window.axios({
-          method: 'delete',
-          url: '/api/deletebook',
-          data: {
-            book: this.book
-          }
-        })
-          .then(response => {
-            this.set({
-              key: 'user',
-              value: new User(response.data)
-            })
-
-            resolve()
-          })
-      })
     }
   }
 }
