@@ -1,33 +1,23 @@
 <template>
-  <div class="slider-container"
-  :class="{ 'more-info-is-active': moreInfoIsActive }"
+  <div class="slider__container slider-container"
+  :class="{ 'more-info-is-active active': moreInfoIsActive }"
   ref="slider"
   >
     <div class="slider">
-      <carousel :navigationEnabled="true"
-      :paginationEnabled="false"
-      :perPage="1"
-      :perPageCustom="[[440, 2], [600, 3], [768, 4], [1024, 5], [1200, 7], [1400, 8], [1600, 10]]"
-      :loop="false"
-      :navigationClickTargetSize="0"
-      :navigationNextLabel="`<i class='fa fa-angle-right'></i>`"
-      :navigationPrevLabel="`<i class='fa fa-angle-left'></i>`"
-      :scrollPerPage="true"
-      @pageChange="pageChange"
-      :class="{ 'first-page': page === 0 }"
-      >
-        <slide v-for="(book, index) in books"
-        :key="`${book.title}-${index}`"
-        >
-          <slide-item
-          @moreInfoWasClicked="handleMoreInfoClick"
-          :class="{ 'active': index === moreInfoIndex }"
-          :book="book"
-          :index="index"
-          ></slide-item>
-        </slide>
 
-      </carousel>
+      <div class="slider__slidesContainer">
+        <ul class="slider__slides js-slider">
+          <li v-for="(book, index) in books"
+          :key="`${book.title}-${index}`"
+          class="slider__slideContainer">
+            <slide-item :class="{ 'active': moreInfoIsActive && index === moreInfoIndex }"
+            @moreInfoWasClicked="handleMoreInfoClick"
+            :book="book"
+            :index="index"
+            ></slide-item>
+          </li>
+        </ul>
+      </div>
 
     </div>
 
@@ -48,6 +38,8 @@ import { Carousel, Slide } from 'vue-carousel'
 import SlideItem from '@/components/SlideItem'
 import SliderMoreInfo from '@/components/SliderMoreInfo'
 import velocity from 'velocity-animate'
+import jquery from 'jquery'
+import 'slick-carousel'
 
 const initialData = {
   page: 0,
@@ -125,6 +117,70 @@ export default {
       this.scrollToTop()
       this.slideInMoreInfo()
     }
+  },
+  mounted () {
+    setTimeout(() => {
+      jquery('.js-slider').slick({
+        dots: false,
+        infinite: true,
+        speed: 400,
+        prevArrow: "<div class='slider__arrowContainer slider__arrowContainer--prev'><div class='slider__arrowWrapper'><i class='slider__arrow fa fa-angle-left'></i></div></div>",
+        nextArrow: "<div class='slider__arrowContainer slider__arrowContainer--next'><div class='slider__arrowWrapper'><i class='slider__arrow fa fa-angle-right'></i></div></div>",
+        slidesToShow: 10,
+        slidesToScroll: 10,
+        responsive: [
+          {
+            breakpoint: 1600,
+            settings: {
+              slidesToShow: 8,
+              slidesToScroll: 8
+            }
+          },
+          {
+            breakpoint: 1400,
+            settings: {
+              slidesToShow: 7,
+              slidesToScroll: 7
+            }
+          },
+          {
+            breakpoint: 1200,
+            settings: {
+              slidesToShow: 5,
+              slidesToScroll: 5
+            }
+          },
+          {
+            breakpoint: 1000,
+            settings: {
+              slidesToShow: 4,
+              slidesToScroll: 4
+            }
+          },
+          {
+            breakpoint: 800,
+            settings: {
+              slidesToShow: 3,
+              slidesToScroll: 3
+            }
+          },
+          {
+            breakpoint: 600,
+            settings: {
+              slidesToShow: 2,
+              slidesToScroll: 2
+            }
+          },
+          {
+            breakpoint: 360,
+            settings: {
+              slidesToShow: 1,
+              slidesToScroll: 1
+            }
+          }
+        ]
+      })
+    }, 1000)
   }
 }
 </script>

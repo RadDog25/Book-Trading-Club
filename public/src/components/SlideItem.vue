@@ -1,41 +1,41 @@
 <template>
-    <div class="slide-container"
+    <div class="slide__container slide-container"
     @click="handleClick"
     >
-        <div class="slide">
+        <div class="slide__wrapper slide">
 
-          <img class="image"
+          <img class="slide__image image"
           :src="book.thumbnail"
           >
 
-          <div class="info"
+          <div class="slide__info info"
           >
 
-            <div class="title">
-              {{ book.title }}
+            <div class="slide__title title">
+              {{ book.getShortenedTitle(40) }}
             </div>
 
-            <div v-if="book.authors" class="authors">
+            <div v-if="book.authors" class="slide__authors authors">
               {{ book.authors.join(', ') }}
             </div>
 
-            <div class="details">
+            <div class="slide__details details">
 
               <star-rating v-if="book.ratingsCount"
               :averageRating="book.averageRating"
               ></star-rating>
 
-              <div class="year">
+              <div class="slide__year year">
                 {{ book.getPublishedDate().getFullYear() }}
               </div>
 
             </div>
 
-            <div class="excerpt">{{ book.getExcerpt(100) }}</div>
+            <div class="slide__excerpt excerpt">{{ book.getExcerpt(60) }}</div>
 
-            <div class="more-info-button-container">
+            <div class="slide__moreInfoButtonContainer more-info-button-container">
               <i href="#slider"
-              class="more-info-button fa fa-angle-down"></i>
+              class="slide__moreInfoButton more-info-button js-more-info-button fa fa-angle-down"></i>
             </div>
 
           </div>
@@ -73,7 +73,7 @@ export default {
     },
     handleClick (event) {
       const classes = [ ...event.target.classList ]
-      if (classes.includes('more-info-button')) {
+      if (classes.includes('js-more-info-button')) {
         this.handleMoreInfoClick()
       } else {
         this.openModal({

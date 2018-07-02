@@ -1,0 +1,85 @@
+.slider {
+    &__container {
+        margin-top: 3.5em;
+        &.active {
+            .slick-slide {
+                transform: scale(1.0) translate3d(0px, 0px, 0px) !important;
+            }
+
+            .slide__info {
+                transform: scale(1) translate3d(0px, 0px, 0px) !important;
+                padding: 1em 1em 0.5em;
+                font-size: 0.8em;
+            }
+        }
+    }
+
+    &__slidesContainer {
+        background-color: black;
+    }
+
+    &__slides {
+        position: relative;
+        .slick-list {
+            overflow: visible;
+        }
+
+        .slick-slide {
+            transition: $transition;
+            backface-visibility: hidden;
+            transform: scale(1.0) translate3d(0px, 0px, 0px);
+        }
+
+        &:hover {
+            .slick-slide {
+                transform: scale(1.0) translate3d(-12.5%, 0px, 0px);
+            }
+        }
+
+        .slick-slide:hover ~ .slick-slide {
+            transform: scale(1.0) translate3d(12.5%, 0px, 0px);
+        }
+
+        .slick-slide:hover {
+            transform: scale(1.25) translate3d(0px, 0px, 0px);
+            .slide__info {
+                transform: scale(0.8) translate3d(0px, 0px, 0px);
+            }
+        }
+    }
+
+    &__arrowContainer {
+        position: absolute;
+        top: 0px;
+        width: 40px;
+        height: 100%;
+        z-index: 2;
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+
+        &--prev {
+            right: 100%;
+        }
+
+        &--next {
+            left: 100%;
+        }
+
+        &:hover {
+            .slider__arrow {
+                transform: scale(1.25) translate3d(0px, 0px, 0px);
+            }
+        }
+    }
+
+    &__arrowWrapper {
+        transform: scale(1, 1.125);
+    }
+
+    &__arrow {
+        font-size: 4em;
+        transform: scale(1.0) translate3d(0px, 0px, 0px);
+        transition: transform 300ms ease;
+    }
+}

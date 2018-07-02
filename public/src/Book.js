@@ -22,6 +22,14 @@ class Book {
   linkIsGooglePlay () {
     return this.link.includes('market.android.com')
   }
+
+  getShortenedTitle (length) {
+    if (!length || length >= this.title.length) {
+      return this.title
+    }
+
+    return `${this.title.substring(0, length)}...`
+  }
 }
 
 export default Book

@@ -24,3 +24,7 @@ $desktop-nav-start: 940px;
 // rows
 $row-width: 1000px;
 $row-width-small: 460px;
+
+// transitions:
+$ease-in-out-quad: cubic-bezier(.455, .03, .515, .955);
+$transition: all 400ms $ease-in-out-quad 100ms;

@@ -1,3 +1,5 @@
+@import '../../node_modules/slick-carousel/slick/slick.scss';
+
 @import 'variables.scss';
 @import 'mixins.scss';
 @import 'global.scss';
@@ -8,6 +10,8 @@
 @import 'forms.scss';
 @import 'transitions.scss';
 @import 'slider.scss';
+@import 'slider2.scss';
+@import 'slide-item.scss';
 @import 'avatars.scss';
 @import 'confirmation.scss';
 @import 'dashboard-row.scss';
