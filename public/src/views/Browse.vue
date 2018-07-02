@@ -6,7 +6,7 @@
 
     <div id="content" class="site-content">
 
-      <slider :books="availableBooks"
+      <slider v-if="user" :books="availableBooks"
       ></slider>
 
     </div>
@@ -32,13 +32,9 @@ export default {
     Slider,
     Book
   },
-  data () {
-    return {
-
-    }
-  },
   computed: {
     ...mapState([
+      'user',
       'availableBooks'
     ])
   },
