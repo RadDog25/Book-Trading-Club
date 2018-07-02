@@ -1,6 +1,6 @@
 <template>
     <div class="slide__container slide-container"
-    @click="handleClick"
+    @click="handleMoreInfoClick"
     >
         <div class="slide__wrapper slide">
 
@@ -46,7 +46,6 @@
 
 <script>
 import StarRating from '@/components/StarRating'
-import { mapActions } from 'vuex'
 
 export default {
   name: 'SlideItem',
@@ -58,23 +57,8 @@ export default {
     'index'
   ],
   methods: {
-    ...mapActions([
-      'openModal'
-    ]),
     handleMoreInfoClick () {
       this.$emit('moreInfoWasClicked', this.index)
-    },
-    handleClick (event) {
-      const classes = [ ...event.target.classList ]
-      if (classes.includes('js-more-info-button')) {
-        this.handleMoreInfoClick()
-      } else {
-        this.openModal({
-          modalName: 'bookInfoModal',
-          text: '',
-          book: this.book
-        })
-      }
     }
   }
 }
