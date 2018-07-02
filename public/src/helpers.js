@@ -39,3 +39,11 @@ window.toggleBodyScrolling = function () {
 window.deepClone = function (object) {
   return JSON.parse(JSON.stringify(object))
 }
+
+window.getShortenedText = function (text, length) {
+  if (!length || length >= text.length) {
+    return text
+  }
+
+  return `${text.substring(0, length)}...`
+}

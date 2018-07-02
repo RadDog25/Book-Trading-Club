@@ -12,7 +12,7 @@
           >
 
             <div class="slide__title title">
-              {{ book.getShortenedTitle(40) }}
+              {{ book.getShortenedTitle(50) }}
             </div>
 
             <div v-if="book.authors" class="slide__authors authors">
@@ -57,13 +57,6 @@ export default {
     'book',
     'index'
   ],
-  computed: {
-    styleObject () {
-      return {
-        backgroundImage: `url('${this.book.thumbnail}')`
-      }
-    }
-  },
   methods: {
     ...mapActions([
       'openModal'

@@ -12,23 +12,15 @@ class Book {
   }
 
   getExcerpt (length) {
-    if (!length || length >= this.description.length) {
-      return this.description
-    }
+    return window.getShortenedText(this.description, length)
+  }
 
-    return `${this.description.substring(0, length)}...`
+  getShortenedTitle (length) {
+    return window.getShortenedText(this.title, length)
   }
 
   linkIsGooglePlay () {
     return this.link.includes('market.android.com')
-  }
-
-  getShortenedTitle (length) {
-    if (!length || length >= this.title.length) {
-      return this.title
-    }
-
-    return `${this.title.substring(0, length)}...`
   }
 }
 
