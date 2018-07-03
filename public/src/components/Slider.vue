@@ -21,9 +21,10 @@
 
     </div>
 
-    <transition name="fade">
+    <transition name="fade" mode="out-in">
       <slider-more-info v-if="moreInfoIsActive && books.length && Number.isInteger(moreInfoIndex)"
       :book="books[moreInfoIndex]"
+      :key="`${books[moreInfoIndex].id}`"
       @moreInfoCloseButtonWasClicked="moreInfoIsActive = false"
       ref="moreinfo"
       ></slider-more-info>
@@ -34,10 +35,10 @@
 </template>
 
 <script>
+import { mapState, mapMutations } from 'vuex'
 import { Carousel, Slide } from 'vue-carousel'
 import SlideItem from '@/components/SlideItem'
 import SliderMoreInfo from '@/components/SliderMoreInfo'
-import velocity from 'velocity-animate'
 import jquery from 'jquery'
 import 'slick-carousel'
 
@@ -63,6 +64,11 @@ export default {
       ...initialData
     }
   },
+  computed: {
+    ...mapState([
+      'isLoading'
+    ])
+  },
   watch: {
     books () {
       this.resetData()
@@ -70,7 +76,6 @@ export default {
   },
   methods: {
     pageChange (page) {
-      console.log(page)
       this.page = page
     },
     resetData () {
@@ -83,29 +88,6 @@ export default {
       const distanceToTop = this.$refs.slider.offsetTop
       window.scrollTo(0, distanceToTop + headerHeight)
     },
-    slideInMoreInfo () {
-      setTimeout(() => {
-        const el = this.$refs.moreinfo.$el
-        const left = el.querySelector('.left')
-        left.style.opacity = 0
-        const right = el.querySelector('.right')
-        velocity(left, {
-          translateX: ['0px', '30px'],
-          opacity: [1, 0]
-        }, {
-          easing: 'ease-out',
-          duration: 300,
-          delay: 300
-        })
-
-        velocity(right, {
-          opacity: [1, 0]
-        }, {
-          easing: 'ease-out',
-          duration: 500
-        })
-      }, 0)
-    },
     handleMoreInfoClick (index) {
       if (this.moreInfoIndex === index) {
         this.moreInfoIsActive = !this.moreInfoIsActive
@@ -115,12 +97,20 @@ export default {
       }
 
       this.scrollToTop()
-      this.slideInMoreInfo()
-    }
+    },
+    ...mapMutations([
+      'stopLoading'
+    ])
   },
   mounted () {
     setTimeout(() => {
-      jquery('.js-slider').slick({
+      const $slider = jquery('.js-slider')
+
+      $slider.on('init', () => {
+        this.stopLoading()
+      })
+
+      $slider.slick({
         dots: false,
         infinite: true,
         speed: 400,

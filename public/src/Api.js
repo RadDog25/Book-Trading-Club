@@ -166,6 +166,18 @@ class Api {
         })
     })
   }
+
+  static addStarterData () {
+    return new Promise((resolve, reject) => {
+      axios.post('/api/addstarterdata')
+        .then(response => {
+          resolve(response.data)
+        })
+        .catch(error => {
+          reject(error)
+        })
+    })
+  }
 }
 
 export default Api

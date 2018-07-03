@@ -60,6 +60,10 @@ var routes = [
   {
     module: require('./routes/requesttrade'),
     endpoint: '/api/requesttrade'
+  },
+  {
+    module: require('./routes/addstarterdata'),
+    endpoint: '/api/addstarterdata'
   }
 ];
 

@@ -7,6 +7,7 @@
     <div id="content" class="site-content">
 
       <slider v-if="user" :books="availableBooks"
+      :class="{ 'loading': isLoading }"
       ></slider>
 
     </div>
@@ -22,7 +23,8 @@ import SiteHeader from '@/components/SiteHeader'
 import SiteFooter from '@/components/SiteFooter'
 import Slider from '@/components/Slider'
 import Book from '@/components/Book'
-import { mapState, mapActions } from 'vuex'
+import Api from '@/Api'
+import { mapState, mapMutations } from 'vuex'
 
 export default {
   name: 'Browse',
@@ -35,15 +37,19 @@ export default {
   computed: {
     ...mapState([
       'user',
-      'availableBooks'
+      'availableBooks',
+      'isLoading'
     ])
   },
   created () {
-    this.getAvailableBooks()
+    Api.getAvailableBooksData()
+      .then(availableBooksData => {
+        this.setAvailableBooks(availableBooksData)
+      })
   },
   methods: {
-    ...mapActions([
-      'getAvailableBooks'
+    ...mapMutations([
+      'setAvailableBooks'
     ])
   }
 }

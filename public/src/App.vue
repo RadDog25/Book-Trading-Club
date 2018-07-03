@@ -3,6 +3,7 @@
   <div id="app"
 
   >
+    <loading-icon></loading-icon>
 
     <transition name="modal">
 
@@ -32,13 +33,15 @@
 import SuccessModal from '@/components/SuccessModal.vue'
 import WarningModal from '@/components/WarningModal.vue'
 import BookInfoModal from '@/components/BookInfoModal.vue'
+import LoadingIcon from '@/components/LoadingIcon.vue'
 import { mapState } from 'vuex'
 export default {
   name: 'App',
   components: {
     SuccessModal,
     BookInfoModal,
-    WarningModal
+    WarningModal,
+    LoadingIcon
   },
   computed: {
     viewClass () {

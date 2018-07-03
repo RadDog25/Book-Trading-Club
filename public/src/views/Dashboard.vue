@@ -121,8 +121,40 @@
           </div>
 
         </div>
-      </div>
 
+        <div class="dashboard-row-admin dashboard-row">
+
+          <div class="dashboard-column dashboard-column-left">
+            <h3 class="dashboard-column-title hed3">
+              ADMIN
+            </h3>
+          </div>
+
+          <div class="dashboard-column dashboard-column-right">
+
+            <div class="button-container">
+              <a class="button large">
+                DELETE TRADE REQUESTS
+              </a>
+            </div>
+
+            <div class="button-container">
+              <a class="button large">
+                DELETE EVERYTHING
+              </a>
+            </div>
+
+            <div class="button-container">
+              <a @click="handleAddStarterDataClick" class="button large">
+                ADD STARTER DATA
+              </a>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
     </div>
 
     <site-footer></site-footer>
@@ -193,10 +225,14 @@ export default {
       this.searchIsActive = false
     },
     handleAddBooksClick (books) {
+      this.startLoading()
       Api.addBooks(this.selectedBooks)
         .then(userData => {
           this.setUser(userData)
           this.selectedBooks = []
+        })
+        .finally(() => {
+          this.stopLoading()
         })
     },
     handleAddBooksToLibraryClick () {
@@ -227,14 +263,25 @@ export default {
           this.deleteConfirmationIsActive = false
         })
     },
+    handleAddStarterDataClick () {
+      Api.addStarterData()
+        .then(userData => {
+          console.log(userData)
+        })
+    },
     ...mapMutations([
-      'setUser'
+      'setUser',
+      'startLoading',
+      'stopLoading'
     ]),
     ...mapActions([
       'getSearchedBooks',
       'openModal',
       'deleteBook'
     ])
+  },
+  mounted () {
+    this.stopLoading()
   }
 }
 </script>

@@ -20,7 +20,8 @@ const router = new Router({
       component: Home,
       meta: {
         allowLoggedIn: false,
-        allowLoggedOut: true
+        allowLoggedOut: true,
+        handlesLoading: false
       }
     },
     {
@@ -29,7 +30,8 @@ const router = new Router({
       component: Browse,
       meta: {
         allowLoggedIn: true,
-        allowLoggedOut: false
+        allowLoggedOut: false,
+        handlesLoading: true
       }
     },
     {
@@ -38,7 +40,8 @@ const router = new Router({
       component: Register,
       meta: {
         allowLoggedIn: false,
-        allowLoggedOut: true
+        allowLoggedOut: true,
+        handlesLoading: false
       }
     },
     {
@@ -47,7 +50,8 @@ const router = new Router({
       component: Login,
       meta: {
         allowLoggedIn: false,
-        allowLoggedOut: true
+        allowLoggedOut: true,
+        handlesLoading: false
       }
     },
     {
@@ -56,7 +60,8 @@ const router = new Router({
       component: Books,
       meta: {
         allowLoggedIn: true,
-        allowLoggedOut: false
+        allowLoggedOut: false,
+        handlesLoading: false
       }
     },
     {
@@ -65,7 +70,8 @@ const router = new Router({
       component: Dashboard,
       meta: {
         allowLoggedIn: true,
-        allowLoggedOut: false
+        allowLoggedOut: false,
+        handlesLoading: true
       }
     },
     {
@@ -74,7 +80,8 @@ const router = new Router({
       component: Profile,
       meta: {
         allowLoggedIn: true,
-        allowLoggedOut: false
+        allowLoggedOut: false,
+        handlesLoading: true
       }
     }
   ]
@@ -82,24 +89,41 @@ const router = new Router({
 
 router.beforeEach((to, from, next) => {
   console.log(to.path, from.path)
+  store.commit('startLoading')
+
+  function handlePass (callback) {
+    if (!to.meta.handlesLoading) {
+      store.commit('stopLoading')
+    }
+
+    callback()
+  }
+
+  function handleLoggedInRedirect () {
+    if (to.path === '/' && from.path === '/browse') {
+      store.commit('stopLoading')
+    }
+
+    console.log('to browse')
+    router.push('browse')
+  }
 
   Api.getUserData()
     .then(userData => {
       store.commit('setUser', userData)
+
       if (!to.meta.allowLoggedIn) {
-        console.log('to browse')
-        router.push('browse')
+        handleLoggedInRedirect()
       } else {
-        next()
+        handlePass(next)
       }
     })
-    .catch(error => {
-      console.error(error)
+    .catch(() => {
       if (!to.meta.allowLoggedOut) {
         console.log('to home')
         router.push('/')
       } else {
-        next()
+        handlePass(next)
       }
     })
 })

@@ -122,9 +122,6 @@ export default {
       'user'
     ])
   },
-  beforeMount () {
-    if (this.user.location) this.location = this.user.location
-  },
   methods: {
     submitChangePassword () {
       window.blurInputs()
@@ -163,12 +160,19 @@ export default {
         })
     },
     ...mapMutations([
-      'setUser'
+      'setUser',
+      'stopLoading'
     ]),
     ...mapActions([
       'openModal',
       'closeModal'
     ])
+  },
+  beforeMount () {
+    if (this.user.location) this.location = this.user.location
+  },
+  mounted () {
+    this.stopLoading()
   }
 }
 </script>

@@ -1,0 +1,50 @@
+@keyframes fade-in-out {
+    0% {
+        background-color: $red;
+    }
+    0% {
+        background-color: $light-black;
+    }
+    33% {
+        background-color: $light-black;
+    }
+    33% {
+        background-color: $red;
+    }
+    100% {
+        background-color: $red;
+    }
+}
+
+$loading-duration: 2000ms;
+
+.loadingIcon {
+    &__container {
+        position: fixed;
+        top: 0px;
+        left: 0px;
+        z-index: 10000;
+        display: flex;
+        opacity: 0;
+        transition: opacity 300ms ease;
+        &.active {
+            opacity: 1;
+        }
+    }
+
+    &__square {
+        width: 6px;
+        height: 6px;
+        background-color: $red;
+        margin-right: 2px;
+        &:last-child {
+            margin-right: 0px;
+        }
+
+        @for $i from 1 through 3 {
+            &:nth-child(#{$i}) {
+                animation: fade-in-out #{$loading-duration} ease infinite #{$i * $loading-duration / 3};
+            }
+        }
+    }
+}

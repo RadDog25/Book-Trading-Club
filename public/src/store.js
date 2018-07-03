@@ -25,7 +25,8 @@ const store = new Vuex.Store({
     availableBooks: [],
     modal: {
       items: initialModalItems
-    }
+    },
+    isLoading: false
   },
   mutations: {
     set (state, { key, value }) {
@@ -33,6 +34,20 @@ const store = new Vuex.Store({
     },
     setUser (state, userData) {
       state.user = new User(userData)
+    },
+    startLoading (state) {
+      state.isLoading = true
+      console.log('started')
+    },
+    stopLoading (state) {
+      console.log('stopped')
+      state.isLoading = false
+    },
+    setSearchedBooks (state, booksData) {
+      state.searchedBooks = booksData.map(bookData => new Book(bookData))
+    },
+    setAvailableBooks (state, booksData) {
+      state.availableBooks = booksData.map(bookData => new Book(bookData))
     }
   },
   actions: {
@@ -50,28 +65,50 @@ const store = new Vuex.Store({
       state.modal = newModal
     },
     getUser ({ commit }) {
+      commit('startLoading')
       Api.getUserData()
-        .then(userData => commit('setUser', userData))
-    },
-    getSearchedBooks ({ commit, state }, searchText) {
-      Api.getSearchedBooksData(searchText)
-        .then(searchedBooksData => {
-          state.searchedBooks = searchedBooksData.map(bookData => new Book(bookData))
+        .then(userData => {
+          commit('setUser', userData)
+        })
+        .finally(() => {
+          commit('stopLoading')
         })
     },
-    getAvailableBooks ({ commit, state }, searchText) {
+    getSearchedBooks ({ commit }, searchText) {
+      commit('startLoading')
+      Api.getSearchedBooksData(searchText)
+        .then(searchedBooksData => {
+          commit('setSearchedBooks', searchedBooksData)
+        })
+        .finally(() => {
+          commit('stopLoading')
+        })
+    },
+    getAvailableBooks ({ commit }, searchText) {
+      commit('startLoading')
       Api.getAvailableBooksData(searchText)
         .then(availableBooksData => {
-          state.availableBooks = availableBooksData.map(bookData => new Book(bookData))
+          commit('setAvailableBooks', availableBooksData)
+        })
+        .finally(() => {
+          commit('stopLoading')
         })
     },
     updateAvatar ({ commit }, index) {
+      commit('startLoading')
       Api.updateAvatar(index)
         .then(userData => commit('setUser', userData))
+        .finally(() => {
+          commit('stopLoading')
+        })
     },
     deleteBook ({ commit }, book) {
+      commit('startLoading')
       Api.deleteBook(book)
         .then(userData => commit('setUser', userData))
+        .finally(() => {
+          commit('stopLoading')
+        })
     },
     logout ({ commit, state }, router) {
       router.push('login')
