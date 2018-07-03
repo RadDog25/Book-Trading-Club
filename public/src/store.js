@@ -9,12 +9,15 @@ Vue.use(Vuex)
 const inactiveModal = {
   isActive: false,
   text: '',
-  book: {}
+  confirmText: '',
+  closeText: '',
+  book: {},
+  isSuccess: false,
+  callback: null
 }
 
 const initialModalItems = {
-  successModal: inactiveModal,
-  warningModal: inactiveModal,
+  confirmationModal: inactiveModal,
   bookInfoModal: inactiveModal
 }
 
@@ -48,21 +51,31 @@ const store = new Vuex.Store({
     },
     setAvailableBooks (state, booksData) {
       state.availableBooks = booksData.map(bookData => new Book(bookData))
+    },
+    resetModal (state) {
+      state.modal.items = window.deepClone(initialModalItems)
+    },
+    setModal (state, { modalName, modalOptions }) {
+      const newModal = window.deepClone(state.modal)
+      newModal.items[modalName] = { isActive: true, ...modalOptions }
+      state.modal = newModal
     }
   },
   actions: {
-    closeModal ({ commit, state }) {
-      state.modal.items = window.deepClone(initialModalItems)
+    openBookInfoModal ({ commit }, modalOptions) {
+      commit('setModal', {
+        modalName: 'bookInfoModal',
+        modalOptions
+      })
     },
-    openModal ({ commit, state }, { modalName, text, book }) {
-      const newModal = window.deepClone(state.modal)
-      newModal.items[modalName] = {
-        isActive: true,
-        text,
-        book
-      }
-
-      state.modal = newModal
+    openConfirmationModal ({ commit }, modalOptions) {
+      commit('setModal', {
+        modalName: 'confirmationModal',
+        modalOptions
+      })
+    },
+    closeModal ({ commit }) {
+      commit('resetModal')
     },
     getUser ({ commit }) {
       commit('startLoading')

@@ -1,24 +1,33 @@
-.confirmation-container {
-    .confirmation {
-        background-color: $light-green;
-        border: 1px solid $green;
-        .icon {
-            width: 120px;
+.confirmation {
+    &__container--success {
+        .confirmation__row {
+            background-color: $light-green;
+            border: 1px solid $green;
         }
 
-        .text {
-            color: $black;
-            font-weight: 400;
-            text-align: center;
-            margin-top: 0.5em;
-            margin-bottom: 1em;
+        .confirmation__closeButton {
+            @extend .green;
         }
     }
 
-    &.confirmation-container-warning {
-        .confirmation {
-            background-color: $light-red;
-            border-color: $red;
-        }
+    &__closeButton {
+        @extend .gray;
+    }
+
+    &__row {
+        background-color: $light-red;
+        border-color: $red;
+    }
+
+    &__icon {
+        width: 120px;
+    }
+
+    &__text {
+        color: $black;
+        font-weight: 400;
+        text-align: center;
+        margin-top: 0.5em;
+        margin-bottom: 1em;
     }
 }

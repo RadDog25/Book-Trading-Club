@@ -178,6 +178,18 @@ class Api {
         })
     })
   }
+
+  static deleteAllTradeRequests () {
+    return new Promise((resolve, reject) => {
+      axios.delete('/api/deletealltraderequests')
+        .then(response => {
+          resolve(response.data)
+        })
+        .catch(error => {
+          reject(error)
+        })
+    })
+  }
 }
 
 export default Api

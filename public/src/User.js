@@ -10,8 +10,8 @@ class User {
     this.tradeRequests = properties.tradeRequests
   }
 
-  hasTradeRequestForBook (book) {
-    return !!this.tradeRequests.find(tradeRequest => {
+  findTradeRequestForBook (book) {
+    return this.tradeRequests.find(tradeRequest => {
       return book._id === tradeRequest.book._id
     })
   }

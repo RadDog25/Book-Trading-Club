@@ -20,12 +20,10 @@ export default {
   ],
   methods: {
     ...mapActions([
-      'openModal'
+      'openBookInfoModal'
     ]),
     handleInfoClick () {
-      this.openModal({
-        modalName: 'bookInfoModal',
-        text: '',
+      this.openBookInfoModal({
         book: this.book
       })
     }

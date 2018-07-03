@@ -64,6 +64,10 @@ var routes = [
   {
     module: require('./routes/addstarterdata'),
     endpoint: '/api/addstarterdata'
+  },
+  {
+    module: require('./routes/deletealltraderequests'),
+    endpoint: '/api/deletealltraderequests'
   }
 ];
 

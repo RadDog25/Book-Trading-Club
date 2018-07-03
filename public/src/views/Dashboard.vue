@@ -52,7 +52,7 @@
                   <book :book="book"></book>
 
                   <div class="remove-icon-container"
-                  @click="handleRemoveClick(book)"
+                  @click="handleRemoveBookClick(book)"
                   >
                     <img class="remove-icon" src="@/assets/closered.svg"
                     alt="remove book">
@@ -132,7 +132,7 @@
 
           <div class="dashboard-column dashboard-column-right">
 
-            <div class="button-container">
+            <div @click="handleDeleteAllTradeRequests" class="button-container">
               <a class="button large">
                 DELETE TRADE REQUESTS
               </a>
@@ -249,22 +249,38 @@ export default {
         this.selectedBooks = this.selectedBooks.concat(book)
       }
     },
-    handleRemoveClick (book) {
-      console.log(this.user.hasTradeRequestForBook(book))
-      this.openModal({
-        modalName: 'warningModal',
-        text: '',
-        book
+    handleRemoveBookClick (book) {
+      const tradeRequest = this.user.findTradeRequestForBook(book)
+
+      let text = `Are you sure that you want to delete <b>${book.title}</b>?`
+
+      if (tradeRequest) {
+        const requester = tradeRequest.requester.username
+        text += `<br><br><b>${requester}</b> has requested it!`
+      }
+
+      const callback = () => {
+        this.deleteBook(book)
+          .then(() => this.closeModal())
+      }
+
+      this.openConfirmationModal({
+        text,
+        confirmText: 'Delete',
+        closeText: 'Cancel',
+        book,
+        isSuccess: false,
+        callback
       })
-    },
-    handleConfirmDeleteBook () {
-      this.deleteBook(this.bookToDelete)
-        .then(() => {
-          this.deleteConfirmationIsActive = false
-        })
     },
     handleAddStarterDataClick () {
       Api.addStarterData()
+        .then(userData => {
+          console.log(userData)
+        })
+    },
+    handleDeleteAllTradeRequests () {
+      Api.deleteAllTradeRequests()
         .then(userData => {
           console.log(userData)
         })
@@ -276,8 +292,9 @@ export default {
     ]),
     ...mapActions([
       'getSearchedBooks',
-      'openModal',
-      'deleteBook'
+      'openConfirmationModal',
+      'deleteBook',
+      'closeModal'
     ])
   },
   mounted () {

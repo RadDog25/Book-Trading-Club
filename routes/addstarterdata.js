@@ -94,7 +94,7 @@ var options = {
     new: true
 };
 
-router.post('/', function(req, res) {
+router.post('/', passport.authenticate('jwt', { session: false }), function(req, res) {
     var personsToSave = users.map(person => {
         return new Promise((resolve, reject) => {
             User.findOneAndUpdate({ username: person.user.username }, person.user, options, (err, newUser) => {

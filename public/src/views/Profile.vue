@@ -129,10 +129,10 @@ export default {
       Api.changePassword(this.user.username, this.oldPassword, this.newPassword)
         .then(() => {
           this.changePasswordErrors = {}
-          this.openModal({
-            modalName: 'successModal',
-            text: 'Password updated',
-            book: {}
+          this.openConfirmationModal({
+            text: 'Password Updated',
+            closeText: 'Ok',
+            isSuccess: true
           })
         })
         .catch(changePasswordErrors => {
@@ -148,10 +148,10 @@ export default {
           this.changeLocationErrors = {}
           this.setUser(userData)
 
-          this.openModal({
-            modalName: 'successModal',
-            text: 'Location updated',
-            book: {}
+          this.openConfirmationModal({
+            text: 'Location Updated',
+            closeText: 'Ok',
+            isSuccess: true
           })
         })
         .catch(changeLocationErrors => {
@@ -164,7 +164,7 @@ export default {
       'stopLoading'
     ]),
     ...mapActions([
-      'openModal',
+      'openConfirmationModal',
       'closeModal'
     ])
   },

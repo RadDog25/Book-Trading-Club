@@ -123,7 +123,7 @@ export default {
   },
   methods: {
     ...mapActions([
-      'openModal'
+      'openConfirmationModal'
     ]),
     handleCloseClick () {
       this.$emit('moreInfoCloseButtonWasClicked')
@@ -150,10 +150,10 @@ export default {
     handleRequestConfirmation () {
       Api.requestTrade(this.book, this.user._id)
         .then(response => {
-          this.openModal({
-            modalName: 'successModal',
+          this.openConfirmationModal({
             text: 'Your request has been sent!',
-            book: {}
+            closeText: 'Ok',
+            isSuccess: true
           })
         })
     }
