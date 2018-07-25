@@ -68,6 +68,9 @@
 
         &--prev {
             right: 100%;
+            .slider__arrowWrapper {
+                margin-left: auto;
+            }
         }
 
         &--next {
