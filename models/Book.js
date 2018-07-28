@@ -13,6 +13,8 @@ var BookSchema = new Schema({
     ratingsCount: Number,
     thumbnail: String,
     title: String
+}, {
+    timestamps: true
 });
 
 module.exports = mongoose.model('Book', BookSchema);

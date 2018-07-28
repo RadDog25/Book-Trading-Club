@@ -18,6 +18,8 @@ var TradeRequestSchema = new Schema({
         ref: 'User',
         required: true
     }
+}, {
+    timestamps: true
 });
 
 TradeRequestSchema.plugin(deepPopulate);

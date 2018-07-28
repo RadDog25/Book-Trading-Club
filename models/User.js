@@ -22,6 +22,8 @@ var UserSchema = new Schema({
         required: false,
         default: 1
     }
+}, {
+    timestamps: true
 });
 
 UserSchema.pre('save', function (next) {
