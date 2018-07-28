@@ -1,9 +1,10 @@
 var express = require('express');
 var router = express.Router();
+var passport = require('passport');
 var FormErrors = require('../helpers/FormErrors.js');
 var User = require('../models/User.js');
 
-router.post('/', function(req, res) {
+router.post('/', passport.authenticate('jwt', { session: false }), function(req, res) {
     var formErrors = new FormErrors(req, {
         requiredFields: [
             {

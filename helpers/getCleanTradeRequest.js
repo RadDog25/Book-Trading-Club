@@ -8,6 +8,8 @@ function getCleanTradeRequest(tradeRequest) {
 
     var cleanTradeRequest = {
         _id: tradeRequest._id,
+        createdAt: tradeRequest.createdAt,
+        updatedAt: tradeRequest.updatedAt,
         owner,
         requester,
         book

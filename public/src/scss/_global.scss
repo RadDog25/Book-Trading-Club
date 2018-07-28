@@ -267,6 +267,8 @@ input {
 }
 
 .normal-link {
+    display: block;
+    color: inherit;
     &:hover {
         text-decoration: none;
     }

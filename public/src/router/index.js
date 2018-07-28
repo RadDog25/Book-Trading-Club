@@ -7,6 +7,7 @@ import Login from '@/views/Login'
 import Books from '@/views/Books'
 import Dashboard from '@/views/Dashboard'
 import Profile from '@/views/Profile'
+import Trade from '@/views/Trade'
 import store from '@/store.js'
 import Api from '@/Api.js'
 
@@ -82,6 +83,16 @@ const router = new Router({
         allowLoggedIn: true,
         allowLoggedOut: false,
         handlesLoading: true
+      }
+    },
+    {
+      path: '/trade/:id',
+      name: 'Trade',
+      component: Trade,
+      meta: {
+        allowLoggedIn: true,
+        allowLoggedOut: false,
+        handlesLoading: false
       }
     }
   ]

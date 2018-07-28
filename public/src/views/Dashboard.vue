@@ -112,10 +112,14 @@
 
           <div class="dashboard-column dashboard-column-right">
             <div class="tradeRequests">
-              <div v-for="(request, index) in tradeRequests" class="tradeRequest"
+              <div v-for="(tradeRequest, index) in tradeRequests" class="tradeRequest"
               :key="index"
               >
-                <user-preview :user="request.requester"></user-preview>
+                <router-link :to="`/trade/${tradeRequest._id}`"
+                class="normal-link"
+                >
+                  <user-preview :user="tradeRequest.requester"></user-preview>
+                </router-link>
               </div>
             </div>
           </div>
@@ -250,7 +254,7 @@ export default {
       }
     },
     handleRemoveBookClick (book) {
-      const tradeRequest = this.user.findTradeRequestForBook(book)
+      const tradeRequest = this.user.getTradeRequestForBook(book._id)
 
       let text = `Are you sure that you want to delete <b>${book.title}</b>?`
 

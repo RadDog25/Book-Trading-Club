@@ -1,5 +1,6 @@
 
 import axios from 'axios'
+import User from './User'
 
 class Api {
   static register (username, password) {
@@ -16,6 +17,7 @@ class Api {
         })
     })
   }
+
   static login (username, password) {
     return new Promise((resolve, reject) => {
       axios.post('/api/login', {
@@ -184,6 +186,23 @@ class Api {
       axios.delete('/api/deletealltraderequests')
         .then(response => {
           resolve(response.data)
+        })
+        .catch(error => {
+          reject(error)
+        })
+    })
+  }
+
+  static getTradeRequester (tradeRequestId) {
+    return new Promise((resolve, reject) => {
+      axios.get('/api/requester', {
+        params: {
+          id: tradeRequestId
+        }
+      })
+        .then(response => {
+          const requester = new User(response.data)
+          resolve(requester)
         })
         .catch(error => {
           reject(error)

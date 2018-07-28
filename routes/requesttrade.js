@@ -1,9 +1,10 @@
 var express = require('express');
 var router = express.Router();
+var passport = require('passport');
 var TradeRequest = require('../models/TradeRequest.js');
 
 
-router.post('/', function(req, res) {
+router.post('/', passport.authenticate('jwt', { session: false }), function(req, res) {
     var bookInstance = req.body.book;
     var bookInstanceId = bookInstance._id;
     var ownerId = bookInstance.user._id;

@@ -68,6 +68,10 @@ var routes = [
   {
     module: require('./routes/deletealltraderequests'),
     endpoint: '/api/deletealltraderequests'
+  },
+  {
+    module: require('./routes/requester'),
+    endpoint: '/api/requester'
   }
 ];
 

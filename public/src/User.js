@@ -1,4 +1,5 @@
 import Book from './Book'
+import moment from 'moment'
 
 class User {
   constructor (properties) {
@@ -8,11 +9,24 @@ class User {
     this.avatar = properties.avatar
     this.books = properties.books.map(book => new Book(book))
     this.tradeRequests = properties.tradeRequests
+      .map(tradeRequest => {
+        return {
+          ...tradeRequest,
+          createdAt: moment(tradeRequest.createdAt),
+          updatedAt: moment(tradeRequest.updatedAt)
+        }
+      })
   }
 
-  findTradeRequestForBook (book) {
+  getTradeRequestForBook (bookId) {
     return this.tradeRequests.find(tradeRequest => {
-      return book._id === tradeRequest.book._id
+      return bookId === tradeRequest.book._id
+    })
+  }
+
+  getTradeRequest (tradeRequestId) {
+    return this.tradeRequests.find(tradeRequest => {
+      return tradeRequestId === tradeRequest._id
     })
   }
 }
