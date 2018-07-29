@@ -72,6 +72,10 @@ var routes = [
   {
     module: require('./routes/requester'),
     endpoint: '/api/requester'
+  },
+  {
+    module: require('./routes/trade'),
+    endpoint: '/api/trade'
   }
 ];
 

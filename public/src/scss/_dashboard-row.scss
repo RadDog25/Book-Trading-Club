@@ -128,7 +128,7 @@
                 }
 
                 .books {
-                    @include grid(5, 0rem);
+                    @include grid(5, 0.25rem);
                 }
             }
         }

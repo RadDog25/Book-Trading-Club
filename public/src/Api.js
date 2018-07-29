@@ -209,6 +209,22 @@ class Api {
         })
     })
   }
+
+  static trade (tradeRequestId, book) {
+    console.log(tradeRequestId)
+    return new Promise((resolve, reject) => {
+      axios.post('/api/trade', {
+        id: tradeRequestId,
+        book
+      })
+        .then(response => {
+          resolve(response.data)
+        })
+        .catch(error => {
+          reject(error)
+        })
+    })
+  }
 }
 
 export default Api

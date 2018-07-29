@@ -12,6 +12,7 @@ class User {
       .map(tradeRequest => {
         return {
           ...tradeRequest,
+          book: new Book(tradeRequest.book),
           createdAt: moment(tradeRequest.createdAt),
           updatedAt: moment(tradeRequest.updatedAt)
         }

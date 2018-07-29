@@ -82,8 +82,7 @@
                 <div class="selectable-box"
                 @click="handleSearchedBookClick(book)"
                 >
-                  <book class="selectable-box"
-                  :book="book"
+                  <book :book="book"
                   ></book>
                 </div>
               </div>
@@ -91,9 +90,12 @@
 
             <div class="button-container">
               <transition name="fade">
-                  <a v-if="bookIsSelected"
-                  @click="handleAddBooksClick"
-                  class="add-books-button button large">{{ addBookText }}</a>
+                  <a @click="handleAddBooksClick"
+                  class="add-books-button button large"
+                  :class="{ 'disabled': !bookIsSelected }"
+                  >
+                    {{ addBookText }}
+                  </a>
               </transition>
 
               <a @click="handleCancelClick"

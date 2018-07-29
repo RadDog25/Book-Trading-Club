@@ -1,0 +1,58 @@
+.trade {
+    &__users {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border-bottom: 1px solid #999;
+        padding-top: 1rem;
+        padding-bottom: 1rem;
+    }
+
+    &__books {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        margin-top: 1rem;
+    }
+
+    &__requesterBooks {
+        align-items: center;
+        &--grid {
+            @include grid(5, 0.5rem);
+        }
+
+        &--flex {
+            display: flex;
+            .trade__requesterBookContainer {
+                margin-right: 0.5rem;
+                &:last-child {
+                    margin-right: 0px;
+                }
+            }
+        }
+    }
+
+    &__requesterBookContainer {
+        display: flex;
+        align-items: center;
+        width: 100%;
+    }
+
+    &__buttonContainer {
+        display: flex;
+        justify-content: flex-end;
+        margin-top: 1rem;
+    }
+
+    &__button {
+        margin-right: 1rem;
+        &:last-child {
+            margin-right: 0px;
+        }
+    }
+
+    &__icon {
+        width: 50px;
+        filter: grayscale(100%);
+    }
+}

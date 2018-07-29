@@ -2,16 +2,24 @@
     &__container {
         display: flex;
         align-items: center;
+
+        &.reversed {
+            .userPreview__avatar {
+                order: 1;
+                margin-right: 0px;
+                margin-left: 0.5em;
+            }
+
+            .userPreview__info {
+                text-align: right;
+            }
+        }
     }
 
     &__avatar {
         width: 50px;
         height: 50px;
         margin-right: 0.5em;
-    }
-
-    &__info {
-
     }
 
     &__username {
