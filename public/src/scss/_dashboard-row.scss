@@ -10,6 +10,7 @@
             .book-container {
                 display: flex;
                 align-items: center;
+                animation: fade-in 600ms ease forwards;
             }
 
             .user-book-container {
