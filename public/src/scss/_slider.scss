@@ -1,4 +1,6 @@
 .slider {
+    position: relative;
+    z-index: 1;
     &__container {
         margin-top: 3.5em;
         transition: opacity 1000ms ease;
