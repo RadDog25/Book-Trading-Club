@@ -13,6 +13,7 @@ class User {
         return {
           ...tradeRequest,
           book: new Book(tradeRequest.book),
+          proposedBook: new Book(tradeRequest.proposedBook),
           createdAt: moment(tradeRequest.createdAt),
           updatedAt: moment(tradeRequest.updatedAt)
         }

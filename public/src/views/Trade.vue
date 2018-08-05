@@ -4,12 +4,14 @@
 
         <site-header/>
 
-        <div v-if="tradeRequest && requester" id="content" class="site-content layout-container">
+        <div id="content" class="site-content layout-container">
 
-            <div class="content-area layout-row">
+            <div v-if="tradeRequest && requester" class="trade__container content-area layout-row"
+            :class="status"
+            >
 
                 <h1 class="trade__heading hed1 heading-with-border">
-                    Trade Request
+                    Trade Request <span class="trade__status">[{{ status }}]</span>
                 </h1>
 
                 <div class="trade__users">
@@ -17,7 +19,10 @@
                     <user-preview :user="tradeRequest.owner"></user-preview>
 
                     <div class="trade__iconContainer">
-                        <img class="trade__icon" src="@/assets/transfer.svg" />
+                      <img class="trade__icon" src="@/assets/right-arrow.svg" />
+                      <img class="trade__confirmedIcon" src="@/assets/done.svg" />
+                      <img class="trade__icon" src="@/assets/right-arrow.svg" />
+
                     </div>
 
                     <user-preview class="reversed" :user="tradeRequest.requester"></user-preview>
@@ -36,9 +41,9 @@
                         <ul class="trade__requesterBooks normal-list"
                         :class="cssClass"
                         >
-                            <li v-for="book in requester.books"
+                            <li v-for="book in requestorBooks"
                             :key="book._id"
-                            :class="{ 'is-selected': selectedBook.id === book.id }"
+                            :class="{ 'is-selected': selectedBook.id === book.id || status == 'complete' }"
                             class="trade__requesterBookContainer selectable-box-container selectable-box-container-thin">
                                 <div class="selectable-box"
                                 @click="handleBookClick(book)"
@@ -50,7 +55,7 @@
                     </div>
                 </div>
 
-                <div class="trade__buttonContainer">
+                <div v-if="status == 'open'" class="trade__buttonContainer">
 
                     <a class="trade__button button large"
                     :class="{ 'disabled': !selectedBook.id }"
@@ -104,8 +109,14 @@ export default {
     book () {
       return this.tradeRequest.book
     },
+    status () {
+      return this.tradeRequest.status
+    },
     numberOfRequesterBooks () {
       return this.requester.books.length
+    },
+    requestorBooks () {
+      return this.status === 'complete' ? [ this.tradeRequest.proposedBook ] : this.requester.books
     },
     cssClass () {
       return this.numberOfRequesterBooks > 5 ? 'trade__requesterBooks--grid' : 'trade__requesterBooks--flex'
@@ -128,7 +139,9 @@ export default {
         Api.trade(this.tradeRequest._id, this.selectedBook)
           .then(userData => {
             this.setUser(userData)
-            this.$router.push('/dashboard')
+            // setTimeout(() => {
+            //   this.$router.push('/dashboard')
+            // }, 1000)
           })
       }
 

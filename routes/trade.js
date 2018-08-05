@@ -15,8 +15,13 @@ router.post('/', passport.authenticate('jwt', { session: false }), function(req,
     var tradeRequestId = req.body.id;
     var proposedBookInstance = req.body.book;
     var user = req.user;
+
+    var tradeRequestUpdate = {
+        status: 'complete',
+        proposedBookInstance
+    };
     
-    TradeRequest.findOneAndRemove({ _id: tradeRequestId, owner: user._id })
+    TradeRequest.findOneAndUpdate({ _id: tradeRequestId, owner: user._id }, tradeRequestUpdate, options)
         .populate(['requester', 'bookInstance'])
         .exec(function (err, tradeRequest) {
             if(err) {

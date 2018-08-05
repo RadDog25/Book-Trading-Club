@@ -51,8 +51,68 @@
         }
     }
 
+    &__iconContainer {
+        position: relative;
+    }
+
+    &__confirmedIcon {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        opacity: 1;
+        width: 50px;
+        opacity: 0;
+        transition: opacity 400ms ease 600ms;
+    }
+
     &__icon {
         width: 50px;
         filter: grayscale(100%);
+        transition: filter 600ms ease, transform 600ms ease 600ms, opacity 600ms ease 600ms;
+
+        &:first-child {
+            transform: rotate(180deg);
+            margin-bottom: -1rem;
+        }
+
+        &:last-child {
+            margin-top: -1rem;
+        }
+    }
+
+    &__status {
+        font-size: 1.125rem;
+        vertical-align: middle;
+    }
+
+    &__status {
+        transition: color 300ms ease;
+    }
+
+    &__container {
+        &.complete {
+            .trade__confirmedIcon {
+                opacity: 1;
+            }
+
+            .trade__icon {
+                filter: grayscale(1%);
+    
+                &:first-child {
+                    opacity: 0;
+                    transform: rotate(180deg) translateX(40vw);
+                }
+    
+                &:last-child {
+                    opacity: 0;
+                    transform: translateX(40vw);
+                }
+            }
+
+            .trade__status {
+                color: $green;
+            }
+        }
     }
 }

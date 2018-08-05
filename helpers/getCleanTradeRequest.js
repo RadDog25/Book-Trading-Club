@@ -10,10 +10,16 @@ function getCleanTradeRequest(tradeRequest) {
         _id: tradeRequest._id,
         createdAt: tradeRequest.createdAt,
         updatedAt: tradeRequest.updatedAt,
+        status: tradeRequest.status,
         owner,
         requester,
         book
     };
+
+    var proposedBookInstance = tradeRequest.proposedBookInstance
+    if(proposedBookInstance) {
+        cleanTradeRequest.proposedBook = getCleanBookInstance(proposedBookInstance);
+    }
     
     return cleanTradeRequest;
 }

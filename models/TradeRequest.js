@@ -8,15 +8,26 @@ var TradeRequestSchema = new Schema({
         ref: 'BookInstance',
         required: true
     },
+    owner: {
+        type: Schema.Types.ObjectId,
+        ref: 'User',
+        required: true
+    },
     requester: {
         type: Schema.Types.ObjectId,
         ref: 'User',
         required: true
     },
-    owner: {
+    proposedBookInstance: {
         type: Schema.Types.ObjectId,
-        ref: 'User',
-        required: true
+        ref: 'BookInstance',
+        required: false
+    },
+    status: {
+        type: String,
+        enum: ['open', 'cancelled', 'complete'],
+        required: true,
+        default: 'open'
     }
 }, {
     timestamps: true

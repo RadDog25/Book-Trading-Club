@@ -4,8 +4,8 @@ var getCleanTradeRequest = require('./getCleanTradeRequest.js');
 function getUserTradeRequests(user) {
     return new Promise((resolve, reject) => {
         TradeRequest.find({ owner: user._id })
-            .populate(['owner', 'requester', 'bookInstance'])
-            .deepPopulate('bookInstance.book')
+            .populate(['owner', 'requester', 'bookInstance', 'proposedBookInstance'])
+            .deepPopulate(['bookInstance.book', 'proposedBookInstance.book'])
             .exec((err, tradeRequests) => {
                 if (err) {
                     console.log(err);
