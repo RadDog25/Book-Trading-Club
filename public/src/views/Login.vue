@@ -80,8 +80,11 @@ export default {
           this.$router.push('browse')
         })
         .catch(errors => {
-          this.errors = errors.response.data
-          console.log(errors.response.data)
+          console.log(errors)
+
+          if (errors && errors.response && errors.response.data) {
+            this.errors = errors.response.data
+          }
         })
     },
     ...mapMutations([

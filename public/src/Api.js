@@ -193,9 +193,9 @@ class Api {
     })
   }
 
-  static getTradeRequester (tradeRequestId) {
+  static getTradePartner (tradeRequestId) {
     return new Promise((resolve, reject) => {
-      axios.get('/api/requester', {
+      axios.get('/api/tradepartner', {
         params: {
           id: tradeRequestId
         }

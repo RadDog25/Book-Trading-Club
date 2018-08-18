@@ -34,7 +34,7 @@
         </div>
 
         <div class="bookInfoModal__shortenedDescription">
-          {{ book.getExcerpt(200) }}
+          {{ excerpt }}
         </div>
 
         <a :href="book.link"
@@ -68,6 +68,9 @@ export default {
     ]),
     book () {
       return this.modal.items.bookInfoModal.book
+    },
+    excerpt () {
+      return window.getShortenedText(this.book.description, 200)
     },
     linkIcon () {
       if (this.book.linkIsGooglePlay) {

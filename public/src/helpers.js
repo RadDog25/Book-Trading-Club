@@ -47,3 +47,7 @@ window.getShortenedText = function (text, length) {
 
   return `${text.substring(0, length)}...`
 }
+
+window.capitalize = function (string) {
+  return string.charAt(0).toUpperCase() + string.slice(1)
+}

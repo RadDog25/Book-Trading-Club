@@ -16,12 +16,17 @@ var bookPropertiesToSend = [
 ];
 
 function getCleanBookInstance(bookInstance) {
-    var bookProperties = getCleanObject(bookInstance.book, bookPropertiesToSend);
 
     var cleanBookInstance = {
         _id: bookInstance._id,
         user: getCleanUser(bookInstance.user),
-        ...bookProperties
+    }
+
+    if (bookInstance.book) {
+        cleanBookInstance = {
+            ...cleanBookInstance,
+            ...getCleanObject(bookInstance.book, bookPropertiesToSend)
+        }
     }
 
     return cleanBookInstance;

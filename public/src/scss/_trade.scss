@@ -1,4 +1,36 @@
 .trade {
+    &__heading {
+        margin: 0px;
+        display: flex;
+        align-items: center;
+    }
+
+    &__headingContainer {
+        padding-top: 2rem;
+        padding-bottom: 2rem;
+        margin-bottom: 0rem;
+    }
+
+    &__message {
+        margin-top: 2rem;
+        padding: 2rem;
+        background-color: white;
+        line-height: 1.4;
+        max-width: 300px;
+        box-shadow: 0 2px 4px 0 rgba(0,0,0,0.10);
+    }
+
+    &__statusBlock {
+        font-size: 1rem;
+        pointer-events: none;
+        margin-left: 1rem;
+        filter: grayscale(100%);
+        transition: filter 300ms ease;
+        &.active {
+            filter: grayscale(0%);
+        }
+    }
+
     &__users {
         display: flex;
         align-items: center;
@@ -10,12 +42,26 @@
 
     &__books {
         display: flex;
-        align-items: flex-start;
-        justify-content: space-between;
-        margin-top: 1rem;
     }
 
-    &__requesterBooks {
+    &__booksWrapper {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        margin-top: 2rem;
+    }
+
+    &__booksContainer {
+        display: flex;
+        align-items: center;
+        width: 100%;
+    }
+
+    &__partnerBooksContainer {
+        justify-content: flex-end;
+    }
+
+    &__books {
         align-items: center;
         &--grid {
             @include grid(5, 0.5rem);
@@ -23,7 +69,7 @@
 
         &--flex {
             display: flex;
-            .trade__requesterBookContainer {
+            .trade__bookContainer {
                 margin-right: 0.5rem;
                 &:last-child {
                     margin-right: 0px;
@@ -32,16 +78,18 @@
         }
     }
 
-    &__requesterBookContainer {
-        display: flex;
-        align-items: center;
-        width: 100%;
-    }
+    &__userBookContainer {
+        cursor: auto;
+        .selectable-box {
+            filter: grayscale(0%);
+        }
+    } 
+
 
     &__buttonContainer {
         display: flex;
         justify-content: flex-end;
-        margin-top: 1rem;
+        margin-top: 2rem;
     }
 
     &__button {
@@ -79,11 +127,6 @@
         &:last-child {
             margin-top: -1rem;
         }
-    }
-
-    &__status {
-        font-size: 1.125rem;
-        vertical-align: middle;
     }
 
     &__status {

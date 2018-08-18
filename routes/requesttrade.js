@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var passport = require('passport');
 var TradeRequest = require('../models/TradeRequest.js');
+var TradeAction = require('../models/TradeAction.js');
 
 
 router.post('/', passport.authenticate('jwt', { session: false }), function(req, res) {
@@ -16,12 +17,19 @@ router.post('/', passport.authenticate('jwt', { session: false }), function(req,
         requester: requesterId
     });
 
-    newTradeRequest.save((err, newTradeRequest) => {
+    newTradeRequest.save((err, tradeRequest) => {
         if (err) {
             console.log(err);
         } else {
-            newTradeRequest.populate(['owner', 'requester', 'bookInstance'], function(err, populatedTradeRequest) {
-                console.log(populatedTradeRequest);
+
+            var newTradeAction = new TradeAction({
+                actor: requesterId,
+                action: 'initiate',
+                bookInstanceForRequester: bookInstanceId,
+                tradeRequest: tradeRequest._id
+            });
+
+            newTradeAction.save(() => {
                 res.status(200).send();
             });
         }

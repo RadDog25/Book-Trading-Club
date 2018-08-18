@@ -70,8 +70,8 @@ var routes = [
     endpoint: '/api/deletealltraderequests'
   },
   {
-    module: require('./routes/requester'),
-    endpoint: '/api/requester'
+    module: require('./routes/tradepartner'),
+    endpoint: '/api/tradepartner'
   },
   {
     module: require('./routes/trade'),

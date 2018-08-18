@@ -2,24 +2,18 @@ var getCleanBookInstance = require('./getCleanBookInstance.js');
 var getCleanUser = require('./getCleanUser.js');
 
 function getCleanTradeRequest(tradeRequest) {
-    var owner = getCleanUser(tradeRequest.owner);
-    var requester = getCleanUser(tradeRequest.requester);
-    var book = getCleanBookInstance(tradeRequest.bookInstance);
+    var { owner, requester, _id, createdAt, updatedAt } = tradeRequest;
+    var owner = getCleanUser(owner);
+    var requester = getCleanUser(requester);
+
 
     var cleanTradeRequest = {
-        _id: tradeRequest._id,
-        createdAt: tradeRequest.createdAt,
-        updatedAt: tradeRequest.updatedAt,
-        status: tradeRequest.status,
+        _id,
+        createdAt,
+        updatedAt,
         owner,
         requester,
-        book
     };
-
-    var proposedBookInstance = tradeRequest.proposedBookInstance
-    if(proposedBookInstance) {
-        cleanTradeRequest.proposedBook = getCleanBookInstance(proposedBookInstance);
-    }
     
     return cleanTradeRequest;
 }
