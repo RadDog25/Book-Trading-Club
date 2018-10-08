@@ -12,26 +12,16 @@ router.post('/', passport.authenticate('jwt', { session: false }), function(req,
     var requesterId = req.body.requesterId;
 
     var newTradeRequest = new TradeRequest({
-        bookInstance: bookInstanceId,
         owner: ownerId,
-        requester: requesterId
+        requester: requesterId,
+        bookInstanceForRequester: bookInstanceId,
     });
 
-    newTradeRequest.save((err, tradeRequest) => {
+    newTradeRequest.save(err => {
         if (err) {
             console.log(err);
         } else {
-
-            var newTradeAction = new TradeAction({
-                actor: requesterId,
-                action: 'initiate',
-                bookInstanceForRequester: bookInstanceId,
-                tradeRequest: tradeRequest._id
-            });
-
-            newTradeAction.save(() => {
-                res.status(200).send();
-            });
+            res.status(200).send();
         }
     });
 });

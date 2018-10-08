@@ -19,7 +19,7 @@ var TradeActionSchema = new Schema({
             'initiate',
             'decline',
             'accept',
-            'counter'
+            'propose'
         ],
         required: true,
         default: 'initiate'

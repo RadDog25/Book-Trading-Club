@@ -6,7 +6,7 @@
 
         <div id="content" class="site-content layout-container">
 
-            <div v-if="partner && tradeRequest && tradeRequest.tradeActions && tradeRequest.tradeActions.length "
+            <div v-if="partner && tradeRequest"
             class="trade__container content-area layout-row"
             :class="status"
             >
@@ -17,20 +17,59 @@
 
                     <span>Trade Request</span>
 
-                    <span class="trade__status trade__statusBlock button green"
-                    :class="{ 'active': status === 'Open' }"
-                    >{{ status }}</span>
+                    <span class="trade__status trade__statusBlock button"
+                    :class="status"
+                    >{{ capitalizedStatus }}</span>
 
-                    <span class="trade__status trade__statusBlock button green"
-                    :class="{ 'active': !userMadeLastAction }"
+                    <span v-if="status === 'Open'"
+                    class="trade__status trade__statusBlock button"
+                    :class="{ 'lastAction': !userMadeLastAction }"
                     >{{ pendingText }}</span>
 
                   </h1>
 
-                  <div v-if="message"
-                   class="trade__message"
-                  v-html="message"
-                  ></div>
+                  <div class="trade__messageContainer">
+
+                    <div v-if="message"
+                    class="trade__message"
+                   v-html="message"
+                   ></div>
+
+                   <div class="trade__progressLineContainer">
+                     <div class="trade__progressLine">
+
+                        <div class="trade__progressPath">
+                          <div class="trade__progressPoint">
+                              <div class="trade__progressAction">
+                                Initiated
+                              </div>
+                          </div>
+                        </div>
+
+                        <div class="trade__progressPath"
+                        :class="{ 'active': status === 'proposed' }"
+                        >
+                          <div class="trade__progressPoint">
+                              <div class="trade__progressAction">
+                                Proposed
+                              </div>
+                          </div>
+                        </div>
+
+                        <div class="trade__progressPath"
+                        :class="{ 'active': status === 'accepted' }"
+                        >
+                          <div class="trade__progressPoint">
+                              <div class="trade__progressAction">
+                                Accepted
+                              </div>
+                          </div>
+                        </div>
+
+                     </div>
+                   </div>
+
+                  </div>
 
                 </div>
 
@@ -39,8 +78,10 @@
                     <user-preview :user="user"></user-preview>
 
                     <div class="trade__iconContainer">
+
                       <img class="trade__icon" src="@/assets/right-arrow.svg" />
-                      <img class="trade__confirmedIcon" src="@/assets/done.svg" />
+                      <img class="trade__confirmedIcon trade__confirmedIcon--accept" src="@/assets/done.svg" />
+                      <img class="trade__confirmedIcon trade__confirmedIcon--decline" src="@/assets/close2red.svg" />
                       <img class="trade__icon" src="@/assets/right-arrow.svg" />
 
                     </div>
@@ -84,7 +125,7 @@
 
                 </div>
 
-                <div v-if="status == 'Open' && !userMadeLastAction" class="trade__buttonContainer">
+                <div v-if="tradeisOpen && !userMadeLastAction" class="trade__buttonContainer">
 
                     <a v-if="showAcceptTradeButton"
                     class="trade__button button large"
@@ -102,11 +143,11 @@
                         Propose Trade
                     </a>
 
-                    <a v-if="showCancelTradeButton"
+                    <a v-if="showDeclineTradeButton"
                     class="trade__button button large"
-                    @click="handleTradeButtonClick('cancel')"
+                    @click="handleTradeButtonClick('decline')"
                     >
-                        Cancel Trade
+                        Decline Trade
                     </a>
 
                 </div>
@@ -147,44 +188,47 @@ export default {
     tradeRequest () {
       return this.user.getTradeRequest(this.$route.params.id)
     },
-    lastAction () {
-      return this.tradeRequest.tradeActions[0]
+    lastActionWasRequester () {
+      return this.tradeRequest.lastActionWasRequester
+    },
+    status () {
+      return this.tradeRequest.status
+    },
+    capitalizedStatus () {
+      return window.capitalize(this.status)
+    },
+    tradeisOpen () {
+      return ['initiated', 'proposed'].includes(this.status)
+    },
+    bookInstanceForOwner () {
+      return this.tradeRequest.bookInstanceForOwner
+    },
+    bookInstanceForRequester () {
+      return this.tradeRequest.bookInstanceForRequester
     },
     userIsOwner () {
       return this.user._id === this.tradeRequest.owner._id
     },
     userMadeLastAction () {
-      return this.user._id === this.lastAction.actor._id
+      return (this.userIsOwner && !this.lastActionWasRequester) || (!this.userIsOwner && this.lastActionWasRequester)
     },
     showProposeTradeButton () {
-      return this.lastAction.action === 'initiate' && this.userIsOwner
+      return this.status === 'initiated' && this.userIsOwner
     },
     showAcceptTradeButton () {
-      return this.lastAction.action === 'countered'
+      return this.status === 'proposed'
     },
-    showCancelTradeButton () {
-      return ['initiate', 'countered'].includes(this.lastAction.action)
-    },
-    status () {
-      const statusMap = {
-        initiate: 'Open',
-        decline: 'Cancelled',
-        accept: 'Completed',
-        countered: 'Open'
-      }
-
-      const lastAction = this.lastAction.action
-
-      return statusMap[lastAction] ? statusMap[lastAction] : 'Cancelled'
+    showDeclineTradeButton () {
+      return ['initiated', 'proposed'].includes(this.status)
     },
     userBooks () {
       if (this.userIsOwner) {
-        if (this.tradeRequest.bookInstanceForRequester) {
-          return [ this.tradeRequest.bookInstanceForRequester ]
+        if (this.bookInstanceForRequester) {
+          return [ this.bookInstanceForRequester ]
         }
       } else {
-        if (this.tradeRequest.bookInstanceForOwner) {
-          return [ this.tradeRequest.bookInstanceForOwner ]
+        if (this.bookInstanceForOwner) {
+          return [ this.bookInstanceForOwner ]
         }
       }
 
@@ -192,16 +236,16 @@ export default {
     },
     partnerBooks () {
       if (this.userIsOwner) {
-        if (this.lastAction.action === 'initiate') {
+        if (this.status === 'initiated') {
           return this.partner.books
         }
 
-        if (this.tradeRequest.bookInstanceForOwner) {
-          return [ this.tradeRequest.bookInstanceForOwner ]
+        if (this.bookInstanceForOwner) {
+          return [ this.bookInstanceForOwner ]
         }
       } else {
-        if (this.tradeRequest.bookInstanceForRequester) {
-          return [ this.tradeRequest.bookInstanceForRequester ]
+        if (this.bookInstanceForRequester) {
+          return [ this.bookInstanceForRequester ]
         }
       }
 
@@ -209,12 +253,24 @@ export default {
     },
     message () {
       const partnerName = this.partner.username
-      const bookTitle = this.tradeRequest.bookInstanceForRequester.title
       if (this.userMadeLastAction) {
+        if (this.status === 'declined') {
+          return 'You have declined this trade'
+        } else if (this.status === 'accept') {
+          return 'You have accepted this trade'
+        }
+
         return 'Your request has been sent'
       } else {
-        if (this.lastAction.action === 'initiate') {
-          return `<b>${partnerName}</b> is interested in your copy of <b>${bookTitle}</b>. Select a book or cancel the request below.`
+        if (this.status === 'initiated') {
+          const bookTitle = this.bookInstanceForRequester.title
+          return `<b>${partnerName}</b> is interested in your copy of <b>${bookTitle}</b>. Select a book or decline the request below.`
+        } else if (this.status === 'proposed') {
+          return `<b>${partnerName}</b> has proposed a trade`
+        } else if (this.status === 'declined') {
+          return `<b>${partnerName}</b> has declined this trade`
+        } else if (this.status === 'accepted') {
+          return `<b>${partnerName}</b> has accepted this trade`
         }
       }
     },
@@ -242,7 +298,17 @@ export default {
       const callback = () => {
         this.closeModal()
 
-        Api.trade(this.tradeRequest._id, this.selectedBook)
+        const tradeRequestData = {
+          id: this.tradeRequest._id,
+          action
+        }
+
+        if (this.selectedBook) {
+          const key = this.userIsOwner ? 'bookInstanceForOwner' : 'bookInstanceForRequester'
+          tradeRequestData[key] = this.selectedBook
+        }
+
+        Api.trade(tradeRequestData)
           .then(userData => {
             this.setUser(userData)
             // setTimeout(() => {

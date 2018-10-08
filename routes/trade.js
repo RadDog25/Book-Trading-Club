@@ -13,40 +13,43 @@ var options = {
 
 router.post('/', passport.authenticate('jwt', { session: false }), function(req, res) {
     var tradeRequestId = req.body.id;
-    var proposedBookInstance = req.body.book;
+    var bookInstanceForOwner = req.body.bookInstanceForOwner;
+    var bookInstanceForRequester = req.body.bookInstanceForRequester;
+    var action = req.body.action;
     var user = req.user;
 
-    var tradeRequestUpdate = {
-        status: 'complete',
-        proposedBookInstance
-    };
-    
-    TradeRequest.findOneAndUpdate({ _id: tradeRequestId, owner: user._id }, tradeRequestUpdate, options)
-        .populate(['requester', 'bookInstance'])
-        .exec(function (err, tradeRequest) {
-            if(err) {
-                console.log(err);
+    // first check that user is part of this trade, that they did not make the last action, and that the trade is not cancelled
+
+    TradeRequest.findOne({ _id: tradeRequestId })
+        .or([
+            { $and: [{ owner: user._id }, { lastActionWasRequester: true }] },
+            { $and: [{ requester: user._id }, { lastActionWasRequester: false }] }
+        ])
+        .where('status').in(['initiated', 'proposed'])
+        .exec(async function(err, tradeRequest) {
+            tradeRequest.lastActionWasRequester = !tradeRequest.lastActionWasRequester;
+
+            if (action == 'accept' && tradeRequest.bookInstanceForOwner && tradeRequest.bookInstanceForRequester) {
+
+
+
+                tradeRequest.status = 'accepted';
+
+            } else if (action == 'decline') {
+                tradeRequest.status = 'declined';
+            } else if (action == 'propose' && bookInstanceForOwner) {
+                tradeRequest.status = 'proposed';
+                tradeRequest.bookInstanceForOwner = bookInstanceForOwner;
             } else {
-                BookInstance.findOneAndUpdate({ _id: proposedBookInstance._id }, { user: user._id }, options, function(err) {
-                // BookInstance.findOne({ _id: proposedBookInstance._id }, function(err, book) {
-                    if(err) {
-                        console.log(err);
-                    } else {
-                        BookInstance.findOneAndUpdate({ _id: tradeRequest.bookInstance._id }, { user: tradeRequest.requester._id }, options, function(err) {
-                        // BookInstance.findOne({ _id: tradeRequestBookInstance._id }, function(err, tradeRequestBook) {
-                            if(err) {
-                                console.log(err);
-                            } else {
-                                getUserData(user)
-                                    .then(userData => {
-                                        res.status(200).send(userData);
-                                    })
-                                    .catch(err => console.log(err));
-                            }
-                        })
-                    }
-                });
+                res.status(401).send();
             }
+
+            tradeRequest.save(err => {
+                getUserData(user)
+                    .then(userData => {
+                        res.send(userData);
+                    });
+            });
         });
 });
 

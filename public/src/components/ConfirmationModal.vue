@@ -11,7 +11,7 @@
 
       <img v-else
       class="modal__icon confirmation__icon"
-      src="@/assets/warning.svg"
+      src="@/assets/warning-black.svg"
       alt="success">
 
       <h3 class="modal__text confirmation__text hed4"

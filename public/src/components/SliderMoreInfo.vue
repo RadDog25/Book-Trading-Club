@@ -156,6 +156,9 @@ export default {
             isSuccess: true
           })
         })
+        .catch(error => {
+          console.log(error)
+        })
     }
   }
 }

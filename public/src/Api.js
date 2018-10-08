@@ -210,13 +210,9 @@ class Api {
     })
   }
 
-  static trade (tradeRequestId, book) {
-    console.log(tradeRequestId)
+  static trade (tradeRequestData) {
     return new Promise((resolve, reject) => {
-      axios.post('/api/trade', {
-        id: tradeRequestId,
-        book
-      })
+      axios.post('/api/trade', tradeRequestData)
         .then(response => {
           resolve(response.data)
         })

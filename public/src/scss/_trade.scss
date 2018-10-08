@@ -11,12 +11,84 @@
         margin-bottom: 0rem;
     }
 
-    &__message {
+    &__messageContainer {
         margin-top: 2rem;
+        display: flex;
+        align-items: center;  
+    }
+
+    &__progressLineContainer {
+        flex: 1 1 0px;
+        margin-left: 4rem;
+        margin-right: 4rem;
+    }
+
+    &__progressLine {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    &__progressPath {
+        position: relative;
+        flex: 1 1 0px;
+        height: 2px;
+        display: flex;
+        justify-content: flex-end;
+
+        &:first-child {
+            flex: 0 0 auto;
+            &__progressAction {
+                position: absolute;
+                bottom: 100%;
+                left: 50%;
+                transform: translate(-50%, -1rem);
+            }
+        }
+
+        &:after {
+            content: "";
+            display: block;
+            position: absolute;
+            top: 0px;
+            left: 0px;
+            width: 100%;
+            height: 100%;
+            background-color: $green;
+            transform-origin: left;
+            transform: scale(0);
+            transition: transform 300ms ease;
+        }
+
+        &.active {
+            &:after {
+                transform: scale(1);
+            }
+        }
+    }
+
+    &__progressPoint {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background-color: $green;
+        transform: translateY(-4px);
+    }
+
+    &__progressAction {
+        position: absolute;
+        bottom: 100%;
+        left: 100%;
+        transform: translate(-50%, -1rem);
+        font-size: 14px;
+    }
+
+    &__message {
         padding: 2rem;
         background-color: white;
         line-height: 1.4;
-        max-width: 300px;
+        flex: 0 0 300px;
         box-shadow: 0 2px 4px 0 rgba(0,0,0,0.10);
     }
 
@@ -25,9 +97,14 @@
         pointer-events: none;
         margin-left: 1rem;
         filter: grayscale(100%);
-        transition: filter 300ms ease;
-        &.active {
+        transition: filter 600ms ease;
+
+        &.lastAction,
+        &.initiated,
+        &.proposed,
+        &.accepted {
             filter: grayscale(0%);
+            @extend .green;
         }
     }
 
@@ -129,32 +206,46 @@
         }
     }
 
-    &__status {
-        transition: color 300ms ease;
-    }
-
     &__container {
-        &.complete {
-            .trade__confirmedIcon {
-                opacity: 1;
-            }
+        &.accepted,
+        &.declined,
+        &.proposed {
+            .trade__bookContainer {
+                cursor: auto;
+                border-color: transparent;
+            }    
+        }
 
+        &.accepted,
+        &.declined {
+            .trade__icon {
+                &:first-child, &:last-child {
+                    opacity: 0;
+                }
+            }
+        }
+
+        &.accepted {
             .trade__icon {
                 filter: grayscale(1%);
-    
+
                 &:first-child {
-                    opacity: 0;
                     transform: rotate(180deg) translateX(40vw);
                 }
     
                 &:last-child {
-                    opacity: 0;
                     transform: translateX(40vw);
                 }
             }
 
-            .trade__status {
-                color: $green;
+            .trade__confirmedIcon--accepted {
+                opacity: 1;
+            }
+        }
+
+        &.declined {
+            .trade__confirmedIcon--declined {
+                opacity: 1;
             }
         }
     }
