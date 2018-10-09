@@ -40,7 +40,11 @@
                 :user="book.user"
                 ></user-preview>
 
-                <a @click="handleRequestConfirmation" class="button large">REQUEST TRADE</a>
+                <a v-if="showRequestTradeButton"
+                @click="handleRequestConfirmation"
+                class="button large">
+                  REQUEST TRADE
+                </a>
 
               </div>
 
@@ -119,6 +123,9 @@ export default {
     },
     avatarImageUrl () {
       return require(`@/assets/profile${this.book.user.avatar + 1}.png`)
+    },
+    showRequestTradeButton () {
+      return this.book.user._id !== this.user._id
     }
   },
   methods: {

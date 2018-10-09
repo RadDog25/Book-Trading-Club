@@ -82,10 +82,10 @@ export default {
       if (this.searchIsActive) this.$refs.searchInput.focus()
     },
     onSubmit () {
-      this.getSearchedBooks(this.searchText)
+      this.getAvailableBooks(this.searchText)
     },
     ...mapActions([
-      'getSearchedBooks'
+      'getAvailableBooks'
     ])
   }
 }

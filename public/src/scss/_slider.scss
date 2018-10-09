@@ -29,9 +29,15 @@
     }
 
     &__slides {
+        opacity: 0;
+        transition: opacity 300ms ease;
         position: relative;
         .slick-list {
             overflow: visible;
+        }
+
+        &.slick-initialized {
+            opacity: 1;
         }
 
         .slick-slide {

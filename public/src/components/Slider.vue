@@ -1,6 +1,7 @@
 <template>
   <div class="slider__container slider-container"
   :class="{ 'more-info-is-active active': moreInfoIsActive }"
+  :key="key"
   ref="slider"
   >
     <div class="slider">
@@ -61,7 +62,8 @@ export default {
   ],
   data () {
     return {
-      ...initialData
+      ...initialData,
+      key: 1
     }
   },
   computed: {
@@ -72,6 +74,8 @@ export default {
   watch: {
     books () {
       this.resetData()
+      this.key += 1
+      this.mountSlider()
     }
   },
   methods: {
@@ -98,79 +102,82 @@ export default {
 
       this.scrollToTop()
     },
+    mountSlider () {
+      setTimeout(() => {
+        const $slider = jquery('.js-slider')
+
+        $slider.on('init', () => {
+          this.stopLoading()
+        })
+
+        $slider.slick({
+          dots: false,
+          infinite: true,
+          speed: 400,
+          prevArrow: "<div class='slider__arrowContainer slider__arrowContainer--prev'><div class='slider__arrowWrapper'><i class='slider__arrow fa fa-angle-left'></i></div></div>",
+          nextArrow: "<div class='slider__arrowContainer slider__arrowContainer--next'><div class='slider__arrowWrapper'><i class='slider__arrow fa fa-angle-right'></i></div></div>",
+          slidesToShow: 10,
+          slidesToScroll: 10,
+          responsive: [
+            {
+              breakpoint: 1600,
+              settings: {
+                slidesToShow: 8,
+                slidesToScroll: 8
+              }
+            },
+            {
+              breakpoint: 1400,
+              settings: {
+                slidesToShow: 7,
+                slidesToScroll: 7
+              }
+            },
+            {
+              breakpoint: 1200,
+              settings: {
+                slidesToShow: 5,
+                slidesToScroll: 5
+              }
+            },
+            {
+              breakpoint: 1000,
+              settings: {
+                slidesToShow: 4,
+                slidesToScroll: 4
+              }
+            },
+            {
+              breakpoint: 800,
+              settings: {
+                slidesToShow: 3,
+                slidesToScroll: 3
+              }
+            },
+            {
+              breakpoint: 600,
+              settings: {
+                slidesToShow: 2,
+                slidesToScroll: 2
+              }
+            },
+            {
+              breakpoint: 360,
+              settings: {
+                slidesToShow: 1,
+                slidesToScroll: 1
+              }
+            }
+          ]
+        })
+      }, 0)
+    },
     ...mapMutations([
       'stopLoading'
     ])
   },
   mounted () {
-    setTimeout(() => {
-      const $slider = jquery('.js-slider')
-
-      $slider.on('init', () => {
-        this.stopLoading()
-      })
-
-      $slider.slick({
-        dots: false,
-        infinite: true,
-        speed: 400,
-        prevArrow: "<div class='slider__arrowContainer slider__arrowContainer--prev'><div class='slider__arrowWrapper'><i class='slider__arrow fa fa-angle-left'></i></div></div>",
-        nextArrow: "<div class='slider__arrowContainer slider__arrowContainer--next'><div class='slider__arrowWrapper'><i class='slider__arrow fa fa-angle-right'></i></div></div>",
-        slidesToShow: 10,
-        slidesToScroll: 10,
-        responsive: [
-          {
-            breakpoint: 1600,
-            settings: {
-              slidesToShow: 8,
-              slidesToScroll: 8
-            }
-          },
-          {
-            breakpoint: 1400,
-            settings: {
-              slidesToShow: 7,
-              slidesToScroll: 7
-            }
-          },
-          {
-            breakpoint: 1200,
-            settings: {
-              slidesToShow: 5,
-              slidesToScroll: 5
-            }
-          },
-          {
-            breakpoint: 1000,
-            settings: {
-              slidesToShow: 4,
-              slidesToScroll: 4
-            }
-          },
-          {
-            breakpoint: 800,
-            settings: {
-              slidesToShow: 3,
-              slidesToScroll: 3
-            }
-          },
-          {
-            breakpoint: 600,
-            settings: {
-              slidesToShow: 2,
-              slidesToScroll: 2
-            }
-          },
-          {
-            breakpoint: 360,
-            settings: {
-              slidesToShow: 1,
-              slidesToScroll: 1
-            }
-          }
-        ]
-      })
-    }, 1000)
+    this.mountSlider()
   }
 }
 </script>

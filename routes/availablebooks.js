@@ -8,6 +8,7 @@ var BookInstance = require('../models/BookInstance.js');
 router.get('/', passport.authenticate('jwt', { session: false }), function(req, res) {
     var searchText = req.query.searchText;
     BookInstance.find({})
+        .sort({ 'updatedAt': -1 })
         .populate(['book', 'user'])
         .exec(function(err, bookInstances) {
             if (err) {
