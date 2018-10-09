@@ -47,7 +47,7 @@
                         </div>
 
                         <div class="trade__progressPath"
-                        :class="{ 'active': status === 'proposed' }"
+                        :class="{ 'active': status === 'proposed' || status === 'accepted' }"
                         >
                           <div class="trade__progressPoint">
                               <div class="trade__progressAction">
@@ -80,8 +80,8 @@
                     <div class="trade__iconContainer">
 
                       <img class="trade__icon" src="@/assets/right-arrow.svg" />
-                      <img class="trade__confirmedIcon trade__confirmedIcon--accept" src="@/assets/done.svg" />
-                      <img class="trade__confirmedIcon trade__confirmedIcon--decline" src="@/assets/close2red.svg" />
+                      <img class="trade__confirmedIcon trade__confirmedIcon--accepted" src="@/assets/done.svg" />
+                      <img class="trade__confirmedIcon trade__confirmedIcon--declined" src="@/assets/close2red.svg" />
                       <img class="trade__icon" src="@/assets/right-arrow.svg" />
 
                     </div>
@@ -168,6 +168,7 @@ import SiteFooter from '@/components/SiteFooter'
 import UserPreview from '@/components/UserPreview'
 import Book from '@/components/Book'
 import Api from '@/Api'
+import velocity from 'velocity-animate'
 import { mapState, mapMutations, mapActions } from 'vuex'
 
 export default {
@@ -210,7 +211,8 @@ export default {
       return this.user._id === this.tradeRequest.owner._id
     },
     userMadeLastAction () {
-      return (this.userIsOwner && !this.lastActionWasRequester) || (!this.userIsOwner && this.lastActionWasRequester)
+      return (this.userIsOwner && !this.lastActionWasRequester) ||
+      (!this.userIsOwner && this.lastActionWasRequester)
     },
     showProposeTradeButton () {
       return this.status === 'initiated' && this.userIsOwner
@@ -256,7 +258,7 @@ export default {
       if (this.userMadeLastAction) {
         if (this.status === 'declined') {
           return 'You have declined this trade'
-        } else if (this.status === 'accept') {
+        } else if (this.status === 'accepted') {
           return 'You have accepted this trade'
         }
 
@@ -311,9 +313,11 @@ export default {
         Api.trade(tradeRequestData)
           .then(userData => {
             this.setUser(userData)
-            // setTimeout(() => {
-            //   this.$router.push('/dashboard')
-            // }, 1000)
+            if (this.status === 'accepted') {
+              setTimeout(() => {
+                this.animateBookSwap()
+              }, 1000)
+            }
           })
       }
 
@@ -323,6 +327,25 @@ export default {
         closeText: 'Cancel',
         isSuccess: false,
         callback
+      })
+    },
+    animateBookSwap () {
+      let userBook = document.getElementsByClassName('trade__userBookContainer')[0]
+      let partnerBook = document.getElementsByClassName('trade__partnerBookContainer')[0]
+
+      let distanceBetweenBooks = userBook.getBoundingClientRect().left -
+      partnerBook.getBoundingClientRect().left
+
+      velocity(userBook, {
+        translateX: [-distanceBetweenBooks, 0]
+      }, {
+        duration: 300
+      })
+
+      velocity(partnerBook, {
+        translateX: [distanceBetweenBooks, 0]
+      }, {
+        duration: 300
       })
     },
     ...mapMutations([

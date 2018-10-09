@@ -216,7 +216,13 @@ export default {
       return this.user ? this.user.books : []
     },
     tradeRequests () {
-      return this.user ? this.user.tradeRequests : []
+      if (this.user && this.user.tradeRequests) {
+        return this.user.tradeRequests.filter(tradeRequest => {
+          return ['initiated', 'proposed'].includes(tradeRequest.status)
+        })
+      }
+
+      return []
     },
     ...mapState([
       'searchedBooks',

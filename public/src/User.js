@@ -10,7 +10,7 @@ class User {
 
   getTradeRequestForBook (bookId) {
     return this.tradeRequests.find(tradeRequest => {
-      return bookId === tradeRequest.book._id
+      return bookId === tradeRequest.bookInstanceForRequester._id || bookId === tradeRequest.bookInstanceForOwner._id
     })
   }
 
