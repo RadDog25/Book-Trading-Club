@@ -1,9 +1,5 @@
 var TradeRequest = require('../models/TradeRequest.js');
-var TradeAction = require('../models/TradeAction.js');
-var getCleanUser = require('./getCleanUser.js');
-var getCleanBookInstance = require('./getCleanBookInstance.js');
 var getCleanTradeRequest = require('./getCleanTradeRequest.js');
-var getCleanTradeAction = require('./getCleanTradeAction.js');
 
 function getUserTradeRequests(user) {
     return new Promise((resolve, reject) => {

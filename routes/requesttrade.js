@@ -2,7 +2,6 @@ var express = require('express');
 var router = express.Router();
 var passport = require('passport');
 var TradeRequest = require('../models/TradeRequest.js');
-var TradeAction = require('../models/TradeAction.js');
 
 
 router.post('/', passport.authenticate('jwt', { session: false }), function(req, res) {
