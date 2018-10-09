@@ -39,6 +39,10 @@
           </form>
         </li>
 
+        <li class="main-menu-item dropdown-item-username-container">
+          Hi, <b class="dropdown-item-username">{{ user.username }}</b>
+        </li>
+
         <site-header-dropdown v-if="user"/>
 
       </ul>

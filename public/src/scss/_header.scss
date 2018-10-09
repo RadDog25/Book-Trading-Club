@@ -21,6 +21,16 @@
         font-weight: 700;
     }
 
+    .dropdown-item-username-container {
+        color: white;
+        display: flex;
+        align-items: center;
+    }
+
+    .dropdown-item-username {
+        margin-left: 3px;
+    }
+
     .main-navigation {
         display: flex;
         flex: 1 1 0px;
@@ -75,7 +85,7 @@
                         content: "";
                         display: block;
                         position: absolute;
-                        left: 34px;
+                        left: 32px;
                         bottom: 0;
                         transform: translateX(-50%);
                         border-style: solid;
