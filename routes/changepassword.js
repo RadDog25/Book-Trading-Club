@@ -4,7 +4,7 @@ var passport = require('passport');
 var FormErrors = require('../helpers/FormErrors.js');
 var User = require('../models/User.js');
 
-router.post('/', passport.authenticate('jwt', { session: false }), function(req, res) {
+router.put('/', passport.authenticate('jwt', { session: false }), function(req, res) {
     var formErrors = new FormErrors(req, {
         requiredFields: [
             {

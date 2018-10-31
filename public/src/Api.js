@@ -47,7 +47,7 @@ class Api {
 
   static changePassword (username, oldPassword, newPassword) {
     return new Promise((resolve, reject) => {
-      axios.post('/api/changepassword', {
+      axios.put('/api/changepassword', {
         username,
         oldPassword,
         newPassword
