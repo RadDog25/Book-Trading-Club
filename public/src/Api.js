@@ -63,7 +63,7 @@ class Api {
 
   static changeLocation (username, location) {
     return new Promise((resolve, reject) => {
-      axios.post('/api/changelocation', {
+      axios.put('/api/changelocation', {
         username,
         location
       })
