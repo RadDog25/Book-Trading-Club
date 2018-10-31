@@ -110,7 +110,7 @@ class Api {
 
   static updateAvatar (index) {
     return new Promise((resolve, reject) => {
-      axios.post('/api/changeavatar', {
+      axios.put('/api/changeavatar', {
         avatar: index
       })
         .then(response => {

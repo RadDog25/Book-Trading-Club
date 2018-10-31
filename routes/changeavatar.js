@@ -8,7 +8,7 @@ var getUserData = require('../helpers/getUserData.js');
 var User = require('../models/User.js');
 
 
-router.post('/', passport.authenticate('jwt', { session: false }), function(req, res) {
+router.put('/', passport.authenticate('jwt', { session: false }), function(req, res) {
     var avatar = req.body.avatar;
     if(avatar >= 0 && avatar <= 8) {
         var user = req.user;
