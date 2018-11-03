@@ -45,14 +45,14 @@
           <div class="dashboard-column dashboard-column-right">
             <div class="user-books books">
               <div class="user-book-container book-container"
-              v-for="book in userBooks"
-              :key="`book-${book._id}`"
+              v-for="bookInstance in user.bookInstances"
+              :key="`book-${bookInstance._id}`"
               >
                 <div class="user-book">
-                  <book :book="book"></book>
+                  <book :book="bookInstance.book"></book>
 
                   <div class="remove-icon-container"
-                  @click="handleRemoveBookClick(book)"
+                  @click="handleRemoveBookClick(bookInstance.book)"
                   >
                     <img class="remove-icon" src="@/assets/closered.svg"
                     alt="remove book">
@@ -113,14 +113,14 @@
           </div>
 
           <div class="dashboard-column dashboard-column-right">
-            <div class="tradeRequests">
-              <div v-for="(tradeRequest, index) in tradeRequests" class="tradeRequest"
+            <div v-if="tradeRequestPreviews.length" class="tradeRequests">
+              <div v-for="(preview, index) in tradeRequestPreviews" class="tradeRequest"
               :key="index"
               >
-                <router-link :to="`/trade/${tradeRequest._id}`"
+                <router-link :to="`/trade/${preview.id}`"
                 class="normal-link"
                 >
-                  <user-preview :user="tradeRequest.requester"></user-preview>
+                  <user-preview :user="preview.user"></user-preview>
                 </router-link>
               </div>
             </div>
@@ -199,7 +199,7 @@ export default {
       return this.selectedBooks.map(book => book.id)
     },
     libraryBookIds () {
-      return this.user.books.map(book => book._id)
+      return this.user.bookInstances.map(bookInstance => bookInstance.book._id)
     },
     addBookText () {
       return this.selectedBooks.length > 1 ? 'Add Books' : 'Add Book'
@@ -212,17 +212,15 @@ export default {
         return !this.libraryBookIds.includes(book.id)
       })
     },
-    userBooks () {
-      return this.user ? this.user.books : []
-    },
-    tradeRequests () {
-      if (this.user && this.user.tradeRequests) {
-        return this.user.tradeRequests.filter(tradeRequest => {
-          return ['initiated', 'proposed'].includes(tradeRequest.status)
-        })
-      }
-
-      return []
+    tradeRequestPreviews () {
+      return this.user.tradeRequests.reduce((requests, request) => {
+        if (['initiated', 'proposed'].includes(request.status)) {
+          return [...requests, {
+            id: request._id,
+            user: request.requester._id === this.user._id ? request.owner : request.requester
+          }]
+        }
+      }, [])
     },
     ...mapState([
       'searchedBooks',
