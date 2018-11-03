@@ -18,8 +18,8 @@ var User = require('./models/User.js');
 // Routes
 var routes = [
   {
-    module: require('./routes/user'),
-    endpoint: '/api/user'
+    module: require('./routes/users'),
+    endpoint: '/api/users'
   },
   {
     module: require('./routes/register'),

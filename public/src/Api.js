@@ -33,9 +33,9 @@ class Api {
     })
   }
 
-  static getUserData () {
+  static getUserData (param = 'me') {
     return new Promise((resolve, reject) => {
-      axios.get('/api/user')
+      axios.get(`/api/users/${param}`)
         .then(response => {
           resolve(response.data)
         })
