@@ -37,7 +37,7 @@
           </div>
 
           <div class="control">
-            <input type="submit" id="submit" name="submit" class="button submit large">
+            <input type="submit" id="submit" name="submit" value="Sign In" class="button submit large">
           </div>
 
         </form>
