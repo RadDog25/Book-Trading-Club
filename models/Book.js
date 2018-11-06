@@ -17,4 +17,6 @@ var BookSchema = new Schema({
     timestamps: true
 });
 
+BookSchema.index({'$**': 'text'});
+
 module.exports = mongoose.model('Book', BookSchema);
