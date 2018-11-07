@@ -52,7 +52,7 @@
                   <book :book="bookInstance.book"></book>
 
                   <div class="remove-icon-container"
-                  @click="handleRemoveBookClick(bookInstance.book)"
+                  @click="handleRemoveBookClick(bookInstance)"
                   >
                     <img class="remove-icon" src="@/assets/closered.svg"
                     alt="remove book">
