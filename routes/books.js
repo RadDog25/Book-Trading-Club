@@ -4,6 +4,7 @@ var passport = require('passport');
 var getBooks = require('../helpers/getBooks.js');
 var BookInstance = require('../models/BookInstance.js');
 var Book = require('../models/Book.js');
+var TradeRequest = require('../models/TradeRequest.js');
 var bookPropertiesToSend = require('../whitelists/book.js');
 var userPropertiesToSend = require('../whitelists/user.js');
 
@@ -56,6 +57,30 @@ router.get('/', passport.authenticate('jwt', { session: false }), async function
 
     res.send(bookInstances);   
 
+});
+
+router.delete('/:id', passport.authenticate('jwt', { session: false }), async function(req, res) {
+    try {
+        var id = req.params.id;
+        var user = req.user;
+    
+        await TradeRequest.find()
+            .or([
+                { bookInstanceForRequester: id },
+                { bookInstanceForOwner: id }
+            ])
+            .exec();
+    
+        await BookInstance.findByIdAndRemove(id)
+            .exec();
+    
+        var userData = await user.getData();
+        res.send(userData);
+        
+    } catch (error) {
+        console.log(error);
+        res.status(400).send();
+    }
 });
 
 module.exports = router;
