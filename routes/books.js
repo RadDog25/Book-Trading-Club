@@ -64,12 +64,20 @@ router.delete('/:id', passport.authenticate('jwt', { session: false }), async fu
         var id = req.params.id;
         var user = req.user;
     
-        await TradeRequest.find()
+        var tradeRequests = await TradeRequest.find()
             .or([
                 { bookInstanceForRequester: id },
                 { bookInstanceForOwner: id }
             ])
             .exec();
+
+        if (tradeRequests) {
+            await Promise.all(tradeRequests.map(request => {
+                request.status = 'declined';
+                request.lastActionWasRequester = user._id.equals(request.requester);
+                return request.save();
+            }));    
+        }
     
         await BookInstance.findByIdAndRemove(id)
             .exec();
