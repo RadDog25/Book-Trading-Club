@@ -4,10 +4,8 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
-var bluebird = require('bluebird');
 var passport = require('passport');
 var JwtStrategy = require('passport-jwt').Strategy;
-var ExtractJwt = require('passport-jwt').ExtractJwt;
 
 var app = express();
 var config = require('./config');
@@ -34,59 +32,15 @@ var routes = [
     endpoint: '/api/books'
   },
   {
-    module: require('./routes/changepassword'),
-    endpoint: '/api/changepassword'
-  },
-  {
-    module: require('./routes/changelocation'),
-    endpoint: '/api/changelocation'
-  },
-  {
-    module: require('./routes/changeavatar'),
-    endpoint: '/api/changeavatar'
-  },
-  {
-    module: require('./routes/addbooks'),
-    endpoint: '/api/addbooks'
-  },
-  {
-    module: require('./routes/deletebook'),
-    endpoint: '/api/deletebook'
-  },
-  {
-    module: require('./routes/availablebooks'),
-    endpoint: '/api/availablebooks'
-  },
-  {
-    module: require('./routes/requesttrade'),
-    endpoint: '/api/requesttrade'
-  },
-  {
-    module: require('./routes/addstarterdata'),
-    endpoint: '/api/addstarterdata'
-  },
-  {
-    module: require('./routes/deletealltraderequests'),
-    endpoint: '/api/deletealltraderequests'
-  },
-  {
-    module: require('./routes/tradepartner'),
-    endpoint: '/api/tradepartner'
-  },
-  {
-    module: require('./routes/trade'),
-    endpoint: '/api/trade'
+    module: require('./routes/trades'),
+    endpoint: '/api/trades'
   }
 ];
 
 // Connect to database
-var dbUrl = `mongodb://${config.username}:${config.password}@${config.url}:${config.port}/${config.db}`;
+var dbUrl = `mongodb://${config.url}:${config.port}/${config.db}`;
 mongoose.Promise = require('bluebird');
 mongoose.connect(dbUrl);
-
-// var db = mongoose.connection;
-// db.on('error', console.error.bind(console, 'connection error:'));
-// db.once('open', console.log.bind(console, 'connection success!'));
 
 function cookieExtractor(req) {
   if (req && req.cookies) {
