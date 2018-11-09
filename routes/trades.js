@@ -1,7 +1,7 @@
+var mongoose = require('mongoose');
 var express = require('express');
 var router = express.Router();
 var passport = require('passport');
-var getUserData = require('../helpers/getUserData.js');
 var BookInstance = require('../models/BookInstance.js');
 var TradeRequest = require('../models/TradeRequest.js');
 
@@ -9,7 +9,6 @@ router.post('/', passport.authenticate('jwt', { session: false }), async functio
     try {
         var user = req.user;
         var bookInstanceId = req.body.bookInstanceId;
-
         var bookInstance = await BookInstance.findById(bookInstanceId).exec();
         var ownerId = bookInstance.user;
 
@@ -37,7 +36,7 @@ router.post('/', passport.authenticate('jwt', { session: false }), async functio
         });
     
         await newTradeRequest.save();
-        var userData = await getUserData(user);
+        var userData = await user.getData();
         res.send(userData);
         
     } catch (error) {
@@ -49,7 +48,7 @@ router.post('/', passport.authenticate('jwt', { session: false }), async functio
 router.post('/:id', passport.authenticate('jwt', { session: false }), async function(req, res) {
     try {
         var id = req.params.id;
-        var bookInstanceForOwner = req.body.bookInstanceForOwner;
+        var bookInstanceForOwnerId = req.body.bookInstanceForOwnerId;
         var action = req.body.action;
         var user = req.user;
 
@@ -78,17 +77,29 @@ router.post('/:id', passport.authenticate('jwt', { session: false }), async func
             tradeRequest.status = 'accepted';
 
         } else if (action === 'decline') {
+
             tradeRequest.status = 'declined';
-        } else if (action === 'propose' && bookInstanceForOwner) {
+
+        } else if (action === 'propose' && bookInstanceForOwnerId) {
+
             tradeRequest.status = 'proposed';
-            tradeRequest.bookInstanceForOwner = bookInstanceForOwner;
+            var bookInstanceForOwner = await BookInstance.findById(bookInstanceForOwnerId)
+                .exec();
+
+            if (bookInstanceForOwner) {
+                tradeRequest.bookInstanceForOwner = mongoose.Types.ObjectId(bookInstanceForOwnerId);
+            } else {
+                res.status(400).send();
+                return;
+            }
+
         } else {
             res.status(401).send();
         }
 
         tradeRequest.lastActionWasRequester = !tradeRequest.lastActionWasRequester;
         await tradeRequest.save();
-        var userData = await getUserData(user);
+        var userData = await user.getData();
         res.send(userData);
 
     } catch (error) {
