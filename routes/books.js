@@ -83,6 +83,20 @@ router.delete('/:id', passport.authenticate('jwt', { session: false }), async fu
     }
 });
 
+router.post('/', passport.authenticate('jwt', { session: false }), async function(req, res) {
+    try {
+        var book = req.body.book;
+        var user = req.user;
+        await user.addBook(book)        
+        var userData = await user.getData();
+        res.send(userData);
+
+    } catch (error) {
+        console.log(error);
+        res.status(400).send();
+    }
+});
+
 module.exports = router;
 
 
