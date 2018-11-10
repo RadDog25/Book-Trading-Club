@@ -220,6 +220,8 @@ export default {
             user: request.requester._id === this.user._id ? request.owner : request.requester
           }]
         }
+
+        return requests
       }, [])
     },
     ...mapState([
@@ -236,7 +238,11 @@ export default {
     },
     handleAddBooksClick (books) {
       this.startLoading()
-      Api.addBooks(this.selectedBooks)
+
+      Promise.all(this.selectedBooks.map(book => Api.addBook(book)))
+        .then(() => {
+          return Api.getUserData()
+        })
         .then(userData => {
           this.setUser(userData)
           this.selectedBooks = []
@@ -260,17 +266,27 @@ export default {
       }
     },
     handleRemoveBookClick (book) {
-      const tradeRequest = this.user.getTradeRequestForBook(book._id)
+      let tradeRequests = this.user.getTradeRequestsForBook(book._id)
 
       let text = `Are you sure that you want to delete <b>${book.title}</b>?`
 
-      if (tradeRequest) {
-        const requester = tradeRequest.requester.username
-        text += `<br><br><b>${requester}</b> has requested it!`
+      if (tradeRequests.length) {
+        let requesters
+        if (tradeRequests.length === 1) {
+          requesters = tradeRequests[0].requester.username
+        } else {
+          let last = tradeRequests.pop()
+          requesters = tradeRequests.map(request => request.requester.username)
+            .join(', ')
+
+          requesters += ` and ${last.requester.username}`
+        }
+
+        text += `<br><br><b>${requesters}</b> has requested it!`
       }
 
       const callback = () => {
-        this.deleteBook(book)
+        this.deleteBook(book._id)
           .then(() => this.closeModal())
       }
 
