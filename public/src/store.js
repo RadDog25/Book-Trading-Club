@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import Book from './Book'
+import BookInstance from './BookInstance'
 import User from './User'
 import Api from './Api'
 
@@ -50,7 +51,7 @@ const store = new Vuex.Store({
       state.searchedBooks = booksData.map(bookData => new Book(bookData))
     },
     setAvailableBooks (state, booksData) {
-      state.availableBooks = booksData.map(bookData => new Book(bookData))
+      state.availableBooks = booksData.map(bookData => new BookInstance(bookData))
     },
     resetModal (state) {
       state.modal.items = window.deepClone(initialModalItems)
@@ -115,9 +116,9 @@ const store = new Vuex.Store({
           commit('stopLoading')
         })
     },
-    deleteBook ({ commit }, book) {
+    deleteBook ({ commit }, id) {
       commit('startLoading')
-      Api.deleteBook(book)
+      Api.deleteBook(id)
         .then(userData => commit('setUser', userData))
         .finally(() => {
           commit('stopLoading')
