@@ -3,10 +3,11 @@ import axios from 'axios'
 import User from './User'
 
 class Api {
-  static register (username, password) {
+  static register (username, email, password) {
     return new Promise((resolve, reject) => {
       axios.post('/api/register', {
         username,
+        email,
         password
       })
         .then(response => {
@@ -18,10 +19,10 @@ class Api {
     })
   }
 
-  static login (username, password) {
+  static login (email, password) {
     return new Promise((resolve, reject) => {
       axios.post('/api/login', {
-        username,
+        email,
         password
       })
         .then(response => {
@@ -47,7 +48,7 @@ class Api {
 
   static changePassword (username, oldPassword, newPassword) {
     return new Promise((resolve, reject) => {
-      axios.put('/api/changepassword', {
+      axios.put('/api/users/me/password', {
         username,
         oldPassword,
         newPassword
@@ -63,7 +64,7 @@ class Api {
 
   static changeLocation (username, location) {
     return new Promise((resolve, reject) => {
-      axios.put('/api/changelocation', {
+      axios.put('/api/users/me/location', {
         username,
         location
       })
@@ -78,7 +79,7 @@ class Api {
 
   static getSearchedBooksData (searchText) {
     return new Promise((resolve, reject) => {
-      axios.get('/api/books', {
+      axios.get('/api/books/search', {
         params: {
           searchText
         }
@@ -94,7 +95,7 @@ class Api {
 
   static getAvailableBooksData (searchText) {
     return new Promise((resolve, reject) => {
-      axios.get('/api/availablebooks', {
+      axios.get('/api/books', {
         params: {
           searchText
         }
@@ -110,7 +111,7 @@ class Api {
 
   static updateAvatar (index) {
     return new Promise((resolve, reject) => {
-      axios.put('/api/changeavatar', {
+      axios.put('/api/users/me/avatar', {
         avatar: index
       })
         .then(response => {
@@ -122,25 +123,10 @@ class Api {
     })
   }
 
-  static requestTrade (book, requesterId) {
+  static requestTrade (bookInstanceId) {
     return new Promise((resolve, reject) => {
-      axios.post('/api/requesttrade', {
-        book,
-        requesterId
-      })
-        .then(() => {
-          resolve()
-        })
-        .catch(error => {
-          reject(error)
-        })
-    })
-  }
-
-  static addBooks (books) {
-    return new Promise((resolve, reject) => {
-      axios.post('/api/addbooks', {
-        books
+      axios.post('/api/trades', {
+        bookInstanceId
       })
         .then(response => {
           resolve(response.data)
@@ -151,14 +137,25 @@ class Api {
     })
   }
 
-  static deleteBook (book) {
+  static addBook (book) {
+    return new Promise((resolve, reject) => {
+      axios.post('/api/books', {
+        book
+      })
+        .then(response => {
+          resolve(response.data)
+        })
+        .catch(error => {
+          reject(error)
+        })
+    })
+  }
+
+  static deleteBook (id) {
     return new Promise((resolve, reject) => {
       axios({
         method: 'delete',
-        url: '/api/deletebook',
-        data: {
-          book
-        }
+        url: `/api/books/${id}`
       })
         .then(response => {
           resolve(response.data)
@@ -183,7 +180,7 @@ class Api {
 
   static deleteAllTradeRequests () {
     return new Promise((resolve, reject) => {
-      axios.delete('/api/deletealltraderequests')
+      axios.delete('/api/trades')
         .then(response => {
           resolve(response.data)
         })
@@ -193,13 +190,9 @@ class Api {
     })
   }
 
-  static getTradePartner (tradeRequestId) {
+  static getTradePartner (id) {
     return new Promise((resolve, reject) => {
-      axios.get('/api/tradepartner', {
-        params: {
-          id: tradeRequestId
-        }
-      })
+      axios.get(`/api/trades/${id}/partner`)
         .then(response => {
           const requester = new User(response.data)
           resolve(requester)
@@ -210,9 +203,9 @@ class Api {
     })
   }
 
-  static trade (tradeRequestData) {
+  static trade (id, data) {
     return new Promise((resolve, reject) => {
-      axios.post('/api/trade', tradeRequestData)
+      axios.post(`/api/trades/${id}`, data)
         .then(response => {
           resolve(response.data)
         })
