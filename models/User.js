@@ -17,6 +17,10 @@ var UserSchema = new Schema({
         type: String,
         required: true
     },
+    email: {
+        type: String,
+        required: true
+    },
     location: {
         type: String,
         required: false,
@@ -67,6 +71,10 @@ UserSchema.methods.getData = function() {
                 tradeRequests
             }
         });
+}
+
+UserSchema.methods.getEmail = function() {
+    return this.email;
 }
 
 UserSchema.methods.addBook = function(book) {

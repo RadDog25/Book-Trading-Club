@@ -8,7 +8,7 @@ var User = require('../models/User.js');
 router.post('/', async function(req, res) {
     try {
         var formErrors = new FormErrors(req, {
-            requiredFields: [ 'username', 'password' ]
+            requiredFields: [ 'email', 'password' ]
         });
     
         if (formErrors.any()) {
@@ -17,11 +17,11 @@ router.post('/', async function(req, res) {
         }
     
         var user = await User.findOne({
-            username: req.body.username
+            email: req.body.email
         });
     
         if (!user) {
-            formErrors.set('username', 'Username does not exist');
+            formErrors.set('email', 'Email does not exist');
             res.status(401).send(formErrors.get());
             return;
         }

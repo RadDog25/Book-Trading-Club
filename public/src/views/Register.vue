@@ -22,11 +22,21 @@
 
           <div class="control" :class="{ 'has-errors': errors.username }">
 
-            <label for="email">Email</label>
+            <label for="username">Username</label>
 
-            <input ref="username" v-model="username" type="text" id="email" name="email">
+            <input ref="username" v-model="username" type="text" id="username" name="username">
 
             <div class="error" v-if="errors.username">{{ errors.username }}</div>
+
+          </div>
+
+          <div class="control" :class="{ 'has-errors': errors.email }">
+
+            <label for="email">Email</label>
+
+            <input ref="email" v-model="email" type="text" id="email" name="email">
+
+            <div class="error" v-if="errors.email">{{ errors.email }}</div>
 
           </div>
 
@@ -71,12 +81,13 @@ export default {
     return {
       username: '',
       password: '',
+      email: '',
       errors: {}
     }
   },
   methods: {
     onSubmit () {
-      Api.register(this.username, this.password)
+      Api.register(this.username, this.email, this.password)
         .then(() => {
           this.errors = {}
           this.$router.push('login')

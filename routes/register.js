@@ -6,7 +6,7 @@ var User = require('../models/User.js');
 router.post('/', function(req, res) {
 
     var formErrors = new FormErrors(req, {
-        requiredFields: ['username', 'password']
+        requiredFields: ['username', 'password', 'email']
     });
 
     if (formErrors.any()) {
@@ -16,7 +16,8 @@ router.post('/', function(req, res) {
 
     var newUser = new User({
         username: req.body.username,
-        password: req.body.password
+        password: req.body.password,
+        email: req.body.email,
     });
 
     newUser.save(function(err) {

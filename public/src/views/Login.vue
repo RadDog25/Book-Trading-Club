@@ -16,13 +16,13 @@
 
         <form method="POST" action="/login" @submit.prevent="onSubmit">
 
-          <div class="control" :class="{ 'has-errors': errors.username }">
+          <div class="control" :class="{ 'has-errors': errors.email }">
 
             <label for="email">Email</label>
 
-            <input ref="username" v-model="username" type="text" id="email" name="email">
+            <input ref="email" v-model="email" type="text" id="email" name="email">
 
-            <div class="error" v-if="errors.username">{{ errors.username }}</div>
+            <div class="error" v-if="errors.email">{{ errors.email }}</div>
 
           </div>
 
@@ -66,14 +66,14 @@ export default {
   },
   data () {
     return {
-      username: '',
+      email: '',
       password: '',
       errors: {}
     }
   },
   methods: {
     onSubmit () {
-      Api.login(this.username, this.password)
+      Api.login(this.email, this.password)
         .then(userData => {
           this.errors = {}
           this.setUser(userData)
@@ -93,7 +93,7 @@ export default {
   },
   mounted () {
     setTimeout(() => {
-      this.$refs.username.focus()
+      this.$refs.email.focus()
     }, 0)
   }
 }
