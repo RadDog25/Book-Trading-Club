@@ -26,6 +26,7 @@ router.get('/', passport.authenticate('jwt', { session: false }), async function
     if (!searchText) {
         var bookInstances = await BookInstance.find({})
             .select('book user')
+            .sort({ 'updatedAt': -1 })
             .populate(bookInstancePopulateParams)
             .exec();
 
@@ -34,7 +35,6 @@ router.get('/', passport.authenticate('jwt', { session: false }), async function
     }
 
     var books = await Book.find({$text: {$search: searchText}})
-        .sort({ 'updatedAt': -1 })
         .select('_id')
         .exec();
 
@@ -52,6 +52,7 @@ router.get('/', passport.authenticate('jwt', { session: false }), async function
     var bookInstances = await BookInstance.find({})
         .or(bookQuery)
         .select('book user')
+        .sort({ 'updatedAt': -1 })
         .populate(bookInstancePopulateParams)
         .exec();
 
