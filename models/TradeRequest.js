@@ -1,6 +1,7 @@
 var mongoose = require('mongoose');
 var deepPopulate = require('mongoose-deep-populate')(mongoose);
 var Schema = mongoose.Schema;
+var bookPropertiesToSend = require('../whitelists/book.js');
 
 var TradeRequestSchema = new Schema({
     owner: {
@@ -13,6 +14,14 @@ var TradeRequestSchema = new Schema({
         ref: 'User',
         required: true
     },
+    ownerEmail: {
+        type: String,
+        required: false
+    },
+    requesterEmail: {
+        type: String,
+        required: false
+    },
     bookInstanceForOwner: {
         type: Schema.Types.ObjectId,
         ref: 'BookInstance',
@@ -23,13 +32,24 @@ var TradeRequestSchema = new Schema({
         ref: 'BookInstance',
         required: false
     },
+    confirmedByOwner: {
+        type: Boolean,
+        required: true,
+        default: false
+    },
+    confirmedByRequester: {
+        type: Boolean,
+        required: true,
+        default: false
+    },
     status: {
         type: String,
         enum: [
             'initiated',
-            'declined',
+            'proposed',
             'accepted',
-            'proposed'
+            'completed',
+            'declined',
         ],
         required: true,
         default: 'initiated'
@@ -42,5 +62,15 @@ var TradeRequestSchema = new Schema({
     timestamps: true
 });
 
-TradeRequestSchema.plugin(deepPopulate);
+TradeRequestSchema.plugin(deepPopulate, {
+    populate: {
+        'bookInstanceForOwner.book': {
+            select: bookPropertiesToSend.join(' ')
+        },
+        'bookInstanceForRequester.book': {
+            select: bookPropertiesToSend.join(' ')
+        }
+    }
+});
+
 module.exports = mongoose.model('TradeRequest', TradeRequestSchema);

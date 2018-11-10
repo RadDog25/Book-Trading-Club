@@ -19,7 +19,8 @@ router.post('/', passport.authenticate('jwt', { session: false }), async functio
         }
 
         var existingTradeRequest = await TradeRequest.find({
-            bookInstanceForRequester: bookInstanceId
+            bookInstanceForRequester: bookInstanceId,
+            status: { $in: ['initiated', 'proposed', 'accepted'] }
         })
             .exec();
     
@@ -54,27 +55,45 @@ router.post('/:id', passport.authenticate('jwt', { session: false }), async func
 
         var tradeRequest = await TradeRequest.findOne({ _id: id })
             .or([
+                { owner: user._id },
+                { requester: user._id },
+            ])
+            .or([
+                { status: 'accepted' },
                 { $and: [{ owner: user._id }, { lastActionWasRequester: true }] },
                 { $and: [{ requester: user._id }, { lastActionWasRequester: false }] }
             ])
-            .where('status').in(['initiated', 'proposed'])
+            .where('status').in(['initiated', 'proposed', 'accepted'])
+            .populate(['owner', 'requester'])
             .exec();
 
         var userIsOwner = user._id.equals(tradeRequest.owner._id);
-        tradeRequest.ownerHasNotification = !userIsOwner;
-        tradeRequest.requesterHasNotification = userIsOwner;
 
-        if (action === 'accept') {
+        if (action === 'confirm') {
 
-            await BookInstance.findOneAndUpdate({ _id: tradeRequest.bookInstanceForOwner }, {
-                user: tradeRequest.owner
-            }).exec();
+            if (userIsOwner) {
+                tradeRequest.confirmedByOwner = true;
+            } else {
+                tradeRequest.confirmedByRequester = true;
+            }
 
-            await BookInstance.findOneAndUpdate({ _id: tradeRequest.bookInstanceForRequester }, {
-                user: tradeRequest.requester
-            }).exec();
+            if (tradeRequest.confirmedByOwner && tradeRequest.confirmedByRequester) {
+                await BookInstance.findOneAndUpdate({ _id: tradeRequest.bookInstanceForOwner }, {
+                    user: tradeRequest.owner
+                }).exec();
+    
+                await BookInstance.findOneAndUpdate({ _id: tradeRequest.bookInstanceForRequester }, {
+                    user: tradeRequest.requester
+                }).exec();
+    
+                tradeRequest.status = 'completed';    
+            }
+
+        } else if (action === 'accept') {
 
             tradeRequest.status = 'accepted';
+            tradeRequest.requesterEmail = tradeRequest.requester.getEmail();
+            tradeRequest.ownerEmail = tradeRequest.owner.getEmail();
 
         } else if (action === 'decline') {
 

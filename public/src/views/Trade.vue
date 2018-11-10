@@ -8,7 +8,7 @@
 
             <div v-if="partner && tradeRequest"
             class="trade__container content-area layout-row"
-            :class="status"
+            :class="[status, confirmationClass]"
             >
 
                 <div class="trade__headingContainer heading-with-border">
@@ -47,7 +47,7 @@
                         </div>
 
                         <div class="trade__progressPath"
-                        :class="{ 'active': status === 'proposed' || status === 'accepted' }"
+                        :class="{ 'active': status === 'proposed' || status === 'accepted' || status === 'completed' }"
                         >
                           <div class="trade__progressPoint">
                               <div class="trade__progressAction">
@@ -57,13 +57,28 @@
                         </div>
 
                         <div class="trade__progressPath"
-                        :class="{ 'active': status === 'accepted' }"
+                        :class="{ 'active': status === 'accepted' || status === 'completed' }"
                         >
                           <div class="trade__progressPoint">
                               <div class="trade__progressAction">
                                 Accepted
                               </div>
                           </div>
+                        </div>
+
+                        <div class="trade__progressPath"
+                        :class="[status === 'completed' ? 'active' : '', ['you', 'partner'].includes(confirmation) ? 'faded' : '']"
+                        >
+                          <div class="trade__progressPoint">
+                              <div class="trade__progressAction">
+                                Completed
+                              </div>
+                          </div>
+
+                          <div v-if="confirmationMessage" class="trade__progressNote">
+                            {{ confirmationMessage }}
+                          </div>
+
                         </div>
 
                      </div>
@@ -75,13 +90,13 @@
 
                 <div class="trade__users">
 
-                    <user-preview :user="user"></user-preview>
+                    <user-preview :user="userForPreview"></user-preview>
 
                     <div class="trade__iconContainer">
 
                       <img class="trade__icon" src="@/assets/right-arrow.svg" />
-                      <img class="trade__confirmedIcon trade__confirmedIcon--accepted" src="@/assets/done.svg" />
-                      <img class="trade__confirmedIcon trade__confirmedIcon--declined" src="@/assets/close2red.svg" />
+                      <img class="trade__completedIcon trade__completedIcon--completed" src="@/assets/done.svg" />
+                      <img class="trade__completedIcon trade__completedIcon--declined" src="@/assets/close2red.svg" />
                       <img class="trade__icon" src="@/assets/right-arrow.svg" />
 
                     </div>
@@ -94,13 +109,13 @@
 
                     <div class="trade__userBooksContainer trade__booksContainer">
                         <ul class="trade__userBooks trade__books normal-list"
-                        :class="getCssClass(userBooks)"
+                        :class="getCssClass(userBookInstances)"
                         >
-                            <li v-for="book in userBooks"
-                            :key="book._id"
+                            <li v-for="bookInstance in userBookInstances"
+                            :key="bookInstance.book._id"
                             class="trade__userBookContainer trade__bookContainer selectable-box-container selectable-box-container-thin">
                                 <div class="selectable-box">
-                                    <book :book="book"></book>
+                                    <book :book="bookInstance.book"></book>
                                 </div>
                             </li>
                         </ul>
@@ -108,16 +123,16 @@
 
                     <div class="trade__partnerBooksContainer trade__booksContainer">
                       <ul class="trade__partnerBooks trade__books normal-list"
-                      :class="getCssClass(partnerBooks)"
+                      :class="getCssClass(partnerBookInstances)"
                       >
-                          <li v-for="book in partnerBooks"
-                          :key="book._id"
-                          :class="{ 'is-selected': book._id === selectedBook._id }"
+                          <li v-for="bookInstance in partnerBookInstances"
+                          :key="bookInstance._id"
+                          :class="{ 'is-selected': bookInstance._id === selectedBookInstance._id }"
                           class="trade__partnerBookContainer trade__bookContainer selectable-box-container selectable-box-container-thin">
                               <div class="selectable-box"
-                              @click="handleBookClick(book)"
+                              @click="handleBookClick(bookInstance)"
                               >
-                                  <book :book="book"></book>
+                                  <book :book="bookInstance.book"></book>
                               </div>
                           </li>
                       </ul>
@@ -125,30 +140,37 @@
 
                 </div>
 
-                <div v-if="tradeisOpen && !userMadeLastAction" class="trade__buttonContainer">
+                <div v-if="showActionButtons" class="trade__buttonContainer">
 
-                    <a v-if="showAcceptTradeButton"
-                    class="trade__button button large"
-                    :class="{ 'disabled': !selectedBook.id }"
-                    @click="handleTradeButtonClick('accept')"
-                    >
-                        Accept Trade
-                    </a>
+                  <a v-if="showAcceptTradeButton"
+                  class="trade__button button large"
+                  :class="{ 'disabled': !selectedBookInstance._id }"
+                  @click="handleTradeButtonClick('accept')"
+                  >
+                    Accept Trade
+                  </a>
 
-                    <a v-if="showProposeTradeButton"
-                    class="trade__button button large"
-                    :class="{ 'disabled': !selectedBook.id }"
-                    @click="handleTradeButtonClick('propose')"
-                    >
-                        Propose Trade
-                    </a>
+                  <a v-if="showProposeTradeButton"
+                  class="trade__button button large"
+                  :class="{ 'disabled': !selectedBookInstance._id }"
+                  @click="handleTradeButtonClick('propose')"
+                  >
+                    Propose Trade
+                  </a>
 
-                    <a v-if="showDeclineTradeButton"
-                    class="trade__button button large"
-                    @click="handleTradeButtonClick('decline')"
-                    >
-                        Decline Trade
-                    </a>
+                  <a v-if="showDeclineTradeButton"
+                  class="trade__button button large"
+                  @click="handleTradeButtonClick('decline')"
+                  >
+                    Decline Trade
+                  </a>
+
+                  <a v-if="showConfirmTradeButton"
+                  class="trade__button trade__button--confirm button large green"
+                  @click="handleTradeButtonClick('confirm')"
+                  >
+                    I confirm that this exchange has been made
+                  </a>
 
                 </div>
 
@@ -182,7 +204,7 @@ export default {
   data () {
     return {
       partner: null,
-      selectedBook: { id: null }
+      selectedBookInstance: {}
     }
   },
   computed: {
@@ -200,6 +222,9 @@ export default {
     },
     tradeisOpen () {
       return ['initiated', 'proposed'].includes(this.status)
+    },
+    showActionButtons () {
+      return (this.tradeisOpen && !this.userMadeLastAction) || this.status === 'accepted'
     },
     bookInstanceForOwner () {
       return this.tradeRequest.bookInstanceForOwner
@@ -223,7 +248,10 @@ export default {
     showDeclineTradeButton () {
       return ['initiated', 'proposed'].includes(this.status)
     },
-    userBooks () {
+    showConfirmTradeButton () {
+      return this.status === 'accepted'
+    },
+    userBookInstances () {
       if (this.userIsOwner) {
         if (this.bookInstanceForRequester) {
           return [ this.bookInstanceForRequester ]
@@ -236,10 +264,10 @@ export default {
 
       return []
     },
-    partnerBooks () {
+    partnerBookInstances () {
       if (this.userIsOwner) {
         if (this.status === 'initiated') {
-          return this.partner.books
+          return this.partner.bookInstances
         }
 
         if (this.bookInstanceForOwner) {
@@ -252,27 +280,41 @@ export default {
       }
 
       return []
+    },
+    partnerEmail () {
+      return this.userIsOwner ? this.tradeRequest.requesterEmail : this.tradeRequest.ownerEmail
+    },
+    partnerEmailHtml () {
+      return `<a class="trade__email" href="mailto:${this.partnerEmail}"><b>${this.partnerEmail}</b></a>`
+    },
+    exchangeHtml () {
+      return `You can contact <b>${this.partner.username}</b> at ${this.partnerEmailHtml} to make arrangements for this exchange`
     },
     message () {
       const partnerName = this.partner.username
+
+      if (this.status === 'completed') {
+        return '<b>This trade is completed<b>'
+      }
+
       if (this.userMadeLastAction) {
         if (this.status === 'declined') {
           return 'You have declined this trade'
         } else if (this.status === 'accepted') {
-          return 'You have accepted this trade'
+          return `You have accepted this trade. ${this.exchangeHtml}`
         }
 
         return 'Your request has been sent'
       } else {
         if (this.status === 'initiated') {
-          const bookTitle = this.bookInstanceForRequester.title
+          const bookTitle = this.bookInstanceForRequester.book.title
           return `<b>${partnerName}</b> is interested in your copy of <b>${bookTitle}</b>. Select a book or decline the request below.`
         } else if (this.status === 'proposed') {
           return `<b>${partnerName}</b> has proposed a trade`
         } else if (this.status === 'declined') {
           return `<b>${partnerName}</b> has declined this trade`
         } else if (this.status === 'accepted') {
-          return `<b>${partnerName}</b> has accepted this trade`
+          return `<b>${partnerName}</b> has accepted this trade. ${this.exchangeHtml}`
         }
       }
     },
@@ -283,16 +325,53 @@ export default {
 
       return `Pending your response`
     },
+    confirmation () {
+      if (this.tradeRequest.confirmedByOwner) {
+        if (this.tradeRequest.confirmedByRequester) {
+          return 'both'
+        }
+        return this.userIsOwner ? 'you' : 'partner'
+      } else if (this.tradeRequest.confirmedByRequester) {
+        return this.userIsOwner ? 'partner' : 'you'
+      }
+
+      return 'none'
+    },
+    confirmationClass () {
+      return `${this.confirmation}Confirmed`
+    },
+    confirmationMessage () {
+      if (this.confirmation === 'you') {
+        return 'You have confirmed the exchange'
+      } else if (this.confirmation === 'partner') {
+        return `${this.partner.username} has confirmed this exchange`
+      }
+
+      return ''
+    },
+    userForPreview () {
+      const userForPreview = Object.assign({}, this.user)
+      userForPreview.username = 'You'
+
+      return userForPreview
+    },
     ...mapState([
       'user'
     ])
+  },
+  watch: {
+    status (newStatus) {
+      if (newStatus === 'proposed') {
+        this.selectedBookInstance = this.bookInstanceForRequester
+      }
+    }
   },
   methods: {
     getCssClass (books) {
       return books.length > 5 ? 'trade__books--grid' : 'trade__books--flex'
     },
-    handleBookClick (book) {
-      this.selectedBook = book
+    handleBookClick (bookInstance) {
+      this.selectedBookInstance = bookInstance
     },
     handleTradeButtonClick (action) {
       let text = `Are you sure that you want to ${action} this trade?`
@@ -300,20 +379,21 @@ export default {
       const callback = () => {
         this.closeModal()
 
-        const tradeRequestData = {
-          id: this.tradeRequest._id,
+        const id = this.tradeRequest._id
+
+        const data = {
           action
         }
 
-        if (this.selectedBook) {
-          const key = this.userIsOwner ? 'bookInstanceForOwner' : 'bookInstanceForRequester'
-          tradeRequestData[key] = this.selectedBook
+        if (this.selectedBookInstance) {
+          const key = this.userIsOwner ? 'bookInstanceForOwnerId' : 'bookInstanceForRequesterId'
+          data[key] = this.selectedBookInstance._id
         }
 
-        Api.trade(tradeRequestData)
+        Api.trade(id, data)
           .then(userData => {
             this.setUser(userData)
-            if (this.status === 'accepted') {
+            if (this.status === 'completed') {
               setTimeout(() => {
                 this.animateBookSwap()
               }, 1000)
@@ -362,6 +442,14 @@ export default {
     Api.getTradePartner(this.tradeRequest._id)
       .then(partner => {
         this.partner = partner
+
+        if (this.status === 'proposed') {
+          this.selectedBookInstance = this.bookInstanceForRequester
+        }
+
+        if (this.status === 'completed') {
+          setTimeout(this.animateBookSwap, 1000)
+        }
       })
   }
 }
