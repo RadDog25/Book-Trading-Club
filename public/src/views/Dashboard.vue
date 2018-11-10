@@ -108,19 +108,32 @@
 
           <div class="dashboard-column dashboard-column-left">
             <h3 class="dashboard-column-title hed3">
-              REQUESTS
+              TRADES
             </h3>
           </div>
 
           <div class="dashboard-column dashboard-column-right">
             <div v-if="tradeRequestPreviews.length" class="tradeRequests">
-              <div v-for="(preview, index) in tradeRequestPreviews" class="tradeRequest"
+              <div v-for="(preview, index) in tradeRequestPreviews" class="dashboard__tradeRequest"
               :key="index"
               >
                 <router-link :to="`/trade/${preview.id}`"
-                class="normal-link"
+                class="dashboard__tradeRequestLink normal-link hover-opacity"
                 >
                   <user-preview :user="preview.user"></user-preview>
+
+                  <div v-if="preview.books.length" class="dashboard__tradeRequestBooks">
+                    <div class="dashboard__tradeRequestBookImageContainer"
+                    v-for="book in preview.books"
+                    :key="book._id"
+                    >
+                      <img
+                      :src="book.thumbnail"
+                      :alt="book.title"
+                      class="dashboard__tradeRequestBookImage">
+                    </div>
+                  </div>
+
                 </router-link>
               </div>
             </div>
@@ -215,9 +228,28 @@ export default {
     tradeRequestPreviews () {
       return this.user.tradeRequests.reduce((requests, request) => {
         if (['initiated', 'proposed'].includes(request.status)) {
+          let userIsOwner = request.requester._id === this.user._id
+
+          let books = ['bookInstanceForOwner', 'bookInstanceForRequester'].reduce((books, key) => {
+            if (request[key]) {
+              books.push({
+                _id: request[key]._id,
+                title: request[key].book.title,
+                thumbnail: request[key].book.thumbnail
+              })
+            }
+
+            return books
+          }, [])
+
+          if (!userIsOwner) {
+            books = books.reverse()
+          }
+
           return [...requests, {
             id: request._id,
-            user: request.requester._id === this.user._id ? request.owner : request.requester
+            user: userIsOwner ? request.owner : request.requester,
+            books
           }]
         }
 
