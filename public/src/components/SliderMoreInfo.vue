@@ -37,13 +37,14 @@
               <div class="request">
 
                 <user-preview
-                :user="book.user"
+                :user="bookInstance.user"
                 ></user-preview>
 
                 <a v-if="showRequestTradeButton"
                 @click="handleRequestConfirmation"
-                class="button large">
-                  REQUEST TRADE
+                class="button large"
+                :class="{ 'disabled': requestIsPending }">
+                  {{ requestIsPending ? 'REQUEST PENDING' : 'REQUEST TRADE' }}
                 </a>
 
               </div>
@@ -69,7 +70,7 @@
 
 <script>
 import velocity from 'velocity-animate'
-import { mapState, mapActions } from 'vuex'
+import { mapState, mapMutations, mapActions } from 'vuex'
 import UserPreview from '@/components/UserPreview'
 import Book from '@/components/Book'
 import Api from '@/Api'
@@ -81,7 +82,7 @@ export default {
     Book
   },
   props: [
-    'book'
+    'bookInstance'
   ],
   data () {
     return {
@@ -92,6 +93,9 @@ export default {
     ...mapState([
       'user'
     ]),
+    book () {
+      return this.bookInstance.book
+    },
     categories () {
       if (this.book.categories && this.book.categories.length) {
         if (this.book.categories.length === 1) {
@@ -122,15 +126,29 @@ export default {
       return require('@/assets/googlebooks.png')
     },
     avatarImageUrl () {
-      return require(`@/assets/profile${this.book.user.avatar + 1}.png`)
+      return require(`@/assets/profile${this.bookInstance.user.avatar + 1}.png`)
     },
     showRequestTradeButton () {
-      return this.book.user._id !== this.user._id
+      return this.bookInstance.user._id !== this.user._id
+    },
+    requestIsPending () {
+      const tradeRequests = this.user.getTradeRequestsForBook(this.bookInstance._id)
+
+      if (tradeRequests.length) {
+        return !!tradeRequests.find(tradeRequest => {
+          return ['initiated', 'proposed'].includes(tradeRequest.status)
+        })
+      }
+
+      return false
     }
   },
   methods: {
     ...mapActions([
       'openConfirmationModal'
+    ]),
+    ...mapMutations([
+      'setUser'
     ]),
     handleCloseClick () {
       this.$emit('moreInfoCloseButtonWasClicked')
@@ -155,8 +173,9 @@ export default {
       }, 0)
     },
     handleRequestConfirmation () {
-      Api.requestTrade(this.book, this.user._id)
-        .then(response => {
+      Api.requestTrade(this.bookInstance._id)
+        .then(userData => {
+          this.setUser(userData)
           this.openConfirmationModal({
             text: 'Your request has been sent!',
             closeText: 'Ok',

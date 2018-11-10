@@ -7,13 +7,13 @@
     <div class="slider">
 
       <div class="slider__slidesContainer">
-        <ul class="slider__slides js-slider">
-          <li v-for="(book, index) in books"
-          :key="`${book.title}-${index}`"
+        <ul v-if="books.length" class="slider__slides js-slider">
+          <li v-for="(bookInstance, index) in books"
+          :key="`${bookInstance.book.title}-${index}`"
           class="slider__slideContainer">
             <slide-item :class="{ 'active': moreInfoIsActive && index === moreInfoIndex }"
             @moreInfoWasClicked="handleMoreInfoClick"
-            :book="book"
+            :bookInstance="bookInstance"
             :index="index"
             ></slide-item>
           </li>
@@ -24,8 +24,8 @@
 
     <transition name="fade" mode="out-in">
       <slider-more-info v-if="moreInfoIsActive && books.length && Number.isInteger(moreInfoIndex)"
-      :book="books[moreInfoIndex]"
-      :key="`${books[moreInfoIndex].id}`"
+      :bookInstance="books[moreInfoIndex]"
+      :key="`${books[moreInfoIndex].book._id}`"
       @moreInfoCloseButtonWasClicked="moreInfoIsActive = false"
       ref="moreinfo"
       ></slider-more-info>

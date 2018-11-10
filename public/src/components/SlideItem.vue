@@ -53,9 +53,14 @@ export default {
     StarRating
   },
   props: [
-    'book',
+    'bookInstance',
     'index'
   ],
+  computed: {
+    book () {
+      return this.bookInstance.book
+    }
+  },
   methods: {
     handleMoreInfoClick () {
       this.$emit('moreInfoWasClicked', this.index)
