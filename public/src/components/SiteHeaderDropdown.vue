@@ -33,7 +33,7 @@
 </template>
 
 <script>
-import { mapState, mapMutations, mapActions } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 export default {
   name: 'SiteHeaderDropdown',
   computed: {
@@ -48,9 +48,6 @@ export default {
     handleLogoutClick () {
       this.logout(this.$router)
     },
-    ...mapMutations([
-      'setUser'
-    ]),
     ...mapActions([
       'logout'
     ])
