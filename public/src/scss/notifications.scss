@@ -1,0 +1,53 @@
+.notifications {
+    &__container {
+        display: flex;
+        align-items: center;
+
+        &:before {
+            left: 12px !important;
+        }
+    }
+
+    &__items {
+        position: absolute;
+        max-width: 300px;
+        width: 100vw;
+        right: 0px;
+
+        a {
+            white-space: normal !important;
+            color: white;
+        }
+    }
+
+    &__icon {
+        width: 24px;
+        height: 24px;
+    }
+
+    &__iconContainer {
+        position: relative;
+    }
+
+    &__number {
+        position: absolute;
+        top: 0px;
+        right: -4px;
+        width: 16px;
+        height: 16px;
+        font-size: 12px;
+        font-weight: 700;
+        color: white;
+        background-color: $red;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    &__itemTime {
+        opacity: 0.7;
+        font-size: 12px;
+        margin-top: 0.25rem;
+    }
+}

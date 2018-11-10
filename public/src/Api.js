@@ -214,6 +214,18 @@ class Api {
         })
     })
   }
+
+  static updateNotifications (link) {
+    return new Promise((resolve, reject) => {
+      axios.put('/api/notifications', { link })
+        .then(response => {
+          resolve(response.data)
+        })
+        .catch(error => {
+          reject(error)
+        })
+    })
+  }
 }
 
 export default Api

@@ -98,7 +98,7 @@ const router = new Router({
   ]
 })
 
-router.beforeEach((to, from, next) => {
+router.beforeEach(async (to, from, next) => {
   console.log(to.path, from.path)
   store.commit('startLoading')
 
@@ -115,9 +115,11 @@ router.beforeEach((to, from, next) => {
       store.commit('stopLoading')
     }
 
-    console.log('to browse')
+    console.log(to.path)
     router.push('browse')
   }
+
+  await Api.updateNotifications(to.path)
 
   Api.getUserData()
     .then(userData => {

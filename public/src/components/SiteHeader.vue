@@ -39,6 +39,8 @@
           </form>
         </li>
 
+        <notifications/>
+
         <li class="main-menu-item dropdown-item-username-container">
           Hi, <b class="dropdown-item-username">{{ user.username }}</b>
         </li>
@@ -54,13 +56,15 @@
 <script>
 import SiteHeaderDropdown from '@/components/SiteHeaderDropdown'
 import SiteBranding from '@/components/SiteBranding'
+import Notifications from '@/components/Notifications'
 import { mapState, mapActions } from 'vuex'
 
 export default {
   name: 'SiteHeader',
   components: {
     SiteHeaderDropdown,
-    SiteBranding
+    SiteBranding,
+    Notifications
   },
   data () {
     return {

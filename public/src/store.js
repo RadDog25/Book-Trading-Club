@@ -41,10 +41,8 @@ const store = new Vuex.Store({
     },
     startLoading (state) {
       state.isLoading = true
-      console.log('started')
     },
     stopLoading (state) {
-      console.log('stopped')
       state.isLoading = false
     },
     setSearchedBooks (state, booksData) {

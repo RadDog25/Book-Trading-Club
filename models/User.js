@@ -4,6 +4,7 @@ var bcrypt = require('bcrypt-nodejs');
 var Book = require('../models/Book.js');
 var BookInstance = require('../models/BookInstance.js');
 var TradeRequest = require('../models/TradeRequest.js');
+var Notification = require('../models/Notification.js');
 var userPropertiesToSend = require('../whitelists/user.js');
 var bookPropertiesToSend = require('../whitelists/book.js');
 
@@ -62,13 +63,24 @@ UserSchema.methods.getTradeRequests = function() {
         .exec();
 }
 
+UserSchema.methods.getNotifications = function () {
+    return Notification.find({
+        user: this._id
+    });
+}
+
 UserSchema.methods.getData = function() {
-    return Promise.all([this.getBookInstances(), this.getTradeRequests()])
-        .then(([bookInstances, tradeRequests] = data) => {
+    return Promise.all([
+        this.getBookInstances(),
+        this.getTradeRequests(),
+        this.getNotifications(),
+    ])
+        .then(([bookInstances, tradeRequests, notifications] = data) => {
             return {
                 ...this.getProperties(),
                 bookInstances,
-                tradeRequests
+                tradeRequests,
+                notifications
             }
         });
 }

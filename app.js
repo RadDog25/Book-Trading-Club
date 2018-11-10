@@ -34,6 +34,10 @@ var routes = [
   {
     module: require('./routes/trades'),
     endpoint: '/api/trades'
+  },
+  {
+    module: require('./routes/notifications'),
+    endpoint: '/api/notifications'
   }
 ];
 
