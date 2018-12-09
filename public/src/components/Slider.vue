@@ -110,7 +110,7 @@ export default {
           this.stopLoading()
         })
 
-        $slider.slick({
+        $slider.not('.slick-initialized').slick({
           dots: false,
           infinite: true,
           speed: 400,
