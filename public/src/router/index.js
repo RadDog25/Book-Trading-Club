@@ -115,11 +115,11 @@ router.beforeEach(async (to, from, next) => {
       store.commit('stopLoading')
     }
 
-    console.log(to.path)
     router.push('browse')
   }
 
-  await Api.updateNotifications(to.path)
+  Api.updateNotifications(to.path)
+    .catch(() => false)
 
   Api.getUserData()
     .then(userData => {
