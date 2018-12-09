@@ -93,7 +93,7 @@ router.post('/:id', passport.authenticate('jwt', { session: false }), async func
 
         var notificationData = {
             user: partner._id,
-            link: `/#/trade/${tradeRequest._id}`
+            link: `/trade/${tradeRequest._id}`
         }
 
         if (action === 'confirm') {
