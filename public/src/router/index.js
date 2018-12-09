@@ -89,6 +89,15 @@ const router = new Router({
       path: '/trade/:id',
       name: 'Trade',
       component: Trade,
+      beforeEnter (to, from, next) {
+        const id = to.params.id
+
+        if (store.state.user && store.state.user.getTradeRequest(id)) {
+          next()
+        } else {
+          router.push('/browse')
+        }
+      },
       meta: {
         allowLoggedIn: true,
         allowLoggedOut: false,
@@ -99,7 +108,6 @@ const router = new Router({
 })
 
 router.beforeEach(async (to, from, next) => {
-  console.log(to.path, from.path)
   store.commit('startLoading')
 
   function handlePass (callback) {
@@ -133,7 +141,6 @@ router.beforeEach(async (to, from, next) => {
     })
     .catch(() => {
       if (!to.meta.allowLoggedOut) {
-        console.log('to home')
         router.push('/')
       } else {
         handlePass(next)

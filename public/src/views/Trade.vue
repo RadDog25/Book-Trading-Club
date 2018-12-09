@@ -195,6 +195,15 @@ import { mapState, mapMutations, mapActions } from 'vuex'
 
 export default {
   name: 'Trade',
+  beforeRouteUpdate (to, from, next) {
+    const id = to.params.id
+
+    if (this.user && this.user.getTradeRequest(id)) {
+      next()
+    } else {
+      this.$router.push('/browse')
+    }
+  },
   components: {
     SiteHeader,
     SiteFooter,
