@@ -132,15 +132,7 @@ export default {
       return this.bookInstance.user._id !== this.user._id
     },
     requestIsPending () {
-      const tradeRequests = this.user.getTradeRequestsForBook(this.bookInstance._id)
-
-      if (tradeRequests.length) {
-        return !!tradeRequests.find(tradeRequest => {
-          return ['initiated', 'proposed'].includes(tradeRequest.status)
-        })
-      }
-
-      return false
+      return this.user.requestIsPending(this.bookInstance._id)
     }
   },
   methods: {

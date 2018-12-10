@@ -9,6 +9,10 @@ var BookInstanceSchema = new Schema({
     user: {
         type: Schema.Types.ObjectId,
         ref: 'User'
+    },
+    featured: {
+        type: Boolean,
+        default: false
     }
 }, {
     timestamps: true

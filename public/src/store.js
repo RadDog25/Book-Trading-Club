@@ -27,6 +27,7 @@ const store = new Vuex.Store({
     user: null,
     searchedBooks: [],
     availableBooks: [],
+    browseSearch: false,
     modal: {
       items: initialModalItems
     },
@@ -96,11 +97,15 @@ const store = new Vuex.Store({
           commit('stopLoading')
         })
     },
-    getAvailableBooks ({ commit }, searchText) {
+    getAvailableBooks ({ state, commit }, searchText) {
       commit('startLoading')
+      state.browseSearch = !!searchText
       Api.getAvailableBooksData(searchText)
         .then(availableBooksData => {
           commit('setAvailableBooks', availableBooksData)
+        })
+        .catch(() => {
+          state.availableBooks = []
         })
         .finally(() => {
           commit('stopLoading')

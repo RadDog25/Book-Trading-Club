@@ -102,7 +102,8 @@ UserSchema.methods.addBook = function(book) {
         .then(newBook => {
             var bookInstance = new BookInstance({
                 book: newBook._id,
-                user: this._id
+                user: this._id,
+                featured: false
             });
 
             return bookInstance.save();

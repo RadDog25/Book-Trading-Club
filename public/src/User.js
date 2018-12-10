@@ -16,6 +16,18 @@ class User {
     })
   }
 
+  requestIsPending (bookInstanceId) {
+    const tradeRequests = this.getTradeRequestsForBook(bookInstanceId)
+
+    if (tradeRequests.length) {
+      return !!tradeRequests.find(tradeRequest => {
+        return ['initiated', 'proposed'].includes(tradeRequest.status)
+      })
+    }
+
+    return false
+  }
+
   getTradeRequest (tradeRequestId) {
     return this.tradeRequests.find(tradeRequest => {
       return tradeRequestId === tradeRequest._id

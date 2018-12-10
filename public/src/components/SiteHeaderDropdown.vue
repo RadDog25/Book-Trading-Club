@@ -8,23 +8,23 @@
     <nav class="dropdown-navigation">
       <ul class="dropdown-menu">
 
-          <li class="dropdown-menu-item">
-            <router-link to="/profile">
-              Profile
-            </router-link>
-          </li>
+        <li class="dropdown-menu-item">
+          <router-link to="/dashboard">
+            Dashboard
+          </router-link>
+        </li>
 
-          <li class="dropdown-menu-item">
-            <router-link to="/dashboard">
-              Dashboard
-            </router-link>
-          </li>
+        <li class="dropdown-menu-item">
+          <router-link to="/profile">
+            Profile
+          </router-link>
+        </li>
 
-          <li class="dropdown-menu-item">
-            <a @click="handleLogoutClick" href="#logout">
-              Logout
-            </a>
-          </li>
+        <li class="dropdown-menu-item">
+          <a @click="handleLogoutClick" href="#logout">
+            Logout
+          </a>
+        </li>
 
       </ul>
     </nav>

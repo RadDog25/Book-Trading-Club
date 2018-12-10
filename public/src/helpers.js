@@ -48,6 +48,25 @@ window.getShortenedText = function (text, length) {
   return `${text.substring(0, length)}...`
 }
 
+window.getShortenedTextByWordCount = function (text, wordcount) {
+  const words = text.split(' ')
+  if (words.length < wordcount) {
+    return text
+  }
+
+  return words.slice(0, wordcount)
+    .join(' ')
+    .replace(/\W$/, '')
+    .concat('...')
+}
+
 window.capitalize = function (string) {
   return string.charAt(0).toUpperCase() + string.slice(1)
+}
+
+window.camelize = function (str) {
+  return str.replace(/(?:^\w|[A-Z]|\b\w|\s+)/g, function (match, index) {
+    if (+match === 0) return '' // or if (/\s+/.test(match)) for white spaces
+    return index === 0 ? match.toLowerCase() : match.toUpperCase()
+  })
 }

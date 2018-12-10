@@ -6,15 +6,9 @@
     <nav id="site-navigation" class="main-navigation">
       <ul class="main-menu">
 
-          <li class="main-menu-item browse-item">
-            <router-link to="/browse">
-              Browse
-            </router-link>
-          </li>
-
-        <li class="main-menu-item books-item">
-          <router-link to="/books">
-            Books
+        <li class="main-menu-item browse-item">
+          <router-link to="/browse">
+            Browse
           </router-link>
         </li>
 

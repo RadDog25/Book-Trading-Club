@@ -7,6 +7,7 @@ import router from './router'
 import 'font-awesome/css/font-awesome.css'
 import 'normalize.css/normalize.css'
 import './helpers'
+import $ from 'jquery'
 
 Vue.config.productionTip = false
 
@@ -27,5 +28,19 @@ new Vue({
     modalIsActive () {
       window.toggleBodyScrolling()
     }
+  },
+  mounted () {
+    $(document).on('click', 'a[href^="#"]', function (event) {
+      let id = $.attr(this, 'href')
+      let $target = $(id)
+
+      if ($target.length) {
+        event.preventDefault()
+
+        $('html, body').animate({
+          scrollTop: $target.offset().top
+        }, 500)
+      }
+    })
   }
 })

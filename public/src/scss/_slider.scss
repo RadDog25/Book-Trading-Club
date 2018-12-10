@@ -1,8 +1,20 @@
 .slider {
     position: relative;
     z-index: 1;
-    &__container {
+
+    &__wrapper {
         margin-top: 3.5em;
+        margin-bottom: 3.5em;
+    }
+
+    &__heading {
+        margin: 0px;
+        padding-top: 1rem;
+        padding-bottom: 1rem;
+        letter-spacing: 0.05em;
+    }
+
+    &__container {
         transition: opacity 1000ms ease;
 
         &.active {

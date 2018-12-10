@@ -6,6 +6,7 @@ class BookInstance {
     this.book = new Book(properties.book)
     this.user = new User(properties.user)
     this._id = properties._id
+    this.featured = properties.featured
   }
 }
 

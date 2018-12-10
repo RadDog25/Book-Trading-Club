@@ -1,36 +1,45 @@
 <template>
-  <div class="slider__container slider-container"
-  :class="{ 'more-info-is-active active': moreInfoIsActive }"
-  :key="key"
-  ref="slider"
+  <div class="slider__wrapper"
+  :class="`slider__wrapper--${categoryKey}`"
   >
-    <div class="slider">
 
-      <div class="slider__slidesContainer">
-        <ul v-if="books.length" class="slider__slides js-slider">
-          <li v-for="(bookInstance, index) in books"
-          :key="`${bookInstance.book.title}-${index}`"
-          class="slider__slideContainer">
-            <slide-item :class="{ 'active': moreInfoIsActive && index === moreInfoIndex }"
-            @moreInfoWasClicked="handleMoreInfoClick"
-            :bookInstance="bookInstance"
-            :index="index"
-            ></slide-item>
-          </li>
-        </ul>
-      </div>
-
+    <div class="slider__headingContainer layout-container">
+      <h2 class="slider__heading">{{ heading }}</h2>
     </div>
 
-    <transition name="fade" mode="out-in">
-      <slider-more-info v-if="moreInfoIsActive && books.length && Number.isInteger(moreInfoIndex)"
-      :bookInstance="books[moreInfoIndex]"
-      :key="`${books[moreInfoIndex].book._id}`"
-      @moreInfoCloseButtonWasClicked="moreInfoIsActive = false"
-      ref="moreinfo"
-      ></slider-more-info>
-    </transition>
+    <div class="slider__container slider-container"
+    :class="{ 'more-info-is-active active': moreInfoIsActive }"
+    :key="key"
+    ref="slider"
+    >
+      <div class="slider">
 
+        <div class="slider__slidesContainer">
+          <ul v-if="books.length" class="slider__slides js-slider">
+            <li v-for="(bookInstance, index) in books"
+            :key="`${bookInstance.book.title}-${index}`"
+            class="slider__slideContainer">
+              <slide-item :class="{ 'active': moreInfoIsActive && index === moreInfoIndex }"
+              @moreInfoWasClicked="handleMoreInfoClick"
+              :bookInstance="bookInstance"
+              :index="index"
+              ></slide-item>
+            </li>
+          </ul>
+        </div>
+
+      </div>
+
+      <transition name="fade" mode="out-in">
+        <slider-more-info v-if="moreInfoIsActive && books.length && Number.isInteger(moreInfoIndex)"
+        :bookInstance="books[moreInfoIndex]"
+        :key="`${books[moreInfoIndex].book._id}`"
+        @moreInfoCloseButtonWasClicked="moreInfoIsActive = false"
+        ref="moreinfo"
+        ></slider-more-info>
+      </transition>
+
+    </div>
   </div>
 
 </template>
@@ -58,7 +67,9 @@ export default {
     SliderMoreInfo
   },
   props: [
-    'books'
+    'books',
+    'heading',
+    'categoryKey'
   ],
   data () {
     return {
@@ -88,9 +99,11 @@ export default {
       })
     },
     scrollToTop () {
-      const headerHeight = document.getElementById('masthead').offsetHeight
       const distanceToTop = this.$refs.slider.offsetTop
-      window.scrollTo(0, distanceToTop + headerHeight)
+
+      jquery('html, body').animate({
+        scrollTop: distanceToTop
+      }, 300)
     },
     handleMoreInfoClick (index) {
       if (this.moreInfoIndex === index) {
