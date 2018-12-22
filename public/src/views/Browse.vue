@@ -8,7 +8,7 @@
     id="content"
     class="site-content">
 
-      <div class="browse__heroContainer">
+      <div v-if="featuredBookInstance" class="browse__heroContainer">
         <div class="browse__hero">
 
           <div class="browse__heroLeft">
