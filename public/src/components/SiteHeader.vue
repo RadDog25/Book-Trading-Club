@@ -6,12 +6,6 @@
     <nav id="site-navigation" class="main-navigation">
       <ul class="main-menu">
 
-        <li class="main-menu-item browse-item">
-          <router-link to="/browse">
-            Browse
-          </router-link>
-        </li>
-
         <li v-if="shouldShowSearch"
         class="main-menu-item search-item search-container black"
         :class="{ active: searchIsActive }"
