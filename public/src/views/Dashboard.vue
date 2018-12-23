@@ -141,38 +141,6 @@
 
         </div>
 
-        <div class="dashboard-row-admin dashboard-row">
-
-          <div class="dashboard-column dashboard-column-left">
-            <h3 class="dashboard-column-title hed3">
-              ADMIN
-            </h3>
-          </div>
-
-          <div class="dashboard-column dashboard-column-right">
-
-            <div @click="handleDeleteAllTradeRequests" class="button-container">
-              <a class="button large">
-                DELETE TRADE REQUESTS
-              </a>
-            </div>
-
-            <div class="button-container">
-              <a class="button large">
-                DELETE EVERYTHING
-              </a>
-            </div>
-
-            <div class="button-container">
-              <a @click="handleAddStarterDataClick" class="button large">
-                ADD STARTER DATA
-              </a>
-            </div>
-
-          </div>
-
-        </div>
-
       </div>
     </div>
 
@@ -330,18 +298,6 @@ export default {
         isSuccess: false,
         callback
       })
-    },
-    handleAddStarterDataClick () {
-      Api.addStarterData()
-        .then(userData => {
-          console.log(userData)
-        })
-    },
-    handleDeleteAllTradeRequests () {
-      Api.deleteAllTradeRequests()
-        .then(userData => {
-          console.log(userData)
-        })
     },
     ...mapMutations([
       'setUser',

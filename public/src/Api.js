@@ -166,30 +166,6 @@ class Api {
     })
   }
 
-  static addStarterData () {
-    return new Promise((resolve, reject) => {
-      axios.post('/api/addstarterdata')
-        .then(response => {
-          resolve(response.data)
-        })
-        .catch(error => {
-          reject(error)
-        })
-    })
-  }
-
-  static deleteAllTradeRequests () {
-    return new Promise((resolve, reject) => {
-      axios.delete('/api/trades')
-        .then(response => {
-          resolve(response.data)
-        })
-        .catch(error => {
-          reject(error)
-        })
-    })
-  }
-
   static getTradePartner (id) {
     return new Promise((resolve, reject) => {
       axios.get(`/api/trades/${id}/partner`)
