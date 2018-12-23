@@ -6,7 +6,7 @@
 
     <div v-if="user" id="content" class="site-content layout-container">
 
-      <h1 class="dashboard-heading hed1 heading-with-border layout-row">
+      <h1 class="dashboard__heading dashboard-heading hed1 heading-with-border layout-row">
         <span>Dashboard</span>
 
         <div v-if="searchIsActive"
@@ -32,17 +32,17 @@
       </h1>
 
       <div class="dashboard-rows layout-row">
-        <div class="dashboard-row-library dashboard-row"
+        <div class="dashboard__row dashboard__row--library"
         :class="{ active: searchIsActive }"
         >
 
-          <div class="dashboard-column dashboard-column-left">
-            <h3 class="dashboard-column-title hed3">
+          <div class="dashboard__column dashboard__column--left">
+            <h3 class="dashboard__columnTitle hed3">
               LIBRARY
             </h3>
           </div>
 
-          <div class="dashboard-column dashboard-column-right">
+          <div class="dashboard__column dashboard__column--right">
             <div class="user-books books">
               <div class="user-book-container book-container"
               v-for="bookInstance in user.bookInstances"
@@ -68,8 +68,8 @@
             </div>
           </div>
 
-          <div class="dashboard-column dashboard-column-hidden">
-            <h3 class="dashboard-column-title hed3">
+          <div class="dashboard__column dashboard__column--hidden">
+            <h3 class="dashboard__columnTitle hed3">
               SEARCH RESULTS
             </h3>
 
@@ -107,7 +107,7 @@
         <div class="dashboard-row-requests dashboard-row">
 
           <div class="dashboard-column dashboard-column-left">
-            <h3 class="dashboard-column-title hed3">
+            <h3 class="dashboard__columnTitle hed3">
               TRADES
             </h3>
           </div>

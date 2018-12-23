@@ -1,56 +1,55 @@
-.dashboard-row {
-    display: flex;
-    padding-top: 1em;
-    padding-bottom: 1em;
-    border-bottom: 1px solid #999;
-    .dashboard-column {
-        transition: width 400ms ease;
-        .books {
-            @include grid(5, 1rem);
-            .book-container {
-                display: flex;
-                align-items: center;
-                animation: fade-in 600ms ease forwards;
-            }
+.dashboard {
+    &__heading {
 
-            .user-book-container {
-                .user-book {
-                    width: 100%;
-                    position: relative;
-                    .remove-icon-container {
-                        position: absolute;
-                        color: $red;
-                        font-size: 2rem;
-                        right: 5%;
-                        top: 5%;
-                        width: 18%;
-                        max-width: 20px;
-                        z-index: 10;
-                        opacity: 0;
-                        transition: 300ms opacity ease;
-                        cursor: pointer;
+    }
+
+    &__row {
+        display: flex;
+        padding-top: 1em;
+        padding-bottom: 1em;
+        border-bottom: 1px solid #999;
+
+        &.active {
+
+            .dashboard__column {
+
+                &--left {
+                    width: 0%;
+
+                    .dashboard__columnTitle {
+                        transform: rotate(-90deg) translate(-75px, -20px);
                     }
+                }
 
-                    .remove-icon {
-                        width: 14px;
-                        height: 14px;
+                &--right {
+                    width: 30%;
+
+                    .button-container {
+                        display: none;
                     }
-
-                    .book__image {
-                        width: 100%;
+    
+                    .books {
+                        @include grid(3, 0.5rem);
                     }
+                }
+    
+                &--hidden {
+                    width: calc(70% - 4rem);
+                    display: block;
 
-                    &:hover {
-                        .remove-icon-container {
-                            opacity: 1;
-                        }
-
-                        .book__layer {
-                            opacity: 1;
-                        }
+                    .dashboard__columnTitle {
+                        margin-top: 0px;
+                    }
+    
+                    .books {
+                        @include grid(5, 0.25rem);
                     }
                 }
             }
+        }
+
+        .books {
+            @include grid(5, 1rem);
 
             img {
                 &.is-selected {
@@ -59,17 +58,67 @@
             }
         }
 
-        &-left {
+        .book-container {
+            display: flex;
+            align-items: center;
+            animation: fade-in 600ms ease forwards;
+        }
+
+        .user-book {
+            width: 100%;
+            position: relative;
+
+            &:hover {
+                .remove-icon-container {
+                    opacity: 1;
+                }
+
+                .book__layer {
+                    opacity: 1;
+                }
+            }
+        }
+
+        .remove-icon-container {
+            position: absolute;
+            color: $red;
+            font-size: 2rem;
+            right: 5%;
+            top: 5%;
+            width: 18%;
+            max-width: 20px;
+            z-index: 10;
+            opacity: 0;
+            transition: 300ms opacity ease;
+            cursor: pointer;
+        }
+
+        .remove-icon {
+            width: 14px;
+            height: 14px;
+        }
+
+        .book__image {
+            width: 100%;
+        }
+    }
+
+    &__column {
+        transition: width 400ms ease;
+
+        &--left {
             width: 22%;
-            .dashboard-column-title {
+
+            .dashboard__columnTitle {
                 margin: 0px;
                 transition: transform 400ms ease;
                 transform: none;
             }
         }
 
-        &-right {
+        &--right {
             width: 78%;
+
             .button-container {
                 margin-top: 1em;
                 display: flex;
@@ -77,59 +126,27 @@
             }
         }
 
-        &-hidden {
+        &--hidden {
             width: 0%;
             margin-left: 4rem;
             display: none;
             transition: width 400ms ease;
+
             .button-container {
                 margin-top: 1rem;
                 display: flex;
                 justify-content: flex-end;
-                .button {
-                    margin-right: 1rem;
-                    &:last-child {
-                        margin-right: 0px;
-                    }
-                }
-
-                .add-books-button {
-                    min-width: 140px;
-                }
             }
-        }
-    }
 
-    &.active {
-        .dashboard-column {
-            &-left {
-                width: 0%;
-                .dashboard-column-title {
-                    transform: rotate(-90deg) translate(-75px, -20px);
-                }
-            }
-    
-            &-right {
-                width: 30%;
-                .button-container {
-                    display: none;
-                }
-
-                .books {
-                    @include grid(3, 0.5rem);
+            .button {
+                margin-right: 1rem;
+                &:last-child {
+                    margin-right: 0px;
                 }
             }
 
-            &-hidden {
-                width: calc(70% - 4rem);
-                display: block;
-                .dashboard-column-title {
-                    margin-top: 0px;
-                }
-
-                .books {
-                    @include grid(5, 0.25rem);
-                }
+            .add-books-button {
+                min-width: 140px;
             }
         }
     }
