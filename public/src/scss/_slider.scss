@@ -181,13 +181,22 @@
                 }
 
                 .request {
-                    display: flex;
-                    align-items: center;
-                    margin-top: 3em;
+                    margin-top: 2rem;
+
+                    @include tablet-up {
+                        display: flex;
+                        align-items: center;
+                        margin-top: 3em;    
+                    }
                 }
 
                 .userPreview__container {
-                    margin-right: 1em;
+                    margin-bottom: 1em;
+
+                    @include tablet-up {
+                        margin-right: 1rem;
+                        margin-bottom: 0px;
+                    }
                 }
             }
         }

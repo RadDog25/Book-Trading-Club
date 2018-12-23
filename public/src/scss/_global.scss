@@ -29,7 +29,7 @@ img {
 }
 
 .hed1 {
-    font-size: 1.75rem;
+    font-size: 1.5rem;
     letter-spacing: 0.03em;
     line-height: 1.1;
     font-weight: 300;
@@ -165,7 +165,11 @@ input {
     .site-title {
         margin: 0;
         font-family: 'Fjalla One', sans-serif;
-        font-size: 1.75em;
+        font-size: 1.5em;
+        @include tablet-up {
+            font-size: 1.75em;
+        }
+        
         letter-spacing: 0.1em;
         color: $primary;
     }

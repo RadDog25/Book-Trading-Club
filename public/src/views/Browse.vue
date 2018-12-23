@@ -11,6 +11,12 @@
       <div v-if="featuredBookInstance" class="browse__heroContainer">
         <div class="browse__hero">
 
+          <div class="browse__heroRight">
+            <div class="browse__heroImage"
+            :style="{ backgroundImage: `url(${bannerImageUrl})` }"
+            ></div>
+          </div>
+
           <div class="browse__heroLeft">
 
             <div class="browse__featured">
@@ -39,12 +45,6 @@
 
             </div>
 
-          </div>
-
-          <div class="browse__heroRight">
-            <div class="browse__heroImage"
-            :style="{ backgroundImage: `url(${bannerImageUrl})` }"
-            ></div>
           </div>
 
         </div>
