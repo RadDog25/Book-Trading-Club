@@ -247,7 +247,9 @@ input {
     border-radius: 2px;
     transition: all 300ms ease;
     cursor: pointer;
+
     .selectable-box {
+        width: 100%;
         filter: grayscale(100%);
         transition: filter 300ms ease;
     }

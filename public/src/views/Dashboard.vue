@@ -104,15 +104,15 @@
           </div>
         </div>
 
-        <div class="dashboard-row-requests dashboard-row">
+        <div class="dashboard__row--requests dashboard__row">
 
-          <div class="dashboard-column dashboard-column-left">
+          <div class="dashboard__column dashboard__column--left">
             <h3 class="dashboard__columnTitle hed3">
               TRADES
             </h3>
           </div>
 
-          <div class="dashboard-column dashboard-column-right">
+          <div class="dashboard__column dashboard__column--right">
             <div v-if="tradeRequestPreviews.length" class="tradeRequests">
               <div v-for="(preview, index) in tradeRequestPreviews" class="dashboard__tradeRequest"
               :key="index"
