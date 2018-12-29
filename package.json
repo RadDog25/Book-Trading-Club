@@ -6,6 +6,9 @@
     "start": "NODE_ENV=production node ./bin/www",
     "dev": "NODE_ENV=development DEBUG=express:* nodemon --inspect ./bin/www"
   },
+  "engines": {
+    "node": "8.9.4"
+  },
   "dependencies": {
     "bcrypt-nodejs": "0.0.3",
     "bluebird": "^3.5.1",
