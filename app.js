@@ -8,7 +8,6 @@ var passport = require('passport');
 var JwtStrategy = require('passport-jwt').Strategy;
 
 var app = express();
-var config = require('./config');
 
 // Models
 var User = require('./models/User.js');
@@ -42,7 +41,7 @@ var routes = [
 ];
 
 // Connect to database
-var dbUrl = `mongodb://${config.url}:${config.port}/${config.db}`;
+var dbUrl = process.env.DB_URL || require('./config').dbUrl;
 mongoose.Promise = require('bluebird');
 mongoose.connect(dbUrl);
 
@@ -56,7 +55,7 @@ function cookieExtractor(req) {
 
 var jwtOptions = {
   jwtFromRequest: cookieExtractor,
-  secretOrKey: config.secret
+  secretOrKey: process.env.SECRET || require('./config').secret
 };
 
 passport.use(new JwtStrategy(jwtOptions, function(jwt_payload, done) {
