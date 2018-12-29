@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var jwt = require('jsonwebtoken');
-var config = require('../config');
+var secret = process.env.SECRET || require('../config').secret;
 var FormErrors = require('../helpers/FormErrors.js');
 var User = require('../models/User.js');
 
@@ -30,7 +30,7 @@ router.post('/', async function(req, res) {
         user.comparePassword(req.body.password, async function (err, isMatch) {
             if (isMatch && !err) {
                 // if user is found and password is right create a token
-                var token = jwt.sign(user.toJSON(), config.secret);
+                var token = jwt.sign(user.toJSON(), secret);
                 var userData = await user.getData();
                 res.status(200)
                     .cookie('token', token, {
