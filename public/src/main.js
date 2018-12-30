@@ -32,14 +32,16 @@ new Vue({
   mounted () {
     $(document).on('click', 'a[href^="#"]', function (event) {
       let id = $.attr(this, 'href')
-      let $target = $(id)
+      if (id.indexOf('/') === -1) {
+        let $target = $(id)
 
-      if ($target.length) {
-        event.preventDefault()
+        if ($target.length) {
+          event.preventDefault()
 
-        $('html, body').animate({
-          scrollTop: $target.offset().top
-        }, 500)
+          $('html, body').animate({
+            scrollTop: $target.offset().top
+          }, 500)
+        }
       }
     })
   }
