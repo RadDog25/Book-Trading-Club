@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "start": "NODE_ENV=production node ./bin/www",
-    "dev": "NODE_ENV=development DEBUG=express:* nodemon --inspect ./bin/www"
+    "dev": "NODE_ENV=development DEBUG=express:* nodemon --inspect ./bin/www",
+    "postinstall": "npm install --prefix ./public && npm run build --prefix ./public"
   },
   "engines": {
     "node": "8.9.4"
