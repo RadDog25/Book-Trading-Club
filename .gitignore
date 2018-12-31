@@ -27,3 +27,6 @@ benchmarks/graphs
 
 # The file container DB information
 config.js
+
+#deploy script
+deploy.sh
