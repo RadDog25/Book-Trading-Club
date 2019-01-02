@@ -1,6 +1,10 @@
 .dashboard {
     &__heading {
-
+        .search-container {
+            @include mobile {
+                display: none;
+            }
+        }
     }
 
     &__columnTitle {
@@ -109,6 +113,38 @@
         }
 
         &--hidden {
+            
+            .search-container {
+                margin-bottom: 1rem;
+                
+                @include tablet-up {
+                    display: none;
+                }
+
+                .input-container {
+                    width: 100%;
+                }
+
+                input {
+                    width: 100% !important;
+                }
+            }
+
+            .dashboard__columnTitle,
+            .add-books-button {
+                display: none !important;
+            }
+
+            &.dashboard__column--hasResults {
+                .dashboard__columnTitle {
+                    display: block;
+                }
+
+                .add-books-button {
+                    display: inline-block !important;
+                }
+            }
+
             width: 0%;
             display: none;
             transition: width 400ms ease;
@@ -153,9 +189,6 @@
         &__column {
             &--left {
                 margin-bottom: 1rem;
-            }
-
-            &--hidden {
             }
         }
     }

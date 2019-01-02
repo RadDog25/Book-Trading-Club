@@ -18,7 +18,7 @@
               <input type="text"
               v-model="searchText"
               placeholder="Search for a book to add"
-              ref="searchInput"
+              class="dashboard-search-input"
               >
             </div>
 
@@ -68,7 +68,30 @@
             </div>
           </div>
 
-          <div class="dashboard__column dashboard__column--hidden">
+          <div class="dashboard__column dashboard__column--hidden"
+          :class="{ 'dashboard__column--hasResults': !!booksNotInLibrary.length }"
+          >
+
+            <div v-if="searchIsActive"
+            class="search-container active"
+            >
+              <form method="GET" action="/browse" @submit.prevent="onSubmit">
+
+                <div class="input-container">
+                  <input type="text"
+                  v-model="searchText"
+                  placeholder="Search for a book to add"
+                  class="dashboard-search-input"
+                  >
+                </div>
+
+                <a class="search-icon">
+                  <i class="fa fa-search"></i>
+                </a>
+
+              </form>
+            </div>
+
             <h3 class="dashboard__columnTitle hed3">
               SEARCH RESULTS
             </h3>
@@ -100,6 +123,7 @@
 
               <a @click="handleCancelClick"
               class="button large">Cancel</a>
+
             </div>
           </div>
         </div>
@@ -157,6 +181,7 @@ import UserPreview from '@/components/UserPreview'
 import Book from '@/components/Book'
 import Api from '@/Api'
 import { mapState, mapMutations, mapActions } from 'vuex'
+import jquery from 'jquery'
 
 export default {
   name: 'Dashboard',
@@ -254,7 +279,8 @@ export default {
     handleAddBooksToLibraryClick () {
       this.searchIsActive = !this.searchIsActive
       setTimeout(() => {
-        this.$refs.searchInput.focus()
+        let $inputs = jquery('.dashboard-search-input')
+        $inputs.focus()
       })
     },
     handleSearchedBookClick (book) {
