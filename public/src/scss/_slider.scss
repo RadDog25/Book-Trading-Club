@@ -44,7 +44,9 @@
         background-color: black;
         padding-left: 3em;
         padding-right: 3em;
-        overflow: hidden;
+        @include mobile {
+            overflow: hidden;
+        }
     }
 
     &__slides {
