@@ -1,9 +1,9 @@
 <template>
   <li class="main-menu-item dropdown-item">
 
-    <router-link to="/profile">
+    <a>
       <img class="image" :src="imageSrc">
-    </router-link>
+    </a>
 
     <nav class="dropdown-navigation">
       <ul class="dropdown-menu">
