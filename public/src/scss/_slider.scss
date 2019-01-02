@@ -2,6 +2,12 @@
     position: relative;
     z-index: 1;
 
+    .slide__info {
+        @include mobile {
+            display: none;
+        }
+    }
+
     &__wrapper {
         margin-top: 3.5em;
         margin-bottom: 3.5em;
@@ -58,20 +64,22 @@
             transform: scale(1.0) translate3d(0px, 0px, 0px);
         }
 
-        &:hover {
-            .slick-slide {
-                transform: scale(1.0) translate3d(-12.5%, 0px, 0px);
+        @include tablet-up {
+            &:hover {
+                .slick-slide {
+                    transform: scale(1.0) translate3d(-12.5%, 0px, 0px);
+                }
             }
-        }
 
-        .slick-slide:hover ~ .slick-slide {
-            transform: scale(1.0) translate3d(12.5%, 0px, 0px);
-        }
+            .slick-slide:hover ~ .slick-slide {
+                transform: scale(1.0) translate3d(12.5%, 0px, 0px);
+            }
 
-        .slick-slide:hover {
-            transform: scale(1.25) translate3d(0px, 0px, 0px);
-            .slide__info {
-                transform: scale(0.8) translate3d(0px, 0px, 0px);
+            .slick-slide:hover {
+                transform: scale(1.25) translate3d(0px, 0px, 0px);
+                .slide__info {
+                    transform: scale(0.8) translate3d(0px, 0px, 0px);
+                }
             }
         }
     }
@@ -97,10 +105,12 @@
             left: 100%;
         }
 
-        &:hover {
-            .slider__arrow {
-                transform: scale(1.25) translate3d(0px, 0px, 0px);
-            }
+        @include tablet-up {
+            &:hover {
+                .slider__arrow {
+                    transform: scale(1.25) translate3d(0px, 0px, 0px);
+                }
+            }    
         }
     }
 
