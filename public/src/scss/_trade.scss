@@ -13,14 +13,26 @@
 
     &__messageContainer {
         margin-top: 2rem;
-        display: flex;
-        align-items: center;  
+
+        @include tablet-up {
+            display: flex;
+            align-items: center;      
+        }
     }
 
     &__progressLineContainer {
         flex: 1 1 0px;
-        margin-left: 4rem;
-        margin-right: 4rem;
+
+        margin-left: 2rem;
+        margin-right: 2rem;
+        @include tablet-up {
+            margin-left: 4rem;
+            margin-right: 4rem;    
+        }
+
+        @include mobile {
+            margin-top: 4rem;
+        }
     }
 
     &__progressLine {
@@ -98,6 +110,9 @@
         left: 100%;
         transform: translate(-50%, -1rem);
         font-size: 14px;
+        @media screen and (max-width: 400px) {
+            font-size: 12px;
+        }
     }
 
     &__message {
@@ -216,7 +231,11 @@
     }
 
     &__icon {
-        width: 50px;
+        width: 30px;
+        @include tablet-up {
+            width: 36px;
+        }
+        
         filter: grayscale(100%);
         transition: filter 600ms ease, transform 600ms ease 600ms, opacity 600ms ease 600ms;
 
