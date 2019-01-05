@@ -125,6 +125,9 @@
 
                 &.notifications__container {
                     margin-left: 18px;
+                    @include mobile {
+                        display: none;
+                    }
                 }
             }
         }
