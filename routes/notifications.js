@@ -8,7 +8,7 @@ router.put('/', passport.authenticate('jwt', { session: false }), async function
 
         var user = req.user;
         var link = req.body.link;
-        await Notification.update({ link, user: user._id }, { new: false }).exec();
+        await Notification.update({ link, user: user._id }, { new: false }, { multi: true }).exec();
         var userData = await user.getData();
         res.send(userData)
     
