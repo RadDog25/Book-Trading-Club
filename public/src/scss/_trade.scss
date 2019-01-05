@@ -235,17 +235,23 @@
         @include tablet-up {
             width: 36px;
         }
-        
+
         filter: grayscale(100%);
         transition: filter 600ms ease, transform 600ms ease 600ms, opacity 600ms ease 600ms;
 
         &:first-child {
             transform: rotate(180deg);
-            margin-bottom: -1rem;
+            margin-bottom: -0.5rem;
+            @include tablet-up {
+                margin-bottom: -1rem;
+            }
         }
 
         &:last-child {
-            margin-top: -1rem;
+            margin-top: -0.5rem;
+            @include tablet-up {
+                margin-top: -1rem;
+            }
         }
     }
 
