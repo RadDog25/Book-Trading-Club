@@ -1,6 +1,6 @@
 .dashboard {
     &__tradeRequest {
-        margin-bottom: 1rem;
+        margin-bottom: 2rem;
         display: flex;
         &:last-child {
             margin-bottom: 0px;
@@ -9,12 +9,21 @@
     }
 
     &__tradeRequestLink {
-        display: flex;
-        align-items: center;
+        @include tablet-up {
+            display: flex;
+            align-items: center;    
+        }
     }
 
     &__tradeRequestBooks {
-        margin-left: 2rem;
+        @include tablet-up {
+            margin-left: 2rem;
+        }
+
+        @include mobile {
+            margin-top: 1rem;
+        }
+
         display: flex;
     }
 
