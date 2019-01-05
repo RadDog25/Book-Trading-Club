@@ -94,6 +94,9 @@
         color: $green;
         text-align: center;
         transform: translate(-50%, 1em);
+        @include mobile {
+            display: none;
+        }
     }
 
     &__progressPoint {
