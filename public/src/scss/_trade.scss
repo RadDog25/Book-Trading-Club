@@ -196,15 +196,28 @@
 
 
     &__buttonContainer {
-        display: flex;
-        justify-content: flex-end;
         margin-top: 2rem;
+
+        @include tablet-up {
+            display: flex;
+            justify-content: flex-end;    
+        }
     }
 
     &__button {
-        margin-right: 1rem;
-        &:last-child {
-            margin-right: 0px;
+
+        @include tablet-up {
+            margin-right: 1rem;
+            &:last-child {
+                margin-right: 0px;
+            }    
+        }
+
+        @include mobile {
+            margin-bottom: 0.75rem;
+            &:last-child {
+                margin-bottom: 0px;
+            }    
         }
 
         &--confirm {
