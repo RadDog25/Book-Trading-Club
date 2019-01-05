@@ -30,7 +30,7 @@
 
             <label for="password">Password</label>
 
-            <input v-model="password" type="text" id="password" name="password">
+            <input v-model="password" type="password" id="password" name="password">
 
             <div class="error" v-if="errors.password">{{ errors.password }}</div>
 

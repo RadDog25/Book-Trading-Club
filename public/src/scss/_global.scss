@@ -75,6 +75,7 @@ a {
 }
 
 input {
+    &[type="password"],
     &[type="text"] {
         padding: 0.75em;
         width: 100%;
@@ -218,6 +219,7 @@ input {
     }
 
     &.has-errors {
+        input[type="password"],
         input[type="text"] {
             border-color: $error;
         }

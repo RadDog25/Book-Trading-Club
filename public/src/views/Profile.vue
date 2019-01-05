@@ -20,9 +20,9 @@
 
               <div class="control" :class="{ 'has-changePasswordErrors': changePasswordErrors.oldPassword }">
 
-                <label for="email">Old Password</label>
+                <label for="oldpassword">Old Password</label>
 
-                <input v-model="oldPassword" type="text" id="email" name="email">
+                <input v-model="oldPassword" type="password" id="oldpassword" name="oldpassword">
 
                 <div class="error" v-if="changePasswordErrors.oldPassword">{{ changePasswordErrors.oldPassword }}</div>
 
@@ -32,7 +32,7 @@
 
                 <label for="newPassword">New Password</label>
 
-                <input v-model="newPassword" type="text" id="password" name="password">
+                <input v-model="newPassword" type="password" id="password" name="password">
 
                 <div class="error" v-if="changePasswordErrors.newPassword">{{ changePasswordErrors.newPassword }}</div>
 
@@ -58,9 +58,9 @@
 
               <div class="control" :class="{ 'has-errors': changeLocationErrors.oldPassword }">
 
-                <label for="email">Location</label>
+                <label for="location">Location</label>
 
-                <input v-model="location" type="text" id="email" name="email">
+                <input v-model="location" type="text" id="location" name="location">
 
                 <div class="error" v-if="changeLocationErrors.location">{{ changeLocationErrors.location }}</div>
 
