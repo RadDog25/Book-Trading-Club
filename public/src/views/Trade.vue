@@ -258,7 +258,19 @@ export default {
       return ['initiated', 'proposed'].includes(this.status)
     },
     showConfirmTradeButton () {
-      return this.status === 'accepted'
+      if (this.status !== 'accepted') {
+        return false
+      }
+
+      if (this.userIsOwner && this.tradeRequest.confirmedByOwner) {
+        return false
+      }
+
+      if (!this.userIsOwner && this.tradeRequest.confirmedByRequester) {
+        return false
+      }
+
+      return true
     },
     userBookInstances () {
       if (this.userIsOwner) {
