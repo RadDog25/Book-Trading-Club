@@ -161,6 +161,14 @@
                 </router-link>
               </div>
             </div>
+
+            <div
+              v-else
+              class="dashboard__noTradeRequestsMessage"
+            >
+              You don't have any trade requests at this time
+            </div>
+
           </div>
 
         </div>

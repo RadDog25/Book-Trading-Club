@@ -8,6 +8,13 @@
 
     }
 
+    &__noTradeRequestsMessage {
+        height: 100%;
+        display: flex;
+        align-items: center;
+        color: $gray;
+    }
+
     &__tradeRequestLink {
         @include tablet-up {
             display: flex;
