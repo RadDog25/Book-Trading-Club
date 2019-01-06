@@ -6,6 +6,7 @@ var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 var passport = require('passport');
 var JwtStrategy = require('passport-jwt').Strategy;
+var favicon = require('serve-favicon');
 
 var app = express();
 
@@ -77,6 +78,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 app.use(express.static(path.join(__dirname, 'public/dist')));
+app.use(favicon(__dirname + '/public/static/favicon.ico'));
 
 routes.forEach(route => {
     app.use(route.endpoint, route.module);
